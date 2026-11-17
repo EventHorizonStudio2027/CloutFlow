@@ -46,7 +46,7 @@ with sync_playwright() as p:
             assert page.locator('#mobileMoreMenu').is_hidden()
             assert page.evaluate('document.activeElement.id') == 'mobileMore'
             page.locator('#mobileMore').click()
-            page.locator('#mainContent').click(position={'x': 4, 'y': 4}, force=True)
+            page.locator('.top').click(position={'x': 4, 'y': 4}, force=True)
             assert page.locator('#mobileMoreMenu').is_hidden()
             assert page.evaluate('document.documentElement.scrollWidth <= innerWidth + 1')
         else:

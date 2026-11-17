@@ -200,3 +200,76 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 
 /* Live income entry guidance: never changes financial records. */
 .income-entry-feedback{margin:7px 0 12px;font-size:.83rem;line-height:1.45;color:#b5c9e5}.income-entry-feedback[data-state="invalid"]{color:#ffc4a5}.income-entry-feedback[data-state="valid"]{color:#78e8ce}
+
+/* Persistent desktop Quick Access sidebar; mobile uses an accessible slide-out drawer. */
+.quick-sidebar-toggle,.quick-sidebar-close,.quick-sidebar-scrim{display:none}
+@media(min-width:901px){
+ .app{max-width:1540px;padding-left:254px;padding-right:26px}
+ .quick-access{position:fixed;z-index:6;top:18px;bottom:18px;left:16px;width:216px;display:flex;flex-direction:column;align-items:stretch;gap:18px;margin:0;padding:22px 12px;background:#111c32;border:1px solid #33466a;border-radius:20px;box-shadow:0 15px 45px #0005;overflow-y:auto}
+ .quick-access-heading{min-width:0;padding:0 8px 12px;border-bottom:1px solid #344662}
+ .quick-access-heading span{font-size:16px}.quick-access-heading small{font-size:11px;margin-top:4px}
+ .quick-access-actions{display:flex;flex-direction:column;gap:7px;overflow:visible;padding:0;min-width:0}
+ .quick-access-actions button{width:100%;text-align:left;white-space:normal;min-height:44px;padding:11px 12px}
+}
+@media(max-width:900px){
+ .quick-sidebar-toggle{display:inline-flex;position:fixed;z-index:7;left:12px;top:12px;align-items:center;gap:8px;padding:10px 13px;min-height:44px;border-radius:12px;background:#172744;color:#f0f7ff;border:1px solid #4a668d;box-shadow:0 4px 18px #0007;font-weight:700}
+ .quick-sidebar-scrim:not([hidden]){display:block;position:fixed;inset:0;z-index:8;background:#020716b9}
+ .quick-access{display:flex;position:fixed;z-index:9;top:0;bottom:0;left:0;width:min(290px,86vw);max-width:none;flex-direction:column;align-items:stretch;gap:15px;margin:0;padding:24px 16px calc(24px + env(safe-area-inset-bottom));background:#111c32;border:0;border-right:1px solid #405577;border-radius:0;box-shadow:15px 0 50px #0008;overflow-y:auto;transform:translateX(-105%);visibility:hidden;transition:transform .2s ease,visibility .2s}
+ .quick-access.sidebar-open{transform:translateX(0);visibility:visible}
+ .quick-access-heading{display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0;margin:0;padding:12px 4px;border-bottom:1px solid #344662}
+ .quick-access-heading span{font-size:17px}.quick-access-heading small{font-size:11px}
+ .quick-access-actions{display:flex;flex-direction:column;gap:8px;overflow:visible;margin:0;padding:0}
+ .quick-access-actions button{width:100%;min-height:46px;text-align:left;white-space:normal}
+ .quick-sidebar-close{display:block;align-self:flex-end;background:#253955;border:1px solid #486185;color:#fff;border-radius:10px;width:44px;height:44px}
+ .top{padding-left:0;margin-top:55px}
+}
+@media(prefers-reduced-motion:reduce){.quick-access{transition:none}}
+
+/* Full workspace navigator */
+.quick-access-actions .sidebar-group-label{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:#8fa9cf;font-weight:800;padding:13px 10px 4px}
+.quick-access-actions button.is-active{background:#173e64;border-color:#24bde5;color:#effcff;box-shadow:inset 3px 0 #23d4e8}
+.quick-access-actions button:focus-visible{outline:2px solid #60e4f3;outline-offset:2px}
+@media(min-width:901px){.quick-access{width:238px}.app{padding-left:276px}.quick-access-actions{gap:3px}.quick-access-actions button{min-height:35px;padding:8px 10px;font-size:12px}.quick-access-heading{padding-bottom:6px}}
+[hidden]{display:none!important}
+
+/* In workspace mode, remove dashboard-only material from the reading path. */
+body.workspace-focus .welcome,body.workspace-focus .stats,body.workspace-focus .currency-overview,body.workspace-focus .main-grid,body.workspace-focus .opportunity-launch,body.workspace-focus .payment-dashboard,body.workspace-focus .app > .notice{display:none!important}
+body.workspace-focus .app > .section:not(:has([data-quick-target])){scroll-margin-top:20px}
+
+/* One active application workspace at a time. Native hidden is enforced even
+   when older section styles specify display:flex/grid. */
+[data-workspace-panel][hidden]{display:none!important}
+body.workspace-mode .app{min-height:100vh}
+body.workspace-mode [data-workspace-panel]:not([hidden]){animation:workspace-enter .14s ease-out}
+@keyframes workspace-enter{from{opacity:.85;transform:translateY(3px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){body.workspace-mode [data-workspace-panel]:not([hidden]){animation:none}}
+/* Legacy browse-growth button is redundant with the full sidebar. */
+body.workspace-mode .opportunity-launch{display:none}
+
+/* Customizable overview command center */
+.command-center{margin-top:16px}.command-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,205px),1fr));gap:12px;margin-top:16px}
+.command-card{min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:8px;text-align:left;padding:17px;border:1px solid #344d71;border-radius:14px;background:linear-gradient(145deg,#192c48,#132139);color:#e9f5ff;cursor:pointer;min-height:142px}
+.command-card:hover,.command-card:focus-visible{border-color:#35cde9;background:#1c3655;outline-offset:2px}.command-icon{font-size:23px;color:#62ddec}.command-card strong{font-size:14px}.command-detail{font-size:12px;color:#9eb6d4;line-height:1.5}
+.command-settings{margin-top:14px;padding:14px;border:1px solid #344b68;border-radius:12px;background:#111e32}.command-settings[hidden]{display:none!important}
+.command-option{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #2b3b55}.command-option-label{display:flex;align-items:center;gap:9px;flex:1;min-width:0;font-size:12px}.command-option-label input{accent-color:#35cde9}.command-option .btn{min-width:38px}
+@media(max-width:600px){.command-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.command-card{padding:12px;min-height:135px}.command-card strong{font-size:12px}.command-detail{font-size:11px}}
+@media(max-width:350px){.command-grid{grid-template-columns:1fr}}
+
+/* Navigation upgrade: search, pinning and compact group browsing */
+.nav-utility{display:flex;gap:6px;flex-wrap:wrap}.nav-utility input{flex:1;min-width:115px;width:100%;border:1px solid #496180;background:#0c182d;color:#f1f7ff;border-radius:10px;padding:10px}.nav-utility button,.nav-pin{background:#203653;border:1px solid #456080;border-radius:9px;color:#cde7f7;cursor:pointer;padding:8px}.nav-utility button[aria-pressed=true],.nav-pin[aria-pressed=true]{color:#54e1f2;border-color:#36d6e8}.quick-access-actions .nav-entry{display:flex;align-items:center;gap:4px}.quick-access-actions .nav-entry>button[data-quick-target]{flex:1;min-width:0}.quick-access-actions .nav-entry .nav-pin{width:32px;min-height:32px;padding:4px;flex:0 0 32px}.sidebar-group-label{cursor:pointer}.sidebar-group-label button{all:unset;cursor:pointer;width:100%;display:flex;justify-content:space-between}.sidebar-group-label button:focus-visible{outline:2px solid #60e4f3}.quick-access-actions .nav-entry[hidden],.quick-access-actions .sidebar-group-label[hidden]{display:none}.alert-item{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px;border:1px solid #3b526d;border-radius:10px;margin:8px 0}.alert-item button{cursor:pointer}.alert-item strong{display:block}.alert-item small{display:block;color:#aebfd6;margin-top:3px}.alert-empty{padding:12px;color:#b3c6df}
+/* Global command palette — read-only, accessible keyboard navigation. */
+.global-search-trigger{width:100%;margin:9px 0;padding:11px 13px;text-align:left;border:1px solid #36516d;background:#162b45;color:#dce9f8;border-radius:11px;cursor:pointer;font:inherit;font-size:13px}
+.global-search-trigger:hover,.global-search-trigger:focus-visible{border-color:#4edbe9}
+.global-search-overlay[hidden]{display:none!important}
+.global-search-overlay{position:fixed;inset:0;z-index:100000;background:rgba(4,10,23,.79);display:flex;align-items:flex-start;justify-content:center;padding:clamp(20px,9vh,110px) 12px 20px}
+.global-search-dialog{width:min(640px,100%);max-height:min(75vh,650px);display:flex;flex-direction:column;background:#101e32;border:1px solid #3a536d;border-radius:16px;box-shadow:0 24px 80px #0009;overflow:hidden}
+.global-search-top{display:flex;gap:8px;padding:14px;border-bottom:1px solid #2c4057}
+#globalSearchInput{flex:1;min-width:0;background:#172a43;color:#f1f8ff;border:1px solid #36516d;border-radius:8px;padding:12px;font:inherit}
+#globalSearchClose{background:transparent;border:0;color:#d4e6f6;font-size:22px;cursor:pointer;padding:0 8px}
+#globalSearchResults{overflow:auto;min-height:65px;padding:7px}
+.global-search-result{width:100%;text-align:left;display:flex;gap:12px;align-items:center;border:0;border-radius:8px;background:transparent;color:#e8f2ff;padding:12px;cursor:pointer;font:inherit}
+.global-search-result small{flex:0 0 85px;color:#64d7e5;font-size:11px}
+.global-search-result span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.global-search-result:hover,.global-search-result[aria-selected=true]{background:#263c5c}
+.global-search-hint,.global-search-empty{font-size:12px;color:#a9bbd0;margin:0;padding:12px 15px}
+body.global-search-active{overflow:hidden}
