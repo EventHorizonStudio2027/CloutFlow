@@ -21,6 +21,8 @@ with sync_playwright() as p:
   assert page.locator('#entries tr').count()==1
   assert page.locator('#entries img').count()==0,'Untrusted description was interpreted as HTML'
   assert page.locator('#entries [onclick]').count()==0,'Inline event handlers remain in transaction rows'
+  # Open the ledger workspace before exercising visible edit/copy controls.
+  assert page.evaluate("window.CloutFlowOpenWorkspace('ledgerSection', false)")
   page.locator('#entries [data-income-edit]').click()
   assert page.locator('#entryId').input_value()==malicious_id
   assert page.locator('#description').input_value()==malicious_desc
