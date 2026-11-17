@@ -23,6 +23,12 @@
    }
    doc.body.classList.add('workspace-mode');
    doc.body.dataset.workspaceView=target;
+   // Nonmodal growth tips must never obscure workspace tools or forms.
+   // Keep the suggestion available in Growth Ideas without snoozing it.
+   if(target!=='mainContent'){
+    const tip=doc.getElementById('growthPopup');
+    if(tip&&!tip.hidden)tip.hidden=true;
+   }
    const visible=target==='mainContent'?OVERVIEW:[target];
    doc.querySelectorAll('[data-workspace-panel]').forEach(panel=>{
     const show=visible.includes(panel.id);
