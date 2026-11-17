@@ -1,0 +1,12 @@
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+const panel=require('../assets/js/dashboard-panels.js');
+assert.equal(panel.parse('not json').accountGrowthTitle,undefined);
+assert.deepEqual(panel.parse('[]'),{});
+assert.deepEqual(panel.parse('{"accountGrowthTitle":false,"untrusted":false,"platformRankingsTitle":"false"}'),{accountGrowthTitle:false});
+assert.equal(panel.IDS.length,6);
+const html=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');
+for(const id of panel.IDS)assert.match(html,new RegExp('id="'+id+'"'));
+assert.match(html,/assets\/js\/dashboard-panels\.js/);
+console.log('Dashboard panel tests passed');

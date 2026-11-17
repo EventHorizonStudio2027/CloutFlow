@@ -1,0 +1,13 @@
+/* CloutFlow payout assistance: suggestions never save financial records. */
+(function(root){
+ 'use strict';
+ const cents=v=>{const n=Number(v);return Number.isFinite(n)&&n>=0?Math.round(n*100):0};
+ function plan(amount,items){let remaining=cents(amount);return items.map(item=>{const available=cents(item.available);const value=Math.min(remaining,available);remaining-=value;return {id:item.id,amount:value/100}})}
+ function summary(amount,values){const deposit=cents(amount);const allocated=values.reduce((total,value)=>total+cents(value),0);return {deposit:deposit/100,allocated:allocated/100,remaining:(deposit-allocated)/100,over:allocated>deposit};}
+ function init(doc){if(!doc||!doc.getElementById('autoAllocatePayout'))return;const button=doc.getElementById('autoAllocatePayout'),fields=doc.getElementById('payoutAllocations'),amount=doc.getElementById('payoutAmount'),balance=doc.getElementById('payoutBalance'),currency=doc.getElementById('payoutCurrency');if(button.dataset.ready)return;button.dataset.ready='true';
+ const format=value=>{try{return new Intl.NumberFormat('en-US',{style:'currency',currency:currency.value||'USD'}).format(value)}catch{return String(value)}};
+ const refresh=()=>{const inputs=[...fields.querySelectorAll('[data-allocation]')];const state=summary(amount.value,inputs.map(el=>el.value));const valid=amount.value.trim()!==''&&Number(amount.value)>0;balance.textContent=!valid?'Enter a positive deposit amount to preview its remaining balance.':state.over?'Over-allocated by '+format(-state.remaining)+'. Reduce allocations before saving.':format(state.remaining)+' remains unallocated from this deposit.';balance.classList.toggle('payout-overallocated',state.over);button.disabled=!valid||!inputs.length;};
+ button.addEventListener('click',()=>{const inputs=[...fields.querySelectorAll('[data-allocation]')];const rows=inputs.map(el=>({id:el.dataset.allocation,available:el.max}));const allocations=plan(amount.value,rows);allocations.forEach((item,index)=>{inputs[index].value=item.amount?item.amount.toFixed(2):'0'});fields.dispatchEvent(new Event('input',{bubbles:true}));refresh();});
+ amount.addEventListener('input',refresh);currency.addEventListener('change',refresh);fields.addEventListener('input',refresh);const observer=new MutationObserver(refresh);observer.observe(fields,{childList:true});refresh();}
+ const api={plan,summary,init};root.CloutFlowPayoutAssistant=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root.document){if(root.document.readyState==='loading')root.document.addEventListener('DOMContentLoaded',()=>init(root.document));else init(root.document)}
+})(typeof window!=='undefined'?window:globalThis);

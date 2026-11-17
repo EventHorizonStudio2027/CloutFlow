@@ -1,0 +1,8 @@
+/* Candidate deposit matching is advisory; never marks an obligation as settled. */
+(function(root){'use strict';
+const dateValid=s=>typeof s==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(s)&&!Number.isNaN(Date.parse(s+'T00:00:00Z'))&&new Date(s+'T00:00:00Z').toISOString().slice(0,10)===s;
+const dayDifference=(a,b)=>Math.round((Date.parse(a+'T00:00:00Z')-Date.parse(b+'T00:00:00Z'))/86400000);
+function candidates(due,payouts,windowDays=10){if(!due||!dateValid(due.due)||!Array.isArray(payouts))return [];return payouts.filter(p=>p&&typeof p.id==='string'&&dateValid(p.received)&&p.currency===due.currency&&Number.isFinite(p.amount)&&p.amount>0&&Math.abs(Math.round(p.amount*100)-Math.round(due.amount*100))===0&&Math.abs(dayDifference(p.received,due.due))<=windowDays).map(p=>({id:p.id,received:p.received,amount:p.amount,platform:p.platform||'',account:p.account||'',reference:p.reference||'',dayOffset:dayDifference(p.received,due.due),platformMatches:String(p.platform||'').trim().toLowerCase()===String(due.platform||'').trim().toLowerCase()})).sort((a,b)=>Number(b.platformMatches)-Number(a.platformMatches)||Math.abs(a.dayOffset)-Math.abs(b.dayOffset)||a.received.localeCompare(b.received));}
+function review(rows,payouts,asOf,windowDays=10){if(!dateValid(asOf))return [];return rows.map(due=>{const matches=candidates(due,payouts,windowDays);return {...due,reviewStatus:due.due<asOf?'Past due — review':'Upcoming',candidateCount:matches.length,candidates:matches,needsReview:due.due<asOf&&matches.length===0}})}
+const api={candidates,review,dayDifference};root.CloutFlowAgreementReconciliation=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
+})(typeof window!=='undefined'?window:globalThis);

@@ -1,0 +1,6 @@
+/* Read-only historical earned-income series; never attribute earnings to growth plans. */
+(function(root){'use strict';
+function months(end,count=6){if(typeof end!=='string'||!/^(\d{4})-(0[1-9]|1[0-2])$/.test(end)||!Number.isInteger(count)||count<1||count>24)return [];const [year,month]=end.split('-').map(Number);return Array.from({length:count},(_,i)=>{const d=new Date(Date.UTC(year,month-1-(count-1-i),1));return d.toISOString().slice(0,7)});}
+function build(entries,end,count=6,contextApi=root.CloutFlowGrowthIncomeContext){if(!contextApi||typeof contextApi.summarize!=='function')return {months:[],currencies:[],rows:[],excluded:0};const periods=months(end,count);const summaries=periods.map(month=>contextApi.summarize(entries,month));const currencies=[...new Set(summaries.flatMap(s=>s.totals.map(t=>t.currency)))].sort();const rows=periods.map((month,i)=>({month,records:summaries[i].records,amounts:currencies.map(currency=>({currency,amount:summaries[i].totals.find(t=>t.currency===currency)?.net??0,hasData:summaries[i].totals.some(t=>t.currency===currency)}))}));return {months:periods,currencies,rows};}
+const api={months,build};root.CloutFlowGrowthIncomeTrends=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
+})(typeof window!=='undefined'?window:globalThis);

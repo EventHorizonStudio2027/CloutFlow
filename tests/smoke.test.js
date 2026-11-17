@@ -1,0 +1,18 @@
+const fs=require('node:fs');
+const path=require('node:path');
+const assert=require('node:assert/strict');
+const root=path.resolve(__dirname,'..');
+const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
+const js=fs.readFileSync(path.join(root,'assets/js/app.js'),'utf8');
+const css=fs.readFileSync(path.join(root,'assets/css/app.css'),'utf8');
+assert.match(html,/<link rel="stylesheet" href="assets\/css\/app\.css">/);
+assert.match(html,/<script src="assets\/js\/app\.js"><\/script>/);
+assert(!/<script>/.test(html),'Inline script unexpectedly present');
+assert(!/<style>/.test(html),'Inline stylesheet unexpectedly present');
+assert(css.includes(':root'),'CSS variables missing');
+new Function(js);
+const ids=new Set([...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]));
+const missing=[...js.matchAll(/\$\('([^']+)'\)/g)].map(m=>m[1]).filter(id=>!ids.has(id));
+assert.deepEqual([...new Set(missing)],[],'Missing DOM IDs referenced by $()');
+for(const file of ['index.html','assets/css/app.css','assets/js/app.js','README.md'])assert(fs.existsSync(path.join(root,file)));
+console.log('PASS: HTML references, external CSS/JS, script syntax, and DOM IDs');

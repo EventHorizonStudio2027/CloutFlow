@@ -1,0 +1,5 @@
+'use strict';const assert=require('assert');const {analyze}=require('../assets/js/income-intelligence');
+const report={currencies:['USD','EUR'],rows:[{month:'2026-09',amounts:[{currency:'USD',amount:100,hasData:true},{currency:'EUR',amount:0,hasData:false}]},{month:'2026-10',amounts:[{currency:'USD',amount:150,hasData:true},{currency:'EUR',amount:20,hasData:true}]},{month:'2026-11',amounts:[{currency:'USD',amount:120,hasData:true},{currency:'EUR',amount:0,hasData:false}]}]};
+const [usd,eur]=analyze(report);assert.equal(usd.delta,-30);assert.equal(usd.percentChange,-20);assert.equal(usd.average,123.33);assert.equal(usd.averageAbsoluteChange,35);assert.equal(usd.observedMonths,3);assert.equal(eur.delta,null);assert.equal(eur.observedMonths,1);assert.equal(eur.averageAbsoluteChange,null);
+assert.deepEqual(analyze({rows:[],currencies:[]}),[]);assert.equal(analyze({currencies:['USD'],rows:[{month:'2026-10',amounts:[{currency:'USD',amount:0,hasData:true}]},{month:'2026-11',amounts:[{currency:'USD',amount:30,hasData:true}]}]})[0].percentChange,null);
+console.log('Income intelligence tests passed');

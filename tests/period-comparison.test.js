@@ -1,0 +1,18 @@
+const assert=require('node:assert/strict');const P=require('../assets/js/period-comparison');
+const now=new Date(2026,10,16);
+assert.deepEqual(P.windows('month',now).current,['2026-11-01','2026-11-16']);
+assert.deepEqual(P.windows('month',now).previous,['2026-10-01','2026-10-16']);
+assert.deepEqual(P.windows('last',now).previous,['2026-09-01','2026-09-30']);
+assert.deepEqual(P.windows('year',now).previous,['2025-01-01','2025-11-16']);
+assert.equal(P.windows('all',now),null);
+assert.equal(P.windows('month',new Date(2026,2,31)).previous[1],'2026-02-28');
+assert.equal(P.windows('year',new Date(2024,1,29)).previous[1],'2023-02-28');
+const e=(date,gross,currency='USD')=>({earnedDate:date,gross,currency});
+const entries=[e('2026-11-02',100),e('2026-10-02',50),e('2026-11-02',999,'EUR'),e('2026-11-20',200)];
+const adj=[{date:'2026-11-03',amount:-20,currency:'USD'},{date:'2026-10-03',amount:-10,currency:'USD'},{date:'2026-11-03',amount:100,currency:'EUR'}];
+const c=P.compare('month',entries,adj,x=>x.gross,now);
+assert.equal(c.current.adjustedNet,80);assert.equal(c.previous.adjustedNet,40);assert.equal(c.netChange.percent,100);assert.equal(c.current.gross,100);assert.equal(c.current.transactions,1);
+assert.equal(P.change(100,0).percent,null);assert.equal(P.change(0,0).percent,null);
+assert.equal(P.change(20,-10).percent,null);assert.equal(P.change(20,40).percent,-50);
+assert.equal(P.compare('all',entries,adj,x=>x.gross,now),null);
+console.log('Period comparison tests passed');

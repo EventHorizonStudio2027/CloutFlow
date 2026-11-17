@@ -1,0 +1,11 @@
+const assert=require('node:assert/strict');const {summarize}=require('../assets/js/currency-overview');
+const entries=[{currency:'USD',gross:120,fees:20},{currency:'EUR',gross:70,fees:10},{currency:'USD',gross:30,fees:0}];
+const result=summarize(entries,[{currency:'USD',amount:-5},{currency:'EUR',amount:-2},{currency:'JPY',amount:100}],[{currency:'USD',amount:50},{currency:'EUR',amount:20}],e=>e.gross-e.fees);
+assert.deepEqual(result.map(x=>x.currency),['EUR','JPY','USD']);
+assert.deepEqual(result.find(x=>x.currency==='USD'),{currency:'USD',transactions:2,net:130,adjustments:-5,deposits:50,adjustedNet:125});
+assert.equal(result.find(x=>x.currency==='EUR').adjustedNet,58);
+assert.equal(result.find(x=>x.currency==='JPY').adjustedNet,100);
+assert.equal(result.find(x=>x.currency==='JPY').deposits,0);
+assert.deepEqual(summarize([],[],[],()=>0),[]);
+assert.equal(summarize([{currency:'USD'}],[],[],()=>NaN)[0].adjustedNet,0);
+console.log('Currency overview: 7 assertions passed');

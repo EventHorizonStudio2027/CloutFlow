@@ -1,0 +1,14 @@
+const assert=require('node:assert/strict');
+const {cents,validDate,evaluate}=require('../assets/js/income-entry-assistant');
+assert.equal(cents('1.20',true),120);assert.equal(cents('0.001',false),null);assert.equal(cents('1e3',true),null);assert.equal(cents('',false),0);assert.equal(cents('',true),null);assert.equal(cents('90071992547410',true),null);
+assert.equal(validDate('2026-02-29'),false);assert.equal(validDate('2024-02-29'),true);assert.equal(validDate('2026-11-31'),false);
+const base={gross:'100.00',fees:'5.25',refunds:'0',tax:'10.00',earnedDate:'2026-11-01',status:'Pending',payoutDate:''};
+assert.equal(evaluate(base).netCents,8475);assert.equal(evaluate(base).valid,true);
+assert.equal(evaluate({...base,fees:'101'}).valid,false);
+assert.equal(evaluate({...base,gross:'0'}).fieldErrors.gross,'Gross earnings must be greater than zero.');
+assert.equal(evaluate({...base,status:'Paid'}).fieldErrors.payoutDate,'Paid earnings require a payout date.');
+assert.equal(evaluate({...base,payoutDate:'2026-11-03'}).valid,false);
+assert.equal(evaluate({...base,status:'Paid',payoutDate:'2026-10-30'}).valid,false);
+assert.equal(evaluate({...base,status:'Paid',payoutDate:'2026-11-03'}).valid,true);
+assert.equal(evaluate({...base,earnedDate:'2026-02-30'}).valid,false);
+console.log('PASS income entry assistant');

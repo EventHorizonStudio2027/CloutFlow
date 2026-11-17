@@ -1,0 +1,13 @@
+const assert=require('node:assert/strict');
+const R=require('../assets/js/account-rankings.js');
+const earned=[{platform:'YouTube',account:'Main',currency:'USD',gross:100},{platform:'Twitch',account:'Main',currency:'USD',gross:80},{platform:'YouTube',account:'Main',currency:'EUR',gross:250},{platform:'YouTube',account:'Other',currency:'USD',gross:10}];
+const adjustments=[{platform:'YouTube',account:'Main',currency:'USD',amount:-50},{platform:'Twitch',account:'Main',currency:'USD',amount:5},{platform:'TikTok',account:'Main',currency:'USD',amount:-8}];
+const rows=R.summarize(earned,adjustments,e=>e.gross);
+assert.deepEqual(rows.map(r=>[r.currency,r.platform,r.account,r.adjustedNet]),[['EUR','YouTube','Main',250],['USD','Twitch','Main',85],['USD','YouTube','Main',50],['USD','YouTube','Other',10],['USD','TikTok','Main',-8]]);
+const usd=rows.filter(r=>r.currency==='USD');const insights=R.analyze(usd);
+assert.equal(insights.positiveTotal,145);assert.equal(insights.leader.platform,'Twitch');assert.ok(Math.abs(insights.leaderShare-85/145*100)<1e-9);
+assert.equal(insights.shares.find(s=>s.platform==='TikTok').share,0);
+assert.equal(R.analyze([{adjustedNet:-5}]).leaderShare,null);
+assert.deepEqual(R.summarize([],[],e=>e.gross),[]);
+assert.deepEqual(R.summarize([{platform:'YouTube',account:'',currency:'USD',gross:10}],[],e=>e.gross),[]);
+console.log('Account ranking tests passed');

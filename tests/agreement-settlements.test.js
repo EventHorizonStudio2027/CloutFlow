@@ -1,0 +1,14 @@
+const assert=require('node:assert/strict');const s=require('../assets/js/agreement-settlements');
+const dues=[{id:'a',due:'2026-11-15',currency:'USD',amount:100},{id:'b',due:'2026-11-15',currency:'USD',amount:100},{id:'c',due:'2026-11-15',currency:'EUR',amount:100}];
+const payouts=[{id:'p',currency:'USD',amount:150},{id:'q',currency:'EUR',amount:50}];
+let rows=[];let result=s.link(rows,dues,payouts,'a','2026-11-15','p',75);assert.equal(result.error,'');rows=result.records;
+result=s.link(rows,dues,payouts,'b','2026-11-15','p',75);assert.equal(result.error,'');rows=result.records;
+assert.equal(s.reconcile(dues,payouts,rows).used.get('p'),15000);
+assert.match(s.link(rows,dues,payouts,'b','2026-11-15','p',76).error,/Deposit allocated above/);
+assert.match(s.link(rows,dues,payouts,'a','2026-11-15','q',25).error,/Currencies/);
+assert.match(s.link(rows,dues,payouts,'a','2026-11-15','p',101).error,/Allocated above/);
+assert.equal(s.reconcile(dues,[],rows).issues.length,2);
+rows=s.unlink(rows,'a','2026-11-15','p');assert.equal(rows.length,1);
+const data={};const store={getItem:k=>data[k]??null,setItem:(k,v)=>data[k]=v};assert.equal(s.save(store,rows),true);assert.deepEqual(s.read(store).records,rows);
+data[s.KEY]='broken';assert.ok(s.read(store).error);assert.equal(s.validate([{agreementId:'a',due:'2026-11-15',payoutId:'p',amount:1},{agreementId:'a',due:'2026-11-15',payoutId:'p',amount:1}]),'Duplicate settlement link');
+console.log('agreement settlement tests passed');

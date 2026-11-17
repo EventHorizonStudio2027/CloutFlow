@@ -1,0 +1,36 @@
+# Secrets and environment-specific configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*credentials*.json
+*service-account*.json
+
+# Local creator financial records and backups
+backups/
+exports/
+private-data/
+user-data/
+*.backup.json
+*.ledger.json
+*.financial.csv
+
+# Dependencies, runtime caches, test artifacts
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+playwright-report/
+test-results/
+coverage/
+*.log
+.DS_Store
+Thumbs.db
+
+# Packaged releases (source lives in the repository)
+*.zip

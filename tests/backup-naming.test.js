@@ -1,0 +1,12 @@
+const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict');
+const src=fs.readFileSync(path.join(__dirname,'../assets/js/app.js'),'utf8');
+const start=src.indexOf('function backup(){'),end=src.indexOf('\n',start);
+assert(start>=0&&end>start);
+const saved=[];const context={entries:[{id:'e1'}],accounts:[],payouts:[],adjustments:[],download:(...args)=>saved.push(args),toast:()=>{}};
+vm.createContext(context);vm.runInContext(src.slice(start,end),context);vm.runInContext('backup()',context);
+assert.equal(saved.length,1);const [name,body,mime]=saved[0];
+assert.match(name,/^cloutflow-backup-\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}-\d{3}Z\.json$/);
+assert.equal(mime,'application/json');const parsed=JSON.parse(body);
+assert.equal(parsed.version,4);assert.equal(parsed.entries[0].id,'e1');assert.match(parsed.exportedAt,/Z$/);
+assert.equal(name,'cloutflow-backup-'+parsed.exportedAt.replace(/[:.]/g,'-')+'.json');
+console.log('Timestamped backup filename and payload tests passed');

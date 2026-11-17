@@ -1,0 +1,12 @@
+const assert=require('node:assert/strict');const fs=require('node:fs');const path=require('node:path');
+const api=require('../assets/js/account-directory.js');
+const items=[{name:'Main Channel',platform:'YouTube',tracked:true,notes:'Video'},{name:'Second Channel',platform:'YouTube',tracked:false},{name:'Store',platform:'Etsy',tracked:true,notes:'Crafts'}];
+assert.equal(api.filter(items,'youtube').length,2);
+assert.equal(api.filter(items,'  CRAFTS ').length,1);
+assert.equal(api.filter(items,'channel','unmanaged').length,1);
+assert.equal(api.filter(items,'','managed').length,2);
+assert.equal(api.filter(items,'','unmanaged').length,1);
+assert.equal(api.filter(items,'missing').length,0);
+assert.deepEqual(api.summary(items,api.filter(items,'store')),{total:3,visible:1,managed:2,unmanaged:1});
+const html=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');for(const id of ['accountDirectorySearch','accountDirectoryStatus','accountDirectoryCount'])assert.ok(html.includes(`id="${id}"`));assert.ok(html.indexOf('assets/js/account-directory.js')<html.indexOf('assets/js/app.js'));
+console.log('Account directory tests passed');

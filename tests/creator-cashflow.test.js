@@ -1,0 +1,13 @@
+const assert=require('node:assert/strict');
+const api=require('../assets/js/creator-cashflow');
+const agreements=require('../assets/js/recurring-agreements');
+const settlements=require('../assets/js/agreement-settlements');
+const a=[{id:'a',name:'Partner',platform:'Twitch',currency:'USD',amount:100,frequency:'monthly',start:'2026-09-15',end:'',status:'active'},{id:'b',name:'Partner EUR',platform:'YouTube',currency:'EUR',amount:50,frequency:'quarterly',start:'2026-11-15',end:'',status:'active'}];
+const p=[{id:'p',currency:'USD',amount:60,received:'2026-10-16'}];
+const links=[{agreementId:'a',due:'2026-10-15',payoutId:'p',amount:60}];
+const r=api.summarize(a,p,links,agreements,settlements,'2026-11-16');
+const usd=r.groups.find(g=>g.currency==='USD'),eur=r.groups.find(g=>g.currency==='EUR');
+assert.equal(usd.allocatedCents,6000);assert.equal(usd.overdueCents,24000);assert.equal(usd.upcomingCents,20000);assert.equal(eur.allocatedCents,0);assert.equal(eur.overdueCents,5000);
+assert.equal(r.rows.find(x=>x.due==='2026-10-15').status,'overdue');assert.equal(r.rows.find(x=>x.due==='2026-12-15').status,'upcoming');
+assert.throws(()=>api.summarize(a,p,links,agreements,settlements,'2026-02-30'));
+console.log('creator cashflow tests passed');

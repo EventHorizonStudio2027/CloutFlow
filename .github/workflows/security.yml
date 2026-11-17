@@ -1,0 +1,26 @@
+name: Repository hygiene
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  hygiene:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check prohibited local artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git ls-files | grep -E '(^|/)(\.env($|\.)|node_modules/|__pycache__/|backups/|exports/|private-data/|user-data/)|\.(pem|p12|pfx|zip)$|\.backup\.json$'; then
+            echo 'Blocked: repository contains files that must stay local.' >&2
+            exit 1
+          fi
+          echo 'No prohibited local artifacts tracked.'

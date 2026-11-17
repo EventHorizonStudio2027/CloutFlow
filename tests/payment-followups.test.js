@@ -1,0 +1,16 @@
+const assert=require('node:assert/strict');
+const f=require('../assets/js/payment-followups');
+const data=new Map(),store={getItem:k=>data.has(k)?data.get(k):null,setItem:(k,v)=>data.set(k,v)};
+const a={agreementId:'agreement-1',due:'2026-11-15',status:'contacted',remindOn:'2026-11-16',note:'Emailed partner',updated:'2026-11-16'};
+assert.equal(f.validate(a),true);
+assert.equal(f.validate({...a,due:'2026-02-30'}),false);
+assert.equal(f.validate({...a,note:'x'.repeat(1001)}),false);
+assert.equal(f.save(store,[a]),true);
+assert.deepEqual(f.read(store).records,[a]);
+assert.equal(f.reminders([a],'2026-11-16').length,1);
+assert.equal(f.reminders([{...a,status:'resolved'}],'2026-11-16').length,0);
+assert.equal(f.upsert([a],{...a,note:'Followed up'}).length,1);
+assert.equal(f.remove([a],a.agreementId,a.due).length,0);
+assert.equal(f.save(store,[a,a]),false);
+data.set(f.KEY,'not json');assert.ok(f.read(store).error);assert.equal(f.save(store,[a]),false);
+console.log('Payment follow-up tests passed');

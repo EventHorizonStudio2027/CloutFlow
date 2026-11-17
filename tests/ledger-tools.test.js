@@ -1,0 +1,16 @@
+const assert=require('assert');
+const t=require('../assets/js/ledger-tools.js');
+const a={id:'a',platform:'YouTube',account:'Main Channel',incomeType:'Ads',description:'October earnings',reference:'INV-123',currency:'USD',status:'Pending',earnedDate:'2026-10-12',channel:'stream',gross:120,fees:20};
+const b={...a,id:'b',platform:'Patreon',account:'Fan club',description:'Subscriptions',reference:'P-4',currency:'EUR',earnedDate:'2026-09-03',gross:500,fees:0};
+const c={...a,id:'c',earnedDate:'2026-11-01',gross:70,fees:0};
+assert(t.matches(a,''));assert(t.matches(a,'youtube main'));assert(t.matches(a,'INV-123'));assert(t.matches(a,'usd pending'));assert(t.matches(a,'october ads'));assert(!t.matches(a,'youtube patreon'));assert(!t.matches(a,'other'));assert(t.matches(a,'  MAIN   channel '));
+const net=e=>e.gross-e.fees;
+assert.deepEqual([a,b,c].sort(t.sorter('newest',net)).map(x=>x.id),['c','a','b']);
+assert.deepEqual([a,b,c].sort(t.sorter('oldest',net)).map(x=>x.id),['b','a','c']);
+assert.deepEqual([a,b,c].sort(t.sorter('platform',net)).map(x=>x.id),['b','c','a']);
+assert.deepEqual([a,b,c].sort(t.sorter('net-high',net)).map(x=>x.id),['b','a','c']);
+assert.deepEqual([a,b,c].sort(t.sorter('net-low',net)).map(x=>x.id),['b','c','a']);
+assert(!t.hasFilters({search:'',account:'all',type:'all',status:'all',sort:'newest'}));
+assert(t.hasFilters({search:'xyz',account:'all',type:'all',status:'all',sort:'newest'}));
+assert(t.hasFilters({search:'',account:'all',type:'all',status:'all',sort:'oldest'}));
+console.log('PASS ledger discovery: search, stable sort, currency boundaries, filters');

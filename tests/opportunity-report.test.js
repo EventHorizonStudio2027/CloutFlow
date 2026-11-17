@@ -1,0 +1,17 @@
+const assert=require('node:assert/strict');
+const report=require('../assets/js/opportunity-report');
+const plans=require('../assets/js/opportunity-plans');
+const progress=require('../assets/js/opportunity-progress');
+const data=new Map();const store={getItem:k=>data.get(k)||null,setItem:(k,v)=>data.set(k,v)};
+assert.equal(plans.set(store,'affiliate',{note:'=HYPERLINK("bad")',currency:'EUR',target:25.25}),true);
+assert.equal(progress.set(store,'affiliate','trying'),true);
+const csv=report.build([{id:'affiliate',title:'Affiliate links',group:'partners'},{id:'digital',title:'Digital goods',group:'products'}],plans,progress,store);
+assert.ok(csv.startsWith('\uFEFF'));
+assert.ok(csv.includes('"Trying it"'));
+assert.ok(csv.includes('"EUR","25.25"'));
+assert.ok(csv.includes('"\'=HYPERLINK(""bad"")"'));
+assert.ok(csv.includes('"Not started"'));
+assert.ok(!csv.includes('undefined'));
+assert.equal(report.cell('+CMD'),"\"'+CMD\"");
+assert.equal(report.cell('hello, "world"'),'"hello, ""world"""');
+console.log('Opportunity report: passed');

@@ -1,0 +1,15 @@
+const fs=require('fs'),assert=require('assert'),path=require('path');
+const root=path.join(__dirname,'..');
+const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
+const js=fs.readFileSync(path.join(root,'assets/js/mobile-navigation.js'),'utf8');
+const css=fs.readFileSync(path.join(root,'assets/css/app.css'),'utf8');
+for(const id of ['mobileOverview','mobileActivity','mobileAdd','mobileImport','mobileMore','mobileMoreMenu','mobileExport','mobileBackup','mobileRestore'])assert(html.includes(`id="${id}"`),`Missing ${id}`);
+const dock=html.match(/<nav class="mobile-nav"[\s\S]*?<\/nav>/)[0];
+assert.equal((dock.match(/<button /g)||[]).length,5,'dock should have five buttons');
+assert(html.includes('assets/js/mobile-navigation.js'));
+assert(js.includes("e.key==='Escape'"));
+assert(js.includes("setAttribute('aria-expanded','false')"));
+assert(js.includes("navigate('ledgerSection')"));
+assert(css.includes('.mobile-more-menu[hidden]'));
+assert(css.includes('grid-template-columns:repeat(5,minmax(0,1fr))'));
+console.log('PASS mobile navigation structure and accessibility checks');

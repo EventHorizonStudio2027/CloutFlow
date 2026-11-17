@@ -1,0 +1,1 @@
+const assert=require('node:assert/strict');const T=require('../assets/js/revenue-trends');assert.deepEqual(T.rows([{label:'Oct 26',value:125.255},{label:'Nov 26',value:-20.1}]),[{period:'Oct 26',adjustedNet:125.26},{period:'Nov 26',adjustedNet:-20.1}]);assert.deepEqual(T.rows([]),[]);console.log('Revenue trend projection tests passed');

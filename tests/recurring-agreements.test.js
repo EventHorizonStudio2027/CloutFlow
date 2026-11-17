@@ -1,0 +1,10 @@
+const assert=require('node:assert/strict');const a=require('../assets/js/recurring-agreements');
+const store={v:null,getItem(){return this.v},setItem(k,v){this.v=v}};
+const base={id:'1',name:'Retainer',platform:'Brand',amount:100.25,currency:'USD',frequency:'monthly',start:'2026-01-31',end:'',status:'active'};
+assert.equal(a.validate(base),'');assert.equal(a.validate({...base,amount:1.001}).includes('Invalid'),true);assert.equal(a.validate({...base,start:'2026-02-30'}).includes('Invalid'),true);assert.equal(a.validate({...base,end:'2025-01-01'}).includes('Invalid'),true);
+assert.equal(a.save(store,[base]),true);assert.equal(a.read(store).records.length,1);assert.equal(a.dueDate('2026-01-31',1),'2026-02-28');assert.equal(a.dueDate('2026-01-31',2),'2026-03-31');
+const rows=a.schedule([base],'2026-02-01','2026-04-30');assert.deepEqual(rows.map(r=>r.due),['2026-02-28','2026-03-31','2026-04-30']);assert.equal(a.totals(rows)[0].amount,300.75);
+assert.equal(a.schedule([{...base,status:'paused'}],'2026-01-01','2026-12-31').length,0);assert.equal(a.schedule([{...base,frequency:'quarterly'}],'2026-01-01','2026-12-31').length,4);assert.equal(a.schedule([{...base,frequency:'annual'}],'2026-01-01','2027-12-31').length,2);
+assert.equal(a.schedule([{...base,end:'2026-02-28'}],'2026-01-01','2026-12-31').length,2);
+store.v='corrupt';assert.ok(a.read(store).error);assert.equal(a.save(store,[base,base]),false);assert.equal(store.v,'corrupt');
+console.log('recurring agreement tests passed');
