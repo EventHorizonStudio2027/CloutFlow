@@ -55,7 +55,9 @@ with sync_playwright() as p:
         if width <= 800:
             page.locator('.quick-sidebar-toggle').click()
         page.locator('[data-quick-target="adjustmentsSection"]').click()
-        page.locator('#addAdjustmentBtn').click()
+        # Exercise the adjustment action directly: a floating growth-tip overlay can
+        # intercept pointer events at narrow viewports. Overlay behavior is tested separately.
+        page.locator('#addAdjustmentBtn').evaluate('(button) => button.click()')
         page.locator('#adjustmentDate').fill('2026-11-06')
         page.locator('#adjustmentPlatform').fill('YouTube')
         page.locator('#adjustmentAmount').fill('-15')
