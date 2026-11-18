@@ -290,3 +290,12 @@ th{padding:8px 7px}td{padding:9px 7px}.empty{padding:18px}.footnote{margin-top:9
 #copySummary{background:transparent;border-color:#334963;color:#a9c8e5}
 #copySummary:hover,#copySummary:focus-visible{background:#1b344e;color:#f2f8ff}
 @media(max-width:600px){.period{gap:5px}#copySummary{order:3}.density-toggle{line-height:1.2}}
+
+/* Streaming strip: heading and helper copy on one line, square logo buttons. */
+.streaming-platform-heading{display:flex;align-items:center;gap:7px;white-space:nowrap;margin:0;flex-shrink:0}
+.streaming-platform-heading strong{font-size:11px}
+.streaming-platform-heading span{display:inline!important;margin:0!important;font-size:10px;line-height:1.2;color:var(--muted);white-space:nowrap}
+.streaming-platform-icons a{display:flex;align-items:center;justify-content:center;flex-direction:column;width:43px;min-width:43px;height:43px;min-height:43px;gap:2px;padding:3px;border-radius:8px;font-size:8px;line-height:1.1;text-align:center}
+.streaming-platform-icons img{width:23px;height:23px;object-fit:contain;padding:2px}
+.streaming-lettermark,.streaming-icon-fallback{width:23px;height:23px}
+@media(max-width:800px){.streaming-platform-strip{flex-wrap:wrap;row-gap:4px}.streaming-platform-heading{width:100%}.streaming-platform-scroll{width:100%}.streaming-platform-icons a{width:42px;min-width:42px;height:42px;min-height:42px}}
