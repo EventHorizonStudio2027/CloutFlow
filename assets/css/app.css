@@ -231,3 +231,20 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 /* Interface polish: subtle keyboard focus and restrained motion for dashboard shortcuts. */
 .quick-access-actions button:focus-visible,.streaming-platform-icons a:focus-visible{outline:2px solid #9acbff;outline-offset:2px;box-shadow:0 0 0 4px rgba(90,156,231,.16)}
 @media(prefers-reduced-motion:reduce){.streaming-platform-icons a{transition:none}}
+
+/* Density pass: fit more meaningful dashboard content above the fold. */
+:root{--radius:13px}
+.app{max-width:1320px;padding:13px 18px 70px}
+.top{margin-bottom:13px}
+.brand{gap:9px}.logo{width:35px;height:35px;border-radius:11px}.logo img{width:25px;height:25px}.brand h1{font-size:18px}.brand small{font-size:9px}
+.top-actions{gap:6px}.btn{padding:7px 10px;border-radius:9px;font-size:12px}
+.welcome{margin:3px 0 11px}.welcome h2{font-size:22px}.welcome p{font-size:12px;margin-top:2px}.eyebrow{font-size:10px}.period{font-size:11px}.period select{padding:6px 25px 6px 9px}
+.stats{gap:9px;margin-bottom:10px}.card{padding:12px;border-radius:13px;box-shadow:0 5px 18px #00000010}.stat-top{font-size:11px}.stat-icon{width:24px;height:24px;border-radius:8px}.stat-value{font-size:22px;margin:6px 0 2px}.stat-note{font-size:10px}
+.main-grid{gap:10px;margin-bottom:10px}.card-head{margin-bottom:9px}.card-head h3{font-size:13px}.card-head p{font-size:11px}.chart-wrap{height:165px}.legend{margin-top:5px}.breakdown{gap:8px}.break-row{gap:7px}.track{height:5px}
+.platforms{gap:7px}.platform{padding:8px;gap:7px;border-radius:10px}.platform-ico{width:28px;height:28px;border-radius:8px}.platform strong{font-size:11px}.platform small{font-size:10px}
+.section{margin-top:10px}.notice{padding:7px 10px;margin-bottom:9px;border-radius:9px}.toolbar{gap:6px}.toolbar input,.toolbar select{padding:7px 9px;border-radius:8px;font-size:12px}
+th{padding:8px 7px}td{padding:9px 7px}.empty{padding:18px}.footnote{margin-top:9px}
+@media(max-width:800px){.app{padding:11px 10px 82px}.top{margin-bottom:11px}.welcome{gap:8px}.welcome h2{font-size:20px}.stats{gap:7px}.stat-value{font-size:20px}.card{padding:10px}.chart-wrap{height:155px}.main-grid{gap:8px}.mobile-nav{padding:7px 6px calc(7px + env(safe-area-inset-bottom))}}
+@media(max-width:420px){.card{padding:9px}.stat-value{font-size:19px}.stat-top{font-size:10px}.platform{padding:7px}.platform-ico{width:27px;height:27px}.brand h1{font-size:17px}}
+/* Keep dialogs and touch controls comfortable even with a denser dashboard. */
+.modal .btn,.modal button{min-height:36px}
