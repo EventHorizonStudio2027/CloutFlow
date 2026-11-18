@@ -227,3 +227,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .streaming-platform-icons img{width:22px;height:22px;padding:3px;border-radius:7px}
 .streaming-lettermark,.streaming-icon-fallback{width:28px;height:28px;border-radius:7px;font-size:17px}
 @media(max-width:600px){.quick-access{padding:9px}.quick-access-actions button{min-height:33px}.streaming-platform-strip{padding:9px}.streaming-platform-icons a{min-width:44px;padding:6px 4px}}
+
+/* Interface polish: subtle keyboard focus and restrained motion for dashboard shortcuts. */
+.quick-access-actions button:focus-visible,.streaming-platform-icons a:focus-visible{outline:2px solid #9acbff;outline-offset:2px;box-shadow:0 0 0 4px rgba(90,156,231,.16)}
+@media(prefers-reduced-motion:reduce){.streaming-platform-icons a{transition:none}}
