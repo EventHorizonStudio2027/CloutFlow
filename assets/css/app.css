@@ -327,3 +327,6 @@ body.global-search-active{overflow:hidden}
 .source-option .source-logo img{width:22px;height:22px}
 .source-option:hover,.source-option:focus-visible{background:#2c4264;border-color:#89baff}
 @media(max-width:520px){.source-rail-list{gap:6px}.source-shortcut{flex-basis:68px}.source-shortcut .source-logo{width:46px;height:46px}}
+
+/* Accessible touch targets for ledger transaction actions across phone sizes. */
+@media(max-width:768px){#entries [data-label="Actions"] button{min-height:44px;min-width:44px;touch-action:manipulation}}
