@@ -276,3 +276,17 @@ body.global-search-active{overflow:hidden}
 
 /* Dialogs must remain above nonmodal growth tips and mobile navigation. */
 .modal-backdrop.show{z-index:2000}
+
+/* Creator income source directory */
+.source-directory{margin-top:25px;border-top:1px solid #33425f;padding-top:20px}
+.source-directory-heading h4{margin:0 0 6px;font-size:18px}
+.source-directory-heading p,.source-group>p{color:var(--muted,#a7b5cb);font-size:12px;margin:0 0 14px}
+.source-group{margin-top:23px}.source-group h5{font-size:15px;margin:0 0 5px}
+.source-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:10px}
+.source-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;min-height:102px;padding:13px 8px;border:1px solid #354966;border-radius:14px;background:#18263e;color:#eef5ff;cursor:pointer;font:inherit;transition:border-color .15s,background .15s}
+.source-tile:hover,.source-tile:focus-visible{background:#263956;border-color:#8fb8ff}
+.source-tile:focus-visible{outline:2px solid #91c5ff;outline-offset:2px}
+.source-logo{display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:11px;background:#eef3fc;color:#18263e;font-size:14px;font-weight:800}
+.source-logo img{width:25px;height:25px;object-fit:contain}
+.source-label{text-align:center;font-size:12px;font-weight:650;line-height:1.25;overflow-wrap:anywhere}
+@media(max-width:520px){.source-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.source-tile{min-height:96px;padding:10px 5px}.source-label{font-size:11px}}
