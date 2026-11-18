@@ -11,6 +11,6 @@ for(const name of ['YouTube','Twitch','Kick','TikTok','Facebook','Instagram','Tr
 assert.equal((section.match(/<a href=/g)||[]).length,8,'expected eight platform shortcuts');
 assert.equal((section.match(/rel="noopener noreferrer"/g)||[]).length,8,'external links must be isolated');
 assert.equal((section.match(/onerror="this.hidden=true;this.nextElementSibling.hidden=false"/g)||[]).length,7,'CDN icons need offline fallback');
-assert.ok(css.includes('.streaming-platform-scroll{overflow-x:auto'),'mobile strip must scroll');
+for(const slug of ['youtube','twitch','kick','tiktok','facebook','instagram']){assert.ok(fs.existsSync('assets/icons/'+slug+'.svg'),slug+' bundled icon missing');assert.ok(section.includes('assets/icons/'+slug+'.svg'),slug+' icon not used')}\nassert.ok(!section.includes('cdn.simpleicons.org'),'streaming icons must not depend on external CDN');\nassert.ok(css.includes('.streaming-platform-scroll{overflow-x:auto'),'mobile strip must scroll');
 assert.ok(css.includes('.streaming-icon-fallback:not([hidden])'),'offline fallback must display');
 console.log('Streaming platform launcher: layout, links, fallback and mobile checks passed');
