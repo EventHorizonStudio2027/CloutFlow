@@ -38,6 +38,7 @@ with sync_playwright() as p:
         assert page.evaluate('entries.length')==1
         stored=page.evaluate('localStorage.getItem("creatorLedgerData_v2")')
         page.evaluate('window.__failWrite=true')
+        assert page.evaluate("window.CloutFlowOpenWorkspace('ledgerSection', false)")
         page.locator('[data-income-copy]').first.click()
         assert page.evaluate('entries.length')==1,'Failed duplicate save left phantom income'
         page.evaluate('window.__failWrite=false')
