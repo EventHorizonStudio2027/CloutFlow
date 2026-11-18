@@ -39,7 +39,11 @@ with sync_playwright() as p:
         records=page.evaluate("JSON.parse(localStorage.getItem('creatorLedgerData_v2')).entries")
         assert len(records)==1,records
         assert records[0]['gross']==100 and records[0]['fees']==10
-        page.locator('#newPayoutBtn').click()
+        # The workspace router intentionally hides unrelated sections on load.
+        # Navigate through the visible Quick Access action, then use the real payout control.
+        if width <= 800:
+            page.locator('.quick-sidebar-toggle').click()
+        page.locator('[data-quick-action="newPayoutBtn"]').click()
         assert 'show' in page.locator('#payoutModal').get_attribute('class')
         page.locator('#payoutAmount').fill('30')
         page.locator('#payoutReceived').fill('2026-11-05')
@@ -47,7 +51,13 @@ with sync_playwright() as p:
         page.locator('#payoutForm button[type=submit]').click()
         stored=page.evaluate("JSON.parse(localStorage.getItem('creatorLedgerData_v2'))")
         assert len(stored['payouts'])==1,(stored,page.locator('#toast').inner_text(),page.locator('#payoutPlatform').input_value(),page.locator('#payoutAccount').input_value())
-        page.locator('#addAdjustmentBtn').evaluate('(el) => el.click()')
+        # Select the adjustments workspace before interacting with its form.
+        if width <= 800:
+            page.locator('.quick-sidebar-toggle').click()
+        page.locator('[data-quick-target="adjustmentsSection"]').click()
+        # Exercise the adjustment action directly: a floating growth-tip overlay can
+        # intercept pointer events at narrow viewports. Overlay behavior is tested separately.
+        page.locator('#addAdjustmentBtn').evaluate('(button) => button.click()')
         page.locator('#adjustmentDate').fill('2026-11-06')
         page.locator('#adjustmentPlatform').fill('YouTube')
         page.locator('#adjustmentAmount').fill('-15')

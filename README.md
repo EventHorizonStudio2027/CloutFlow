@@ -311,3 +311,6 @@ The live income-entry assistant validates integer-cent monetary amounts, gross/d
 ## GitHub source-control workflow
 
 The repository is intended to be **private**. The canonical branches are `main` (stable) and `develop` (integration). Pull requests run the Node financial regression suite and full Chromium browser suite through `.github/workflows/ci.yml`. Repository hygiene checks run separately. CI browser tests use Linux Chromium; passing them does not verify iOS Safari or production deployment. See `CONTRIBUTING.md` for the contribution and release process. Never commit real financial data, backups, exported reports, or credentials.
+
+### Single-workspace navigation (latest)
+The persistent desktop sidebar and mobile drawer now act as a single-workspace router. Overview shows summary KPIs, payment reminders, and revenue charts; choosing another category hides unrelated sections without modifying financial records. All 21 major views, including revenue charts and refund/adjustment views, are directly accessible. Existing quick-create actions remain available. Browser routing tests cover 320/390/768/1280 px. Changes require publishing a new commit to GitHub before appearing on the live site.
