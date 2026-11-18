@@ -290,3 +290,17 @@ body.global-search-active{overflow:hidden}
 .source-logo img{width:25px;height:25px;object-fit:contain}
 .source-label{text-align:center;font-size:12px;font-weight:650;line-height:1.25;overflow-wrap:anywhere}
 @media(max-width:520px){.source-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.source-tile{min-height:96px;padding:10px 5px}.source-label{font-size:11px}}
+
+/* Secure integration readiness cards */
+.integration-center{margin-top:28px;padding-top:20px;border-top:1px solid #34445f}
+.integration-head h4{font-size:18px;margin:0 0 7px}
+.integration-head p,.integration-state{font-size:12px;color:var(--muted,#a7b5cb);line-height:1.5}
+.integration-state{margin:12px 0 16px}
+.integration-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:11px}
+.integration-card{display:grid;grid-template-columns:42px minmax(0,1fr);gap:10px;align-items:center;padding:13px;border:1px solid #344963;border-radius:14px;background:#192940}
+.integration-icon{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:#edf3ff;color:#192940;font-weight:800}
+.integration-icon img{width:25px;height:25px;object-fit:contain}
+.integration-card strong,.integration-card small{display:block;overflow-wrap:anywhere}
+.integration-card small{color:var(--muted,#a7b5cb);font-size:11px;margin-top:4px}
+.integration-card .btn{grid-column:1/-1;justify-self:stretch}
+.integration-card .btn:disabled{opacity:.65;cursor:not-allowed}
