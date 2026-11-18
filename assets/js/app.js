@@ -522,6 +522,7 @@ function renderReconciliationSummary(){
  const rows=payoutReconciliationSummary();
  $('reconciliationSummary').innerHTML=rows.map(r=>`<div class="platform" style="align-items:flex-start"><div class="platform-ico">${esc(r.currency)}</div><div style="min-width:0"><strong>${esc(r.currency)} · ${money(r.received,r.currency)} deposits</strong><small>${money(r.allocated,r.currency)} allocated · ${money(r.unallocated,r.currency)} unallocated</small><small>Earned net ${money(r.earnedNet,r.currency)} · Adjustments ${money(r.adjustmentNet,r.currency)}</small><small>Adjusted revenue ${money(r.adjustedNet,r.currency)} · Legacy paid ${money(r.legacyPaid,r.currency)}</small></div></div>`).join('')||'<div class="empty">No records for the selected period.</div>';
 }
+$('exportPayoutAudit').addEventListener('click',()=>{const report=CloutFlowReconciliationAudit.audit(payouts);download('cloutflow-payout-audit.csv',CloutFlowPayoutAuditExport.exportCsv(payouts,report),'text/csv;charset=utf-8');toast('Payout audit findings exported');});
 function exportPayoutReconciliation(){
  const rows=payouts.map(p=>{const allocated=sum(p.allocations,a=>a.amount);return [p.id,p.received,p.platform,p.account,p.currency,p.amount,allocated,Math.max(0,p.amount-allocated),p.reference,p.notes,p.allocations.map(a=>a.entryId+':'+a.amount).join('; ')];});
  exportTableCSV('cloutflow-payout-reconciliation.csv',['Payout ID','Deposit date','Platform','Account','Currency','Deposit amount','Allocated amount','Unallocated amount','Reference','Notes','Earnings allocations'],rows);
