@@ -15,6 +15,7 @@ with sync_playwright() as p:
   page.evaluate("""() => {const data={};Object.defineProperty(window,'localStorage',{configurable:true,value:{getItem:k=>data[k]??null,setItem:(k,v)=>data[k]=String(v),removeItem:k=>delete data[k]}})}""")
   for name in names:page.add_script_tag(content=(root/'assets/js'/name).read_text())
   page.evaluate("""() => {entries=[normalize({id:'mobile-fixture',channel:'stream',platform:'YouTube',account:'Main channel',incomeType:'Ad revenue',currency:'USD',gross:1234,fees:34,refunds:0,tax:0,earnedDate:'2026-10-01',status:'Pending',description:'A very long creator transaction description that should wrap inside the phone card without clipping'} )];selectedPeriod='all';render()}""")
+  page.evaluate("window.CloutFlowOpenWorkspace('ledgerSection', false)")
   row=page.locator('#entries tr');assert row.count()==1
   assert row.locator('[data-label="Net"]').inner_text().strip().endswith('1,200.00')
   if width<=600:
