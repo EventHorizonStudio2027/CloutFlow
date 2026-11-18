@@ -1,0 +1,18 @@
+const assert=require('node:assert/strict');
+const {audit,money}=require('../assets/js/reconciliation-audit');
+const p={platform:'YouTube',account:'Main',currency:'USD',reference:'P-123',received:'2026-11-15',amount:'123.45'};
+assert.equal(money('0.29'),29);
+assert.equal(money(0.1+0.2),30);
+assert.equal(money('1.234'),null);
+assert.equal(money(''),null);
+assert.equal(money(Infinity),null);
+assert.deepEqual(audit([p]).summary,{checked:1,invalid:0,duplicateGroups:0});
+const duplicates=audit([p,{...p,reference:' p-123 ',amount:200},{...p,account:'Other'}]);
+assert.equal(duplicates.summary.duplicateGroups,1);
+assert.deepEqual(duplicates.issues[0].indices,[0,1]);
+assert.equal(audit([{...p,reference:''},{...p,reference:''}]).summary.duplicateGroups,0);
+assert.equal(audit([{...p,amount:0},{...p,received:'2026-02-30'}]).summary.invalid,2);
+assert.equal(audit([null]).issues[0].code,'invalid-record');
+assert.equal(audit(null).issues[0].code,'invalid-input');
+assert.equal(audit([{...p,platform:''}]).issues[0].code,'missing-identity');
+console.log('Reconciliation audit: 12 checks passed');
