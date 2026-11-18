@@ -3,7 +3,7 @@
  'use strict';
  const TARGETS=['mainContent','currencyOverviewSection','paymentDashboard','recurringAgreements','incomeOpportunitiesSection','accountInsightsSection','platformRankingsSection','accountRankingsSection','accountGrowthSection','periodComparisonSection','revenueChartsSection','platformsSection','accountsSection','reconciliationSection','payoutCenterSection','settlementReviewSection','appRevenueSection','ledgerSection','integritySection','linkedAdjustmentSection','adjustmentsSection'];
  const ACTIONS=['addBtn','newPayoutBtn'];
- const OVERVIEW=['mainContent','overviewNotice','overviewStats','alertCenter','commandCenter','paymentDashboard','revenueChartsSection'];
+ const OVERVIEW=['mainContent','overviewNotice','overviewStats','sourceHomeSection','alertCenter','commandCenter','paymentDashboard','revenueChartsSection'];
  function init(doc){
   if(!doc)return;
   const bar=doc.querySelector('.quick-access');if(!bar||bar.dataset.ready==='true')return;
