@@ -1,0 +1,16 @@
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const html=fs.readFileSync('index.html','utf8');
+const css=fs.readFileSync('assets/css/app.css','utf8');
+const quick=html.indexOf('class="quick-access"');
+const strip=html.indexOf('class="streaming-platform-strip"');
+const notice=html.indexOf('Dashboard totals are calculated');
+assert.ok(quick>=0&&strip>quick&&strip<notice,'launcher must follow Quick access');
+const section=html.slice(strip,html.indexOf('</section>',strip));
+for(const name of ['YouTube','Twitch','Kick','TikTok','Facebook','Instagram','Trovo'])assert.ok(section.includes('>'+name+'</span>'),name+' link missing');
+assert.equal((section.match(/<a href=/g)||[]).length,8,'expected eight platform shortcuts');
+assert.equal((section.match(/rel="noopener noreferrer"/g)||[]).length,8,'external links must be isolated');
+assert.equal((section.match(/onerror="this.hidden=true;this.nextElementSibling.hidden=false"/g)||[]).length,7,'CDN icons need offline fallback');
+assert.ok(css.includes('.streaming-platform-scroll{overflow-x:auto'),'mobile strip must scroll');
+assert.ok(css.includes('.streaming-icon-fallback:not([hidden])'),'offline fallback must display');
+console.log('Streaming platform launcher: layout, links, fallback and mobile checks passed');
