@@ -248,3 +248,15 @@ th{padding:8px 7px}td{padding:9px 7px}.empty{padding:18px}.footnote{margin-top:9
 @media(max-width:420px){.card{padding:9px}.stat-value{font-size:19px}.stat-top{font-size:10px}.platform{padding:7px}.platform-ico{width:27px;height:27px}.brand h1{font-size:17px}}
 /* Keep dialogs and touch controls comfortable even with a denser dashboard. */
 .modal .btn,.modal button{min-height:36px}
+
+/* Slim single-line platform launcher: remove the stacked heading and excess vertical chrome. */
+.streaming-platform-strip{display:flex;align-items:center;gap:10px;margin:5px 0 9px;padding:5px 9px;border-radius:10px;min-height:0}
+.streaming-platform-heading{display:flex;align-items:center;flex:0 0 auto;gap:0;margin:0;white-space:nowrap}
+.streaming-platform-heading strong{font-size:11px;line-height:1.2}
+.streaming-platform-heading span{display:none}
+.streaming-platform-scroll{flex:1;min-width:0;overflow-x:auto}
+.streaming-platform-icons{align-items:center;gap:5px;padding:0;min-width:0}
+.streaming-platform-icons a{flex-direction:row;gap:5px;min-width:0;padding:3px 6px;border-radius:7px;font-size:10px;white-space:nowrap}
+.streaming-platform-icons img{width:19px;height:19px;padding:2px;border-radius:5px}
+.streaming-lettermark,.streaming-icon-fallback{width:23px;height:23px;border-radius:5px;font-size:14px}
+@media(max-width:600px){.streaming-platform-strip{padding:5px 7px;gap:7px}.streaming-platform-heading{display:flex;margin:0}.streaming-platform-heading strong{font-size:10px}.streaming-platform-heading span{display:none}.streaming-platform-icons a{min-width:0;padding:3px 5px}}
