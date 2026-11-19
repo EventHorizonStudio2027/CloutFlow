@@ -14,12 +14,14 @@ function init(doc,store){
  add.dataset.bound='1';
  const name=doc.getElementById('streamingNewName'),url=doc.getElementById('streamingNewUrl'),error=doc.getElementById('streamingAddError'),cancel=doc.getElementById('streamingAddCancel');
  const defaults=Array.from(grid.querySelectorAll('a'));
+ defaults.forEach(link=>{link.title=link.getAttribute('aria-label')||link.textContent.trim()});
+ add.title='Add a creator platform shortcut';
  function render(){
   grid.querySelectorAll('[data-custom-streaming]').forEach(el=>el.remove());
   const items=read(store);
   defaults.forEach((el,i)=>{el.hidden=i>=9-items.length});
   for(const item of items){
-   const a=doc.createElement('a');a.href=item.url;a.target='_blank';a.rel='noopener noreferrer';a.setAttribute('aria-label','Open '+item.name);a.dataset.customStreaming='1';
+   const a=doc.createElement('a');a.href=item.url;a.target='_blank';a.rel='noopener noreferrer';a.setAttribute('aria-label','Open '+item.name);a.title='Open '+item.name;a.dataset.customStreaming='1';
    const mark=doc.createElement('span');mark.className='streaming-custom-mark';mark.textContent=item.name.slice(0,1).toUpperCase();
    const label=doc.createElement('span');label.textContent=item.name;a.append(mark,label);grid.insertBefore(a,add);
   }
