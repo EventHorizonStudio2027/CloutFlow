@@ -2,9 +2,9 @@
 (function(root){'use strict';
 const KEY='cloutflow_streaming_shortcuts_v1';
 function normalize(name,url){
- const label=String(name||'').trim().slice(0,22);
+ const label=String(name||'').trim().replace(/\s+/g,' ').slice(0,22);
  if(!label)return null;
- try{const parsed=new URL(String(url||''));if(parsed.protocol!=='https:'||!parsed.hostname||parsed.username||parsed.password)return null;return {name:label,url:parsed.href}}catch{return null}
+ try{const parsed=new URL(String(url||'').trim());if(parsed.protocol!=='https:'||!parsed.hostname||parsed.username||parsed.password)return null;return {name:label,url:parsed.href}}catch{return null}
 }
 function read(store){try{const data=JSON.parse(store.getItem(KEY)||'[]');return Array.isArray(data)?data.slice(0,3).map(x=>normalize(x.name,x.url)).filter(Boolean):[]}catch{return []}}
 function save(store,items){try{if(!Array.isArray(items))return false;const valid=items.slice(0,3).map(x=>normalize(x?.name,x?.url));if(valid.some(x=>!x)||new Set(valid.map(x=>x.url)).size!==valid.length)return false;store.setItem(KEY,JSON.stringify(valid));return true}catch{return false}}
