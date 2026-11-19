@@ -485,3 +485,8 @@ body:not(:has(.modal-backdrop.show:not([hidden]))):not(:has(dialog[open])) .grow
 .streaming-platform-icons a,.streaming-platform-icons button.streaming-add{transition:background-color .16s ease,border-color .16s ease,transform .16s ease}
 @media(hover:hover) and (prefers-reduced-motion:no-preference){.streaming-platform-icons a:hover,.streaming-platform-icons button.streaming-add:hover{transform:translateY(-2px)}}
 @media(prefers-reduced-motion:reduce){.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{transition:none}}
+
+/* Tip visibility takes precedence unless a real editor/dialog is on screen. */
+body:not(:has(.modal-backdrop.show)):not(:has(dialog[open])) .growth-popup:not([hidden]){display:block!important;visibility:visible!important;pointer-events:auto}
+body:has(.modal-backdrop.show) .growth-popup,
+body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!important;pointer-events:none!important}
