@@ -420,3 +420,9 @@ body:has([role="dialog"][aria-modal="true"]) #growthPopup{display:none!important
 /* Narrow individual streaming icon frames without changing the ten-column row. */
 .streaming-platform-icons a,.streaming-platform-icons button.streaming-add{width:50%;justify-self:center}
 @media(max-width:420px){.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{width:50%;min-width:0}}
+
+/* Streaming dock fine-tuning: 20% wider frames and tightly clustered icons. */
+.streaming-platform-icons{gap:1px;justify-content:center}
+.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{width:60%;justify-self:center}
+@media(max-width:800px){.streaming-platform-icons{gap:1px}.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{width:60%}}
+@media(max-width:420px){.streaming-platform-icons{gap:0}.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{width:60%}}
