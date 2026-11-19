@@ -36,4 +36,7 @@ assert.deepEqual(p.detectMilestones([sponsor,{incomeType:'Affiliate commissions'
 assert.deepEqual(p.detectMilestones([sponsor,{incomeType:'Affiliate commissions'},{incomeType:'Gifted subscriptions'}],milestoneStore),['membership','tips']);
 assert.deepEqual(p.detectMilestones([],milestoneStore),[]);
 assert.deepEqual(p.detectMilestones([sponsor],milestoneStore),['sponsor'],'newly reintroduced type can be detected');
+assert.equal(p.hasActiveDialog({querySelector:()=>({className:'modal-backdrop show'})}),true);
+assert.equal(p.hasActiveDialog({querySelector:()=>null}),false);
+assert.equal(p.present([{id:'test',already:false}],{querySelector:()=>({})},store,{force:true}),false,'active dialog blocks forced promotional popup');
 console.log('Opportunity popup tests passed');
