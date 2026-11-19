@@ -22,6 +22,9 @@ with sync_playwright() as p:
   content=page.locator('#incomeOpportunityResults').inner_text()
   assert 'Explore multistreaming' in content
   assert 'Turn streams into short-form clips' in content
+  assert page.locator('#incomeOpportunitiesSection').is_hidden(),'growth ideas should start collapsed'
+  page.locator('#showGrowthIdeas').click()
+  assert page.locator('#incomeOpportunitiesSection').is_visible(),'growth ideas should open on request'
   page.locator('#opportunityCategory').select_option('community')
   assert 'Already tracked' in page.locator('#incomeOpportunityResults').inner_text()
   page.locator('#opportunityCategory').select_option('all')
