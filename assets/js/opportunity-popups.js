@@ -40,7 +40,7 @@ function mount(doc,store){
  panel.innerHTML='<div class="growth-popup-head"><span class="growth-popup-eyebrow">✦ Growth idea for you</span><button type="button" class="growth-popup-close" aria-label="Dismiss this recommendation">×</button></div><h3 id="growthPopupTitle"></h3><p id="growthPopupWhy"></p><p id="growthPopupAction"></p><p class="growth-popup-caution" id="growthPopupCaution"></p><div class="growth-popup-actions"><button type="button" class="btn small" id="growthPopupLater">Not now</button><button type="button" class="btn primary small" id="growthPopupMore">Explore ideas</button></div><button type="button" class="growth-popup-optout" id="growthPopupOptout">Turn off automatic tips</button>';
  doc.body.appendChild(panel);
  // A live dialog wins over optional tips; explicit display avoids competing legacy CSS.
- const syncVisibility=()=>{if(panel.hidden){panel.style.removeProperty('display');return}panel.style.setProperty('display',hasActiveDialog(doc)?'none':'block','important')};
+ const syncVisibility=()=>{if(panel.hidden){panel.style.removeProperty('display');return}const blocked=hasActiveDialog(doc);const next=blocked?'none':'block';if(panel.style.getPropertyValue('display')!==next||panel.style.getPropertyPriority('display')!=='important')panel.style.setProperty('display',next,'important');const hidden=String(blocked);if(panel.getAttribute('aria-hidden')!==hidden)panel.setAttribute('aria-hidden',hidden)};
  if(doc.defaultView&&doc.defaultView.MutationObserver){
   const observer=new doc.defaultView.MutationObserver(syncVisibility);
   observer.observe(doc.body,{subtree:true,attributes:true,attributeFilter:['class','hidden','open','aria-hidden']});
