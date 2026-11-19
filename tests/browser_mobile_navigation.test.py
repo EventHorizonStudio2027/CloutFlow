@@ -48,7 +48,7 @@ with sync_playwright() as p:
             page.locator('#mobileMore').click()
             page.locator('#mainContent').click(position={'x': 4, 'y': 4}, force=True)
             assert page.locator('#mobileMoreMenu').is_hidden()
-            assert page.evaluate('document.documentElement.scrollWidth <= innerWidth + 1')
+            assert page.evaluate('document.documentElement.scrollWidth <= innerWidth + 1'), page.evaluate('''() => ({viewport:innerWidth,document:document.documentElement.scrollWidth,offenders:[...document.querySelectorAll('body *')].filter(el=>el.getBoundingClientRect().right>innerWidth+2 && getComputedStyle(el).position!=='fixed').slice(0,12).map(el=>({tag:el.tagName,id:el.id,cls:el.className,right:Math.round(el.getBoundingClientRect().right)}))})''')
         else:
             assert nav.is_hidden()
             assert page.locator('#mobileMoreMenu').is_hidden()
