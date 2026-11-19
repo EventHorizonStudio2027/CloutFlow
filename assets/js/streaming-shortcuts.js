@@ -15,7 +15,8 @@ function init(doc,store){
  const name=doc.getElementById('streamingNewName'),url=doc.getElementById('streamingNewUrl'),error=doc.getElementById('streamingAddError'),cancel=doc.getElementById('streamingAddCancel');
  const defaults=Array.from(grid.querySelectorAll('a'));
  const fields=[name,url,...Array.from(form.querySelectorAll('button[type="submit"]'))];
- function syncCapacity(){const full=read(store).length>=3;fields.forEach(el=>{el.hidden=full;el.disabled=full});form.dataset.atCapacity=String(full);return full}
+ const capacityStatus=doc.createElement('p');capacityStatus.className='streaming-capacity-status';capacityStatus.setAttribute('role','status');capacityStatus.setAttribute('aria-live','polite');form.insertBefore(capacityStatus,manage);
+ function syncCapacity(){const count=read(store).length;const full=count>=3;fields.forEach(el=>{el.hidden=full;el.disabled=full});form.dataset.atCapacity=String(full);capacityStatus.textContent=full?'3 of 3 shortcuts saved. Remove one to add another.':count+' of 3 shortcuts saved';return full}
  const manage=doc.createElement('div');manage.className='streaming-manage-list';manage.setAttribute('aria-label','Your custom platform shortcuts');form.appendChild(manage);
  form.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();form.hidden=true;add.setAttribute('aria-expanded','false');add.focus()}});
  defaults.forEach(link=>{link.title=link.getAttribute('aria-label')||link.textContent.trim()});
@@ -28,6 +29,7 @@ function init(doc,store){
   manage.setAttribute('aria-label',items.length+' custom creator '+(items.length===1?'shortcut':'shortcuts')+' saved');
   manage.setAttribute('aria-live','polite');
   manage.setAttribute('role','group');
+  manage.setAttribute('aria-label','Manage '+items.length+' custom creator '+(items.length===1?'shortcut':'shortcuts'));
   const replaceable=defaults.filter(el=>!['Open Discord','Open Patreon'].includes(el.getAttribute('aria-label'))).reverse();
   defaults.forEach(el=>{el.hidden=false});
   replaceable.slice(0,items.length).forEach(el=>{el.hidden=true});
