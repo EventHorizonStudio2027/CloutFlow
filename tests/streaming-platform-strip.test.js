@@ -9,6 +9,8 @@ assert.match(section,/<strong>Streaming<\/strong><span>Quick links to your creat
 for(const name of ['YouTube','Twitch','Kick','TikTok','Facebook','Instagram','Discord','Patreon','Ko-fi'])assert.ok(section.includes('>'+name+'</span>'),name+' shortcut missing');
 assert.equal((section.match(/<a href=/g)||[]).length,9);
 assert.match(section,/id="addStreamingPlatform"/);
+assert.match(section,/aria-controls="streamingAddForm" aria-expanded="false"/);
+assert.match(section,/Saved on this device\. Up to three custom shortcuts\./);
 assert.match(section,/id="streamingAddForm"/);
 assert.ok(!section.includes('streaming-platform-scroll'),'horizontal scroll wrapper removed');
 assert.match(css,/grid-template-columns:repeat\(10,minmax\(0,1fr\)\)/);
