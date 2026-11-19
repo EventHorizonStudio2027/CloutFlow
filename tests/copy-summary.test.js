@@ -14,7 +14,7 @@ function setup(fail=false){
  const doc={readyState:'complete',getElementById:id=>els[id]||null};
  const root={document:doc,navigator:{clipboard:{writeText:async value=>{if(fail)throw Error('permission');clipboardText=value}}}};
  vm.runInNewContext(source,{window:root});
- return {button,click:()=>handler(),get copied(){return clipboardText},summary:root.CloutFlowCopySummary.buildSummary};
+ return {button,period:els.period,click:()=>handler(),get copied(){return clipboardText},summary:root.CloutFlowCopySummary.buildSummary};
 }
 (async()=>{
  const ok=setup();const summary=ok.summary();
@@ -23,8 +23,7 @@ function setup(fail=false){
  assert.match(summary,/Gross earnings: \$120\.00/);
  assert.match(summary,/Awaiting payout: \$45\.00/);
  assert.doesNotMatch(summary,/EUR earnings/);
- await ok.click();assert.equal(ok.copied,summary);assert.equal(ok.button.textContent,'Copied!');assert.equal(ok.button.disabled,false);ok.summary();ok.button.textContent='Copied!';ok.summary();
- ok.summary();
+ await ok.click();assert.equal(ok.copied,summary);assert.equal(ok.button.textContent,'Copied!');assert.equal(ok.button.disabled,false);ok.period.selectedIndex=0;ok.period.onChange();assert.equal(ok.button.textContent,'Copy summary');assert.match(ok.summary(),/Period: This month/);
  const blocked=setup(true);await blocked.click();assert.equal(blocked.button.textContent,'Copy unavailable');assert.equal(blocked.button.disabled,false);
  console.log('Copy summary tests passed');
 })().catch(e=>{console.error(e);process.exitCode=1});
