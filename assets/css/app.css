@@ -407,3 +407,12 @@ body:has([role="dialog"][aria-modal="true"]) #growthPopup{display:none!important
 .streaming-platform-icons .streaming-add{border-style:dashed;border-color:#55738f;background:#182e43}
 .streaming-platform-icons .streaming-add:hover{border-color:#a2d2f4;background:#23405b}
 @media(max-width:800px){.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{min-height:61px;height:61px}}
+
+/* Compact single-row streaming dock: ten tiles across at every screen width. */
+.streaming-platform-icons{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:clamp(2px,.55vw,6px);width:100%;overflow:visible}
+.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{height:46px;min-height:46px;max-height:46px;padding:3px 1px;gap:2px;border-radius:7px}
+.streaming-platform-icons img,.streaming-platform-icons .streaming-icon-fallback{width:21px;height:21px;min-width:0;padding:1px}
+.streaming-platform-icons .streaming-plus,.streaming-custom-mark{width:21px;height:21px;font-size:20px;border-radius:5px}
+.streaming-platform-icons a span:last-child,.streaming-platform-icons button span:last-child{font-size:clamp(6px,.7vw,8px);letter-spacing:-.015em}
+@media(max-width:800px){.streaming-platform-icons{grid-template-columns:repeat(10,minmax(0,1fr));gap:3px}.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{height:43px;min-height:43px;max-height:43px}}
+@media(max-width:420px){.streaming-platform-strip{padding:7px 6px}.streaming-platform-icons{gap:2px}.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{height:39px;min-height:39px;max-height:39px;padding:2px 0;gap:1px;border-radius:5px}.streaming-platform-icons img,.streaming-platform-icons .streaming-icon-fallback,.streaming-platform-icons .streaming-plus,.streaming-custom-mark{width:17px;height:17px}.streaming-platform-icons .streaming-plus{font-size:17px}.streaming-platform-icons a span:last-child,.streaming-platform-icons button span:last-child{font-size:6px}}
