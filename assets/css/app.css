@@ -540,3 +540,8 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .streaming-add-form[data-at-capacity="true"] .streaming-storage-hint{display:none}
 .streaming-add-form[data-at-capacity="true"] .streaming-manage-list{margin-top:2px}
 .streaming-add-form[data-at-capacity="true"] .streaming-form-actions{justify-content:flex-end}
+
+/* Creator dock: clear, space-efficient capacity indicator. */
+.streaming-capacity-status{margin:2px 0 6px;color:#a9c3d9;font-size:11px;line-height:1.4;font-variant-numeric:tabular-nums}
+.streaming-add-form[data-at-capacity="true"] .streaming-capacity-status{color:#d8e8f5;font-weight:600}
+@media(max-width:420px){.streaming-capacity-status{font-size:10px;margin-bottom:4px}}
