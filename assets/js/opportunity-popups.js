@@ -39,6 +39,13 @@ function mount(doc,store){
  panel=doc.createElement('aside');panel.id='growthPopup';panel.className='growth-popup';panel.setAttribute('role','region');panel.setAttribute('aria-label','Creator income opportunity');panel.hidden=true;
  panel.innerHTML='<div class="growth-popup-head"><span class="growth-popup-eyebrow">✦ Growth idea for you</span><button type="button" class="growth-popup-close" aria-label="Dismiss this recommendation">×</button></div><h3 id="growthPopupTitle"></h3><p id="growthPopupWhy"></p><p id="growthPopupAction"></p><p class="growth-popup-caution" id="growthPopupCaution"></p><div class="growth-popup-actions"><button type="button" class="btn small" id="growthPopupLater">Not now</button><button type="button" class="btn primary small" id="growthPopupMore">Explore ideas</button></div><button type="button" class="growth-popup-optout" id="growthPopupOptout">Turn off automatic tips</button>';
  doc.body.appendChild(panel);
+ // A live dialog wins over optional tips; explicit display avoids competing legacy CSS.
+ const syncVisibility=()=>{if(panel.hidden){panel.style.removeProperty('display');return}panel.style.setProperty('display',hasActiveDialog(doc)?'none':'block','important')};
+ if(doc.defaultView&&doc.defaultView.MutationObserver){
+  const observer=new doc.defaultView.MutationObserver(syncVisibility);
+  observer.observe(doc.body,{subtree:true,attributes:true,attributeFilter:['class','hidden','open','aria-hidden']});
+ }
+ panel._syncVisibility=syncVisibility;
  const close=()=>{if(panel.hidden)return;panel.hidden=true;panel.style.removeProperty('display');if(panel._idea)snooze(panel._idea.id,store)};
  panel.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();close();}});
  panel.querySelector('.growth-popup-close').addEventListener('click',close);
@@ -66,7 +73,7 @@ function present(ideas,doc,store,options={}){
  panel.querySelector('#growthPopupWhy').textContent=item.why;
  panel.querySelector('#growthPopupAction').textContent='Try this: '+item.action;
  panel.querySelector('#growthPopupCaution').textContent='Before you start: '+item.caution;
- panel.hidden=false;panel.style.removeProperty('display');shownThisVisit=true;markShown(store,now);return true;
+ panel.hidden=false;panel._syncVisibility();shownThisVisit=true;markShown(store,now);return true;
 }
 function bindLauncher(doc){const pref=doc.getElementById('growthTipPreference');if(pref&&!pref.dataset.bound){pref.dataset.bound='1';const store=(()=>{try{return doc.defaultView.localStorage}catch{return null}})();const sync=()=>{const enabled=!store||!disabled(store);pref.textContent='Automatic tips: '+(enabled?'On':'Off');pref.setAttribute('aria-pressed',String(enabled))};pref.addEventListener('click',()=>{if(store)setEnabled(store,disabled(store));sync();const panel=doc.getElementById('growthPopup');if(panel&&!panel.hidden&&store&&disabled(store)){panel.hidden=true;panel.style.removeProperty('display')}});sync();}
  const btn=doc.getElementById('showGrowthIdeas');if(!btn||btn.dataset.bound)return;btn.dataset.bound='1';btn.addEventListener('click',()=>{const section=doc.getElementById('incomeOpportunitiesSection');if(!section)return;section.hidden=!section.hidden;btn.setAttribute('aria-expanded',String(!section.hidden));btn.textContent=section.hidden?'✦ Browse growth ideas':'− Hide growth ideas';if(!section.hidden)section.scrollIntoView({behavior:'smooth',block:'start'});});btn.setAttribute('aria-expanded','false')}
