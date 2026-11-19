@@ -15,6 +15,7 @@ function init(doc,store){
  const name=doc.getElementById('streamingNewName'),url=doc.getElementById('streamingNewUrl'),error=doc.getElementById('streamingAddError'),cancel=doc.getElementById('streamingAddCancel');
  const defaults=Array.from(grid.querySelectorAll('a'));
  const manage=doc.createElement('div');manage.className='streaming-manage-list';manage.setAttribute('aria-label','Your custom platform shortcuts');form.appendChild(manage);
+ form.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();form.hidden=true;add.focus()}});
  defaults.forEach(link=>{link.title=link.getAttribute('aria-label')||link.textContent.trim()});
  add.title='Add a creator platform shortcut';
  function render(){
