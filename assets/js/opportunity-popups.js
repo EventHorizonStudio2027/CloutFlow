@@ -47,7 +47,7 @@ function mount(doc,store){
  panel.querySelector('#growthPopupMore').addEventListener('click',()=>{panel.hidden=true;const section=doc.getElementById('incomeOpportunitiesSection');if(section){section.hidden=false;const launcher=doc.getElementById('showGrowthIdeas');if(launcher){launcher.setAttribute('aria-expanded','true');launcher.textContent='− Hide growth ideas'}section.scrollIntoView({behavior:'smooth',block:'start'});const title=doc.getElementById('incomeOpportunitiesTitle');if(title){title.setAttribute('tabindex','-1');title.focus({preventScroll:true})}}});
  return panel;
 }
-function hasActiveDialog(doc){return !!(doc&&doc.querySelector&&doc.querySelector('.modal-backdrop.show,dialog[open],[role="dialog"][aria-modal="true"]'))}
+function hasActiveDialog(doc){if(!doc||!doc.querySelectorAll)return false;return Array.from(doc.querySelectorAll('.modal-backdrop.show,dialog[open],[role="dialog"][aria-modal="true"]')).some(el=>{if(el.hidden||el.getAttribute('aria-hidden')==='true')return false;const view=doc.defaultView;const style=view&&view.getComputedStyle?view.getComputedStyle(el):null;return !style||(style.display!=='none'&&style.visibility!=='hidden')})}
 function present(ideas,doc,store,options={}){
  if(!doc||!store||!Array.isArray(ideas)||hasActiveDialog(doc)||(!options.force&&disabled(store)))return false;
  if(shownThisVisit&&!options.force)return false;
