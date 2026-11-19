@@ -562,3 +562,8 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 #importPreviewCount{max-width:420px;line-height:1.4;color:#b7c9de}
 #importPreviewModal .modal-actions-right .btn.primary{font-weight:750}
 @media(max-width:600px){#importPreviewCount{max-width:none;text-align:left}#importPreviewModal .modal-actions-right{grid-template-columns:minmax(0,1fr) minmax(0,1.3fr)}}
+
+/* CSV review: make the scrollable ledger preview visibly navigable by keyboard. */
+#importPreviewModal .table-wrap:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:8px}
+#importPreviewModal #importPreviewCount{font-variant-numeric:tabular-nums}
+@media(max-width:600px){#importPreviewModal .table-wrap{border:1px solid var(--line);border-radius:10px}#importPreviewModal .table-wrap table{margin:0}}
