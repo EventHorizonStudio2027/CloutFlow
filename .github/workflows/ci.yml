@@ -30,7 +30,11 @@ jobs:
   browser-regression:
     name: Chromium browser regression
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -54,5 +58,18 @@ jobs:
           CHROMIUM_PATH="$(python -c 'from playwright.sync_api import sync_playwright; p=sync_playwright().start(); print(p.chromium.executable_path); p.stop()')"
           test -x "$CHROMIUM_PATH"
           sudo ln -sf "$CHROMIUM_PATH" /usr/bin/chromium
-      - name: Run full browser regression suite
-        run: npm run test:browser
+      - name: Run Chromium regression shard ${{ matrix.shard }} of 4
+        env:
+          SHARD: ${{ matrix.shard }}
+        run: |
+          python - <<'PY'
+          import os, pathlib, subprocess, sys
+          tests=sorted(pathlib.Path('tests').glob('browser*.test.py'))
+          shard=int(os.environ['SHARD'])
+          chosen=tests[shard::4]
+          print(f'Chromium shard {shard}: {len(chosen)} of {len(tests)} test files',flush=True)
+          for test in chosen:
+              print(f'Running {test}',flush=True)
+              result=subprocess.run([sys.executable,str(test)])
+              if result.returncode: sys.exit(result.returncode)
+          PY
