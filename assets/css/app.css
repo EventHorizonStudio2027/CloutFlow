@@ -497,3 +497,7 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 /* Growth idea panel must remain legible over dashboard content at every breakpoint. */
 @media(max-width:520px){body .growth-popup:not([hidden]){width:calc(100vw - 20px);right:10px;left:auto;border-radius:12px}}
 @media(max-width:360px){.growth-popup-actions{gap:6px}.growth-popup-actions .btn{flex:1 1 auto}}
+
+/* Dialog editing: make the current field clear without visually enlarging forms. */
+#payoutModal input:focus-visible,#payoutModal select:focus-visible,#payoutModal textarea:focus-visible{outline:2px solid #93d6ff;outline-offset:1px;box-shadow:0 0 0 3px #93d6ff22}
+@media(prefers-reduced-motion:reduce){#payoutModal input,#payoutModal select,#payoutModal textarea{transition:none}}
