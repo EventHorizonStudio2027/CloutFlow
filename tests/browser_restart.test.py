@@ -4,7 +4,9 @@ from playwright.sync_api import sync_playwright
 ROOT=pathlib.Path(__file__).resolve().parent.parent
 HTML=(ROOT/'index.html').read_text().replace('<link rel="stylesheet" href="assets/css/app.css">','').replace('<script src="assets/js/currency-overview.js"></script>','').replace('<script src="assets/js/account-insights.js"></script>','').replace('<script src="assets/js/ledger-tools.js"></script>','').replace('<script src="assets/js/app.js"></script>','')
 CSS=(ROOT/'assets/css/app.css').read_text()
-JS=(ROOT/'assets/js/currency-overview.js').read_text()+'\n'+(ROOT/'assets/js/account-insights.js').read_text()+'\n'+(ROOT/'assets/js/ledger-tools.js').read_text()+'\n'+(ROOT/'assets/js/app.js').read_text()
+import re
+SCRIPTS=re.findall(r'<script src="assets/js/([^"]+)"></script>',(ROOT/'index.html').read_text())
+HTML=re.sub(r'<script src="assets/js/[^"]+"></script>','',HTML)
 
 def boot(browser, data=None):
     page=browser.new_page(viewport={'width':390,'height':844})
@@ -13,7 +15,8 @@ def boot(browser, data=None):
     page.set_content(HTML)
     page.add_style_tag(content=CSS)
     page.evaluate('''seed=>{window.__data={...seed};Object.defineProperty(window,'localStorage',{configurable:true,value:{getItem:k=>window.__data[k]??null,setItem:(k,v)=>window.__data[k]=String(v),removeItem:k=>delete window.__data[k]}})}''',data or {})
-    page.add_script_tag(content=JS)
+    for script in SCRIPTS:
+        page.add_script_tag(content=(ROOT/'assets/js'/script).read_text())
     assert not errors,errors
     return page,errors
 
