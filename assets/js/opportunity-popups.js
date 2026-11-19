@@ -66,7 +66,7 @@ function present(ideas,doc,store,options={}){
  panel.querySelector('#growthPopupWhy').textContent=item.why;
  panel.querySelector('#growthPopupAction').textContent='Try this: '+item.action;
  panel.querySelector('#growthPopupCaution').textContent='Before you start: '+item.caution;
- panel.hidden=false;panel.style.display='block';shownThisVisit=true;markShown(store,now);return true;
+ panel.hidden=false;panel.style.removeProperty('display');shownThisVisit=true;markShown(store,now);return true;
 }
 function bindLauncher(doc){const pref=doc.getElementById('growthTipPreference');if(pref&&!pref.dataset.bound){pref.dataset.bound='1';const store=(()=>{try{return doc.defaultView.localStorage}catch{return null}})();const sync=()=>{const enabled=!store||!disabled(store);pref.textContent='Automatic tips: '+(enabled?'On':'Off');pref.setAttribute('aria-pressed',String(enabled))};pref.addEventListener('click',()=>{if(store)setEnabled(store,disabled(store));sync();const panel=doc.getElementById('growthPopup');if(panel&&!panel.hidden&&store&&disabled(store)){panel.hidden=true;panel.style.removeProperty('display')}});sync();}
  const btn=doc.getElementById('showGrowthIdeas');if(!btn||btn.dataset.bound)return;btn.dataset.bound='1';btn.addEventListener('click',()=>{const section=doc.getElementById('incomeOpportunitiesSection');if(!section)return;section.hidden=!section.hidden;btn.setAttribute('aria-expanded',String(!section.hidden));btn.textContent=section.hidden?'✦ Browse growth ideas':'− Hide growth ideas';if(!section.hidden)section.scrollIntoView({behavior:'smooth',block:'start'});});btn.setAttribute('aria-expanded','false')}
