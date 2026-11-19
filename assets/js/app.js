@@ -470,9 +470,10 @@ function parseGooglePlayEarnings(text,account){
 }
 function preparePlatformImport(text){
  let incoming=$('importFormat').value==='apple'?parseAppleSalesTrends(text,$('importAccount').value):$('importFormat').value==='google'?parseGooglePlayEarnings(text,$('importAccount').value):parseYouTubeAnalytics(text,$('importAccount').value),existing=new Set(entries.map(e=>e.id)),fingerprints=new Set(entries.map(fingerprint));
- return incoming.map(entry=>{let fp=fingerprint(entry),duplicate=fingerprints.has(fp);fingerprints.add(fp);return {entry,duplicate}});
+ return incoming.map(entry=>{let fp=fingerprint(entry),duplicate=existing.has(entry.id)||fingerprints.has(fp);if(!duplicate){existing.add(entry.id);fingerprints.add(fp)}return {entry,duplicate}});
 }
 function showImportPreview(text){
+ pendingImport=null;
  let format=$('importFormat').value;let records=format==='ledger'?prepareCSVImport(text):preparePlatformImport(text);pendingImport=records;$('importSourceNote').style.display=format==='ledger'?'none':'block';$('importSourceNote').textContent=format==='youtube'?'YouTube Analytics amounts are estimated USD revenue, not final platform proceeds or paid deposits. The category is provisional because the report does not separate monetization types.':format==='google'?'Google Play: only positive Sale rows with explicitly reported merchant-currency amounts are supported. The import is classified as Other until the revenue type is verified. Refunds and adjustments are blocked, and imported sales are not bank deposits.':format==='apple'?'Apple Sales and Trends Developer Proceeds are reported sales proceeds, not confirmed deposits. Negative/refunded units and unsupported currencies are rejected. Unrecognized Apple product codes are labeled Other instead of guessed. This adapter does not support Apple financial settlement reports.':'CloutFlow transaction format.';
  let ready=records.filter(r=>!r.duplicate).length;
  $('importSummary').textContent=`${records.length} rows checked · ${ready} new · ${records.length-ready} duplicate(s) skipped. No changes have been made.`;
@@ -481,12 +482,14 @@ function showImportPreview(text){
  $('confirmImport').textContent=ready?`Import ${ready} new ${ready===1?'record':'records'}`:'No new records';
  $('importPreviewCount').textContent=records.length>30?`Showing first 30 of ${records.length} rows. All ${ready} new records will be imported if confirmed.`:`Showing all ${records.length} rows.`;
  $('importPreviewModal').classList.add('show');
+ $('cancelImport').focus({preventScroll:true});
 }
 function commitCSVImport(){
  if(!pendingImport)return;
  // Recheck against current data at commit time.
  let existing=new Set(entries.map(e=>e.id)),fingerprints=new Set(entries.map(fingerprint)),add=[];
  for(let r of pendingImport){let e=r.entry,f=fingerprint(e);if(existing.has(e.id)||fingerprints.has(f))continue;add.push(e);existing.add(e.id);fingerprints.add(f)}
+ if(!add.length){$('confirmImport').disabled=true;toast('No new transactions to import');return}
  let old=entries;entries=[...entries,...add];if(persist()){render();$('importPreviewModal').classList.remove('show');pendingImport=null;toast(`Imported ${add.length} new transactions`)}else entries=old;
 }
 function importCSV(text){showImportPreview(text)}
