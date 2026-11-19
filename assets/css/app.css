@@ -322,3 +322,7 @@ body:has([role="dialog"][aria-modal="true"]) #growthPopup{display:none!important
  .streaming-platform-heading span{min-width:0;overflow:hidden;text-overflow:ellipsis}
  .streaming-platform-scroll{overscroll-behavior-x:contain}
 }
+
+/* Ledger discovery polish: show clear focus without enlarging the compact toolbar. */
+#search:focus-visible,#ledgerSort:focus-visible,#clearSearch:focus-visible,#resetLedgerFilters:focus-visible{outline:2px solid #85c7ff;outline-offset:2px}
+#clearSearch:hover,#resetLedgerFilters:hover{filter:brightness(1.14)}
