@@ -47,8 +47,9 @@ function mount(doc,store){
  panel.querySelector('#growthPopupMore').addEventListener('click',()=>{panel.hidden=true;const section=doc.getElementById('incomeOpportunitiesSection');if(section){section.hidden=false;section.scrollIntoView({behavior:'smooth',block:'start'});const title=doc.getElementById('incomeOpportunitiesTitle');if(title){title.setAttribute('tabindex','-1');title.focus({preventScroll:true})}}});
  return panel;
 }
+function hasActiveDialog(doc){return !!(doc&&doc.querySelector&&doc.querySelector('.modal-backdrop.show,dialog[open],[role="dialog"][aria-modal="true"]'))}
 function present(ideas,doc,store,options={}){
- if(!doc||!store||!Array.isArray(ideas)||(!options.force&&disabled(store)))return false;
+ if(!doc||!store||!Array.isArray(ideas)||hasActiveDialog(doc)||(!options.force&&disabled(store)))return false;
  if(shownThisVisit&&!options.force)return false;
  const now=options.now??Date.now();
  const newPlatforms=detectNewPlatforms(ideas,store);
@@ -69,6 +70,6 @@ function present(ideas,doc,store,options={}){
 }
 function bindLauncher(doc){const pref=doc.getElementById('growthTipPreference');if(pref&&!pref.dataset.bound){pref.dataset.bound='1';const store=(()=>{try{return doc.defaultView.localStorage}catch{return null}})();const sync=()=>{const enabled=!store||!disabled(store);pref.textContent='Automatic tips: '+(enabled?'On':'Off');pref.setAttribute('aria-pressed',String(enabled))};pref.addEventListener('click',()=>{if(store)setEnabled(store,disabled(store));sync();const panel=doc.getElementById('growthPopup');if(panel&&!panel.hidden&&store&&disabled(store))panel.hidden=true});sync();}
  const btn=doc.getElementById('showGrowthIdeas');if(!btn||btn.dataset.bound)return;btn.dataset.bound='1';btn.addEventListener('click',()=>{const section=doc.getElementById('incomeOpportunitiesSection');if(!section)return;section.hidden=!section.hidden;btn.setAttribute('aria-expanded',String(!section.hidden));btn.textContent=section.hidden?'✦ Browse growth ideas':'− Hide growth ideas';if(!section.hidden)section.scrollIntoView({behavior:'smooth',block:'start'});});btn.setAttribute('aria-expanded','false')}
-const api={eligible,snooze,present,read,disabled,setEnabled,activity,detectNewPlatforms,recentlyShown,activityKey:ACTIVITY_KEY,milestoneKey:MILESTONE_KEY,milestoneTypes,detectMilestones,lastKey:LAST_KEY,cooldownMs:COOLDOWN_MS,preferenceKey:PREF_KEY,bindLauncher,resetSession:()=>{shownThisVisit=false},key:KEY};
+const api={eligible,snooze,present,hasActiveDialog,read,disabled,setEnabled,activity,detectNewPlatforms,recentlyShown,activityKey:ACTIVITY_KEY,milestoneKey:MILESTONE_KEY,milestoneTypes,detectMilestones,lastKey:LAST_KEY,cooldownMs:COOLDOWN_MS,preferenceKey:PREF_KEY,bindLauncher,resetSession:()=>{shownThisVisit=false},key:KEY};
 root.CloutFlowOpportunityPopups=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(typeof window!=='undefined'?window:globalThis);
