@@ -604,3 +604,7 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .global-search-result span{max-width:100%;line-height:1.4}
 .global-search-dialog{min-width:0}
 @media(prefers-reduced-motion:no-preference){.global-search-result{transition:background-color .14s ease,border-color .14s ease}}
+
+/* Universal search: keep the resting UI entirely out of layout and interaction. */
+.global-search-overlay[hidden] .global-search-dialog{visibility:hidden;pointer-events:none}
+.global-search-overlay:not([hidden]) .global-search-dialog{outline:1px solid #7396b84d}
