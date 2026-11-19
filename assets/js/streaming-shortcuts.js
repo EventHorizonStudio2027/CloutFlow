@@ -22,6 +22,7 @@ function init(doc,store){
   grid.querySelectorAll('[data-custom-streaming]').forEach(el=>el.remove());
   const items=read(store);
   manage.hidden=items.length===0;
+  manage.setAttribute('aria-label',items.length+' custom creator '+(items.length===1?'shortcut':'shortcuts')+' saved');
   manage.setAttribute('aria-live','polite');
   const replaceable=defaults.filter(el=>!['Open Discord','Open Patreon'].includes(el.getAttribute('aria-label'))).reverse();
   defaults.forEach(el=>{el.hidden=false});
@@ -33,11 +34,12 @@ function init(doc,store){
   }
   add.setAttribute('aria-label',items.length>=3?'Manage creator shortcuts':'Add a streaming platform');
   add.title=items.length>=3?'Manage your creator platform shortcuts':'Add a creator platform shortcut';
+  add.setAttribute('aria-expanded',String(!form.hidden));
   manage.replaceChildren();
   items.forEach(item=>{const row=doc.createElement('div');row.className='streaming-manage-item';const label=doc.createElement('span');label.textContent=item.name;const remove=doc.createElement('button');remove.type='button';remove.textContent='Remove';remove.setAttribute('aria-label','Remove '+item.name);remove.addEventListener('click',()=>{if(save(store,read(store).filter(x=>x.url!==item.url))){render();add.focus()}});row.append(label,remove);manage.appendChild(row)});
  }
- add.addEventListener('click',()=>{form.hidden=!form.hidden;error.textContent='';if(!form.hidden)name.focus()});
- cancel.addEventListener('click',()=>{form.hidden=true;add.focus()});
+ add.addEventListener('click',()=>{form.hidden=!form.hidden;add.setAttribute('aria-expanded',String(!form.hidden));error.textContent='';if(!form.hidden)name.focus()});
+ cancel.addEventListener('click',()=>{form.hidden=true;add.setAttribute('aria-expanded','false');add.focus()});
  form.addEventListener('submit',e=>{e.preventDefault();const item=normalize(name.value,url.value);if(!item){error.textContent='Enter a name and a secure https:// website URL.';return}const items=read(store);if(items.some(x=>x.url===item.url)||defaults.some(x=>x.href===item.url)){error.textContent='This shortcut already exists.';return}if(items.length>=3){error.textContent='Up to three custom shortcuts can be added.';return}if(!save(store,[...items,item])){error.textContent='Could not save this shortcut on this device.';return}error.textContent='';form.reset();form.hidden=true;render();add.focus()});
  render();
 }
