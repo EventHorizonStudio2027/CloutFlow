@@ -449,3 +449,7 @@ body:has([role="dialog"][aria-modal="true"]) #growthPopup{display:none!important
 .streaming-manage-item{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:5px 8px;border:1px solid #ffffff14;border-radius:7px;background:#ffffff07;color:#dbe8f7;font-size:11px}
 .streaming-manage-item button{border:1px solid #60758a;border-radius:6px;background:transparent;color:#dce9f5;padding:5px 9px;cursor:pointer;font:inherit}
 .streaming-manage-item button:hover,.streaming-manage-item button:focus-visible{border-color:#9ed1f3;background:#ffffff12}
+
+/* Growth tip visibility: explicit shown state for browser and accessibility checks. */
+.growth-popup:not([hidden]){display:block!important;visibility:visible;opacity:1}
+.growth-popup[hidden]{display:none!important}
