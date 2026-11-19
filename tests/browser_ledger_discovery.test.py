@@ -3,10 +3,12 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 root=Path(__file__).resolve().parent.parent
 html=(root/'index.html').read_text()
-for tag in ('<link rel="stylesheet" href="assets/css/app.css">','<script src="assets/js/currency-overview.js"></script>','<script src="assets/js/account-insights.js"></script>','<script src="assets/js/ledger-tools.js"></script>','<script src="assets/js/app.js"></script>','<script src="assets/js/accessibility.js"></script>','<script src="assets/js/mobile-navigation.js"></script>'):
-    html=html.replace(tag,'')
+import re
+names=re.findall(r'<script src="assets/js/([^"]+)"></script>',html)
+html=re.sub(r'<script src="assets/js/[^"]+"></script>','',html)
+html=html.replace('<link rel="stylesheet" href="assets/css/app.css">','')
 css=(root/'assets/css/app.css').read_text()
-scripts=[(root/f'assets/js/{name}').read_text() for name in ('currency-overview.js','account-insights.js','ledger-tools.js','app.js','accessibility.js','mobile-navigation.js')]
+scripts=[(root/'assets/js'/name).read_text() for name in names]
 with sync_playwright() as p:
     browser=p.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox'])
     for width in (320,390,768,1280):
