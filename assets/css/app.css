@@ -533,3 +533,10 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .streaming-manage-item{box-shadow:inset 0 1px 0 #ffffff08}
 .streaming-manage-item button:active{transform:translateY(1px)}
 @media(prefers-reduced-motion:reduce){.streaming-manage-item button:active{transform:none}}
+
+/* Shortcut capacity: show management controls instead of an unusable add form. */
+.streaming-add-form[data-at-capacity="true"] label[for="streamingNewName"],
+.streaming-add-form[data-at-capacity="true"] label[for="streamingNewUrl"],
+.streaming-add-form[data-at-capacity="true"] .streaming-storage-hint{display:none}
+.streaming-add-form[data-at-capacity="true"] .streaming-manage-list{margin-top:2px}
+.streaming-add-form[data-at-capacity="true"] .streaming-form-actions{justify-content:flex-end}
