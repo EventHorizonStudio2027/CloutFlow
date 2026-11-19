@@ -506,3 +506,9 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .streaming-add-form input{min-width:0}
 .streaming-manage-item span{min-width:0;overflow-wrap:anywhere}
 @media(max-width:420px){.streaming-manage-item{gap:5px}.streaming-manage-item button{flex:0 0 auto}.streaming-add-form input{font-size:16px}}
+
+/* Creator shortcuts: readable, uncluttered editing affordances on touch devices. */
+.streaming-manage-item button{transition:background-color .15s ease,border-color .15s ease}
+@media(hover:hover){.streaming-manage-item button:hover{background:#a9d8ff1a;border-color:#a9d8ff}}
+@media(max-width:420px){.streaming-manage-item button{min-height:36px;padding:6px 10px}.streaming-manage-item span{line-height:1.35}}
+@media(prefers-reduced-motion:reduce){.streaming-manage-item button{transition:none}}
