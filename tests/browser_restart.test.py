@@ -2,7 +2,7 @@
 import pathlib
 from playwright.sync_api import sync_playwright
 ROOT=pathlib.Path(__file__).resolve().parent.parent
-HTML=(ROOT/'index.html').read_text().replace('<link rel="stylesheet" href="assets/css/app.css">','').replace('<script src="assets/js/currency-overview.js"></script>','<script src="assets/js/account-insights.js"></script>','').replace('<script src="assets/js/account-insights.js"></script>','').replace('<script src="assets/js/ledger-tools.js"></script>','').replace('<script src="assets/js/app.js"></script>','')
+HTML=(ROOT/'index.html').read_text().replace('<link rel="stylesheet" href="assets/css/app.css">','').replace('<script src="assets/js/currency-overview.js"></script>','').replace('<script src="assets/js/account-insights.js"></script>','').replace('<script src="assets/js/ledger-tools.js"></script>','').replace('<script src="assets/js/app.js"></script>','')
 CSS=(ROOT/'assets/css/app.css').read_text()
 JS=(ROOT/'assets/js/currency-overview.js').read_text()+'\n'+(ROOT/'assets/js/account-insights.js').read_text()+'\n'+(ROOT/'assets/js/ledger-tools.js').read_text()+'\n'+(ROOT/'assets/js/app.js').read_text()
 
