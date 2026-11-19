@@ -493,3 +493,7 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 
 /* Mobile growth cards: keep the action visible above bottom navigation. */
 @media(max-width:420px){.growth-popup:not([hidden]){max-height:min(48vh,420px);overflow-y:auto}.growth-popup-actions .btn{min-height:36px}}
+
+/* Growth idea panel must remain legible over dashboard content at every breakpoint. */
+@media(max-width:520px){body .growth-popup:not([hidden]){width:calc(100vw - 20px);right:10px;left:auto;border-radius:12px}}
+@media(max-width:360px){.growth-popup-actions{gap:6px}.growth-popup-actions .btn{flex:1 1 auto}}
