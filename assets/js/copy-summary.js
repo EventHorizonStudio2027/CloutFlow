@@ -28,6 +28,8 @@
  }
  function init(){
   const button=doc.getElementById('copySummary');if(!button)return;
+  const period=doc.getElementById('period');
+  if(period)period.addEventListener('change',()=>{button.textContent='Copy summary';});
   button.addEventListener('click',async function(){
    if(button.disabled)return;button.disabled=true;
    try{
