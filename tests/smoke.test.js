@@ -14,6 +14,10 @@ assert.match(html,/id="importPreviewModal"[\s\S]*?role="region" aria-label="CSV 
 assert.match(html,/id="importPreviewCount" role="status" aria-live="polite"/);
 assert.match(js,/Showing first 30 of/);
 assert.match(js,/Import \$\{ready\} new/);
+assert.match(js,/duplicate=existing\.has\(entry\.id\)\|\|fingerprints\.has\(fp\)/);
+assert.match(js,/if\(!add\.length\)\{/);
+assert.match(js,/pendingImport=null;\s*let format=/);
+assert.match(js,/\$\('cancelImport'\)\.focus\(\{preventScroll:true\}\)/);
 assert.match(css,/#importPreviewModal \.modal-actions-right\{display:grid;grid-template-columns:1fr 1fr/);
 new Function(js);
 const ids=new Set([...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]));
