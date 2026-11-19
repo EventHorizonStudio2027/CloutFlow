@@ -490,3 +490,6 @@ body:not(:has(.modal-backdrop.show:not([hidden]))):not(:has(dialog[open])) .grow
 body:not(:has(.modal-backdrop.show)):not(:has(dialog[open])) .growth-popup:not([hidden]){display:block!important;visibility:visible!important;pointer-events:auto}
 body:has(.modal-backdrop.show) .growth-popup,
 body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!important;pointer-events:none!important}
+
+/* Mobile growth cards: keep the action visible above bottom navigation. */
+@media(max-width:420px){.growth-popup:not([hidden]){max-height:min(48vh,420px);overflow-y:auto}.growth-popup-actions .btn{min-height:36px}}
