@@ -24,3 +24,10 @@ const memory={};const store={getItem:k=>memory[k]??null,setItem:(k,v)=>memory[k]
 assert.equal(custom.save(store,[{name:'Example',url:'https://example.com/'}]),true);
 assert.deepEqual(custom.read(store),[{name:'Example',url:'https://example.com/'}]);
 console.log('Streaming grid: 9 brand icons, add tile, responsive layout and safe custom URL checks passed');
+
+// The latest responsive override must retain a single ten-column row and half-width centered frames.
+const compact=css.slice(css.lastIndexOf('/* Compact single-row streaming dock:'));
+assert.match(compact,/grid-template-columns:repeat\(10,minmax\(0,1fr\)\)/);
+const narrow=css.slice(css.lastIndexOf('/* Narrow individual streaming icon frames'));
+assert.match(narrow,/width:50%;justify-self:center/);
+assert.ok(!narrow.includes('repeat(5,'),'never wrap the ten streaming icons into two rows');
