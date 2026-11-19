@@ -3,9 +3,10 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 root=Path(__file__).resolve().parent.parent
 html=(root/'index.html').read_text()
-names=('platform-rankings.js','account-rankings.js','account-growth.js','period-comparison.js','revenue-trends.js','currency-overview.js','account-insights.js','ledger-tools.js','app.js','accessibility.js','mobile-navigation.js')
+import re
+names=re.findall(r'<script src="assets/js/([^"]+)"></script>',html)
 html=html.replace('<link rel="stylesheet" href="assets/css/app.css">','')
-for name in names: html=html.replace(f'<script src="assets/js/{name}"></script>','')
+html=re.sub(r'<script src="assets/js/[^"]+"></script>','',html)
 css=(root/'assets/css/app.css').read_text()
 with sync_playwright() as p:
  browser=p.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox'])
