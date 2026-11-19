@@ -3,10 +3,11 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 root=Path(__file__).resolve().parent.parent
 html=(root/'index.html').read_text()
-html=html.replace('<link rel="stylesheet" href="assets/css/app.css">','').replace('<script src="assets/js/currency-overview.js"></script>','<script src="assets/js/account-insights.js"></script>','').replace('<script src="assets/js/account-insights.js"></script>','').replace('<script src="assets/js/ledger-tools.js"></script>','').replace('<script src="assets/js/app.js"></script>','').replace('<script src="assets/js/accessibility.js"></script>','')
+import re
+html=html.replace('<link rel="stylesheet" href="assets/css/app.css">','')
+scripts=re.findall(r'<script src="assets/js/([^"]+)"></script>',html)
+html=re.sub(r'<script src="assets/js/[^"]+"></script>','',html)
 css=(root/'assets/css/app.css').read_text()
-js=(root/'assets/js/currency-overview.js').read_text()+'\n'+(root/'assets/js/account-insights.js').read_text()+'\n'+(root/'assets/js/ledger-tools.js').read_text()+'\n'+(root/'assets/js/app.js').read_text()
-a11y=(root/'assets/js/accessibility.js').read_text()
 with sync_playwright() as p:
  browser=p.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox'])
  for width in (320,390,768,1280):
@@ -16,8 +17,8 @@ with sync_playwright() as p:
   page.set_content(html)
   page.add_style_tag(content=css)
   page.evaluate("""() => {const data={};Object.defineProperty(window,'localStorage',{configurable:true,value:{getItem:k=>data[k]??null,setItem:(k,v)=>data[k]=String(v),removeItem:k=>delete data[k]}})}""")
-  page.add_script_tag(content=js)
-  page.add_script_tag(content=a11y)
+  for script in scripts:
+   page.add_script_tag(content=(root/'assets/js'/script).read_text())
   assert page.locator('.skip-link').get_attribute('href')=='#mainContent'
   assert page.locator('#gross').evaluate('(el)=>el.labels.length')>=1
   page.locator('#addBtn').click()
