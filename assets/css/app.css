@@ -369,3 +369,9 @@ body:has([role="dialog"][aria-modal="true"]) #growthPopup{display:none!important
 #showGrowthIdeas:hover{background:linear-gradient(135deg,#2a4966,#203a54);border-color:#7193b6}
 #showGrowthIdeas:focus-visible{outline:2px solid #85c7ff;outline-offset:3px}
 @media(max-width:600px){.opportunity-launch{justify-content:stretch}#showGrowthIdeas{width:100%;min-height:38px}}
+
+/* Keep optional Growth Ideas controls visually synchronized with their open state. */
+#showGrowthIdeas[aria-expanded="true"]{background:#244661;border-color:#658eb0;color:#f2f9ff}
+#showGrowthIdeas[aria-expanded="true"]:hover{background:#2b5272}
+#showGrowthIdeas{transition:background .15s,border-color .15s,color .15s}
+@media(prefers-reduced-motion:reduce){#showGrowthIdeas{transition:none}}
