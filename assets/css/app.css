@@ -512,3 +512,8 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 @media(hover:hover){.streaming-manage-item button:hover{background:#a9d8ff1a;border-color:#a9d8ff}}
 @media(max-width:420px){.streaming-manage-item button{min-height:36px;padding:6px 10px}.streaming-manage-item span{line-height:1.35}}
 @media(prefers-reduced-motion:reduce){.streaming-manage-item button{transition:none}}
+
+/* Shortcut editor: compact controls with visible focus and no accidental clipping. */
+.streaming-add-form:not([hidden]){overflow:visible}
+.streaming-manage-item button:focus-visible,.streaming-platform-icons button.streaming-add[aria-expanded="true"]{outline:2px solid #9bd6ff;outline-offset:2px}
+@media(max-width:420px){.streaming-manage-item{border-radius:8px}.streaming-manage-item span{flex:1 1 auto}}
