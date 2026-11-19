@@ -6,7 +6,7 @@ function normalize(name,url){
  if(!label||/[\u0000-\u001f\u007f]/.test(label))return null;
  try{const raw=String(url||'').trim();if(raw.length>2048||/[\u0000-\u001f\u007f]/.test(raw))return null;const parsed=new URL(raw);if(parsed.protocol!=='https:'||!parsed.hostname||parsed.username||parsed.password)return null;return {name:label,url:parsed.href}}catch{return null}
 }
-function read(store){try{const data=JSON.parse(store.getItem(KEY)||'[]');return Array.isArray(data)?data.slice(0,3).map(x=>normalize(x?.name,x?.url)).filter(Boolean):[]}catch{return []}}
+function read(store){try{const data=JSON.parse(store.getItem(KEY)||'[]');return Array.isArray(data)?data.slice(0,3).map(x=>normalize(x?.name,x?.url)).filter(Boolean).filter((x,i,a)=>a.findIndex(y=>y.url===x.url)===i):[]}catch{return []}}
 function save(store,items){try{if(!Array.isArray(items)||items.length>3)return false;const valid=items.map(x=>normalize(x?.name,x?.url));if(valid.some(x=>!x)||new Set(valid.map(x=>x.url)).size!==valid.length)return false;store.setItem(KEY,JSON.stringify(valid));return true}catch{return false}}
 function init(doc,store){
  const grid=doc.getElementById('streamingPlatformIcons'),add=doc.getElementById('addStreamingPlatform'),form=doc.getElementById('streamingAddForm');
