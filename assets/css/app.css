@@ -362,3 +362,10 @@ body:has([role="dialog"][aria-modal="true"]) #growthPopup{display:none!important
 .streaming-platform-scroll{mask-image:linear-gradient(to right,#000 0%,#000 calc(100% - 16px),transparent 100%);-webkit-mask-image:linear-gradient(to right,#000 0%,#000 calc(100% - 16px),transparent 100%)}
 .streaming-platform-icons a:active{transform:translateY(0);background:#ffffff1e}
 @media(hover:none){.streaming-platform-icons a:hover{transform:none}}
+
+/* Growth ideas are optional: make their entry point easy to discover, not distracting. */
+.opportunity-launch{margin:8px 0 12px}
+#showGrowthIdeas{border:1px solid #42617d;background:linear-gradient(135deg,#203750,#182c42);color:#dcecff;border-radius:9px;min-height:34px;padding:7px 12px;font-size:11px;font-weight:750;letter-spacing:.01em;box-shadow:inset 0 1px #ffffff12}
+#showGrowthIdeas:hover{background:linear-gradient(135deg,#2a4966,#203a54);border-color:#7193b6}
+#showGrowthIdeas:focus-visible{outline:2px solid #85c7ff;outline-offset:3px}
+@media(max-width:600px){.opportunity-launch{justify-content:stretch}#showGrowthIdeas{width:100%;min-height:38px}}
