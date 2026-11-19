@@ -400,3 +400,10 @@ body:has([role="dialog"][aria-modal="true"]) #growthPopup{display:none!important
 @media(max-width:800px){.streaming-platform-strip{display:block;padding:9px}.streaming-platform-heading{width:auto;max-width:none;display:flex;flex-direction:row;gap:7px;margin-bottom:8px}.streaming-platform-heading span{max-width:none;white-space:normal}.streaming-platform-icons{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{height:57px;min-height:57px}}
 @media(max-width:380px){.streaming-platform-heading{max-width:100%}.streaming-platform-heading span{font-size:10px}.streaming-platform-icons{gap:4px}.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{padding:4px 1px}.streaming-platform-icons a span:last-child{font-size:8px}}
 @media(max-width:420px){.streaming-add-form{grid-template-columns:1fr}}
+
+/* Streaming shortcuts: responsive icon tiles with consistent tap targets and labels. */
+.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{font-family:inherit;line-height:1.15}
+.streaming-platform-icons a:focus-visible{outline:2px solid #85c7ff;outline-offset:2px}
+.streaming-platform-icons .streaming-add{border-style:dashed;border-color:#55738f;background:#182e43}
+.streaming-platform-icons .streaming-add:hover{border-color:#a2d2f4;background:#23405b}
+@media(max-width:800px){.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{min-height:61px;height:61px}}
