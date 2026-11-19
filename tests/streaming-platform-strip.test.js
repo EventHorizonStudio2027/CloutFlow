@@ -23,6 +23,9 @@ assert.deepEqual(custom.normalize(' Example ','https://example.com/'),{name:'Exa
 const memory={};const store={getItem:k=>memory[k]??null,setItem:(k,v)=>memory[k]=v};
 assert.equal(custom.save(store,[{name:'Example',url:'https://example.com/'}]),true);
 assert.deepEqual(custom.read(store),[{name:'Example',url:'https://example.com/'}]);
+assert.equal(custom.save(store,[{name:'Bad',url:'javascript:alert(1)'}]),false);
+assert.equal(custom.save(store,[{name:'A',url:'https://example.org'},{name:'B',url:'https://example.org'}]),false);
+assert.deepEqual(custom.read(store),[{name:'Example',url:'https://example.com/'}]);
 console.log('Streaming grid: 9 brand icons, add tile, responsive layout and safe custom URL checks passed');
 
 // Current dock must stay a single centered flex row with slim shell and larger brand marks.
