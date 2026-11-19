@@ -32,6 +32,10 @@ store.setItem(custom.key,JSON.stringify([null,{name:'Recovered',url:'https://exa
 assert.deepEqual(custom.read(store),[{name:'Recovered',url:'https://example.net/'}]);
 store.setItem(custom.key,JSON.stringify([{name:'Example',url:'https://example.com/'}]));
 assert.equal(custom.save(store,[{name:'A',url:'https://example.org'},{name:'B',url:'https://example.org'}]),false);
+assert.equal(custom.save(store,[{name:'Same',url:'https://one.example'},{name:'same',url:'https://two.example'}]),false);
+store.setItem(custom.key,JSON.stringify([{name:'One',url:'https://one.example'},{name:'Again',url:'https://one.example'}]));
+assert.deepEqual(custom.read(store),[{name:'One',url:'https://one.example/'}]);
+store.setItem(custom.key,JSON.stringify([{name:'Example',url:'https://example.com/'}]));
 assert.deepEqual(custom.read(store),[{name:'Example',url:'https://example.com/'}]);
 console.log('Streaming grid: 9 brand icons, add tile, responsive layout and safe custom URL checks passed');
 
