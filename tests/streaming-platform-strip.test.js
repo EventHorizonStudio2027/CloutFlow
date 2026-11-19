@@ -17,6 +17,8 @@ assert.match(css,/grid-template-columns:repeat\(10,minmax\(0,1fr\)\)/);
 assert.match(css,/\/\* Streaming dock refinement:[\s\S]*display:flex;justify-content:center/);
 for(const slug of ['youtube','twitch','kick','tiktok','facebook','instagram','discord','patreon','kofi'])assert.ok(fs.readFileSync('assets/icons/'+slug+'.svg','utf8').includes('<svg'),slug+' local SVG missing');
 assert.ok(html.includes('assets/js/streaming-shortcuts.js'));
+assert.match(css,/\.streaming-add-form\[data-at-capacity="true"\]/);
+assert.match(fs.readFileSync('assets/js/streaming-shortcuts.js','utf8'),/function syncCapacity\(\)/);
 const custom=require('../assets/js/streaming-shortcuts.js');
 assert.equal(custom.normalize('Example','javascript:alert(1)'),null);
 assert.equal(custom.normalize('Example','http://example.com'),null);
