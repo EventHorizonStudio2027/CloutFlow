@@ -34,7 +34,7 @@ function init(doc,store){
   add.setAttribute('aria-label',items.length>=3?'Manage creator shortcuts':'Add a streaming platform');
   add.title=items.length>=3?'Manage your creator platform shortcuts':'Add a creator platform shortcut';
   manage.replaceChildren();
-  items.forEach(item=>{const row=doc.createElement('div');row.className='streaming-manage-item';const label=doc.createElement('span');label.textContent=item.name;const remove=doc.createElement('button');remove.type='button';remove.textContent='Remove';remove.setAttribute('aria-label','Remove '+item.name);remove.addEventListener('click',()=>{if(save(store,read(store).filter(x=>x.url!==item.url)))render()});row.append(label,remove);manage.appendChild(row)});
+  items.forEach(item=>{const row=doc.createElement('div');row.className='streaming-manage-item';const label=doc.createElement('span');label.textContent=item.name;const remove=doc.createElement('button');remove.type='button';remove.textContent='Remove';remove.setAttribute('aria-label','Remove '+item.name);remove.addEventListener('click',()=>{if(save(store,read(store).filter(x=>x.url!==item.url))){render();add.focus()}});row.append(label,remove);manage.appendChild(row)});
  }
  add.addEventListener('click',()=>{form.hidden=!form.hidden;error.textContent='';if(!form.hidden)name.focus()});
  cancel.addEventListener('click',()=>{form.hidden=true;add.focus()});
