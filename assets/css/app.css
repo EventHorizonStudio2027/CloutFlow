@@ -357,3 +357,8 @@ body:has([role="dialog"][aria-modal="true"]) #growthPopup{display:none!important
 @media(max-width:800px){.streaming-platform-strip{flex-wrap:nowrap;gap:9px;padding:7px 8px}.streaming-platform-heading{width:auto;min-width:70px;max-width:82px;overflow:visible}.streaming-platform-heading span{max-width:82px;overflow:hidden;text-overflow:ellipsis}.streaming-platform-scroll{width:auto}.streaming-platform-icons a{width:53px;min-width:53px;flex-basis:53px;height:56px;min-height:56px}}
 @media(max-width:380px){.streaming-platform-heading{min-width:63px;max-width:63px}.streaming-platform-heading span{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.streaming-platform-icons a{transition:none;transform:none!important}}
+
+/* Streamlined shortcut rail: a subtle end fade indicates more brands are available. */
+.streaming-platform-scroll{mask-image:linear-gradient(to right,#000 0%,#000 calc(100% - 16px),transparent 100%);-webkit-mask-image:linear-gradient(to right,#000 0%,#000 calc(100% - 16px),transparent 100%)}
+.streaming-platform-icons a:active{transform:translateY(0);background:#ffffff1e}
+@media(hover:none){.streaming-platform-icons a:hover{transform:none}}
