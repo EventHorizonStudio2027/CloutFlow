@@ -19,7 +19,9 @@ function init(doc,store){
  function render(){
   grid.querySelectorAll('[data-custom-streaming]').forEach(el=>el.remove());
   const items=read(store);
-  defaults.forEach((el,i)=>{el.hidden=i>=9-items.length});
+  const replaceable=defaults.filter(el=>!['Open Discord','Open Patreon'].includes(el.getAttribute('aria-label'))).reverse();
+  defaults.forEach(el=>{el.hidden=false});
+  replaceable.slice(0,items.length).forEach(el=>{el.hidden=true});
   for(const item of items){
    const a=doc.createElement('a');a.href=item.url;a.target='_blank';a.rel='noopener noreferrer';a.setAttribute('aria-label','Open '+item.name);a.title='Open '+item.name;a.dataset.customStreaming='1';
    const mark=doc.createElement('span');mark.className='streaming-custom-mark';mark.textContent=item.name.slice(0,1).toUpperCase();
