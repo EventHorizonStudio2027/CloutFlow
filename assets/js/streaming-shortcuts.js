@@ -38,7 +38,7 @@ function init(doc,store){
  }
  add.addEventListener('click',()=>{form.hidden=!form.hidden;error.textContent='';if(!form.hidden)name.focus()});
  cancel.addEventListener('click',()=>{form.hidden=true;add.focus()});
- form.addEventListener('submit',e=>{e.preventDefault();const item=normalize(name.value,url.value);if(!item){error.textContent='Enter a name and a secure https:// website URL.';return}const items=read(store);if(items.some(x=>x.url===item.url)||defaults.some(x=>x.href===item.url)){error.textContent='This shortcut already exists.';return}if(items.length>=3){error.textContent='Up to three custom shortcuts can be added.';return}if(!save(store,[...items,item])){error.textContent='Could not save this shortcut on this device.';return}form.reset();form.hidden=true;render();add.focus()});
+ form.addEventListener('submit',e=>{e.preventDefault();const item=normalize(name.value,url.value);if(!item){error.textContent='Enter a name and a secure https:// website URL.';return}const items=read(store);if(items.some(x=>x.url===item.url)||defaults.some(x=>x.href===item.url)){error.textContent='This shortcut already exists.';return}if(items.length>=3){error.textContent='Up to three custom shortcuts can be added.';return}if(!save(store,[...items,item])){error.textContent='Could not save this shortcut on this device.';return}error.textContent='';form.reset();form.hidden=true;render();add.focus()});
  render();
 }
 const api={normalize,read,save,init,key:KEY};
