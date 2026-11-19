@@ -313,3 +313,12 @@ body:has([role="dialog"][aria-modal="true"]) #growthPopup{display:none!important
 @media(prefers-reduced-motion:reduce){
  .growth-popup,.back-to-top,.streaming-platform-icons a,.density-toggle{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
+
+/* Mobile layout: keep the viewport stable while individual platform shortcuts scroll. */
+@media(max-width:800px){
+ html,body{max-width:100%;overflow-x:clip}
+ .streaming-platform-strip,.streaming-platform-scroll{max-width:100%;min-width:0}
+ .streaming-platform-heading{min-width:0;max-width:100%;overflow:hidden}
+ .streaming-platform-heading span{min-width:0;overflow:hidden;text-overflow:ellipsis}
+ .streaming-platform-scroll{overscroll-behavior-x:contain}
+}
