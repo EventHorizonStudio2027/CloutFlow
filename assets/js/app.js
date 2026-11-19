@@ -489,8 +489,8 @@ function commitCSVImport(){
  // Recheck against current data at commit time.
  let existing=new Set(entries.map(e=>e.id)),fingerprints=new Set(entries.map(fingerprint)),add=[];
  for(let r of pendingImport){let e=r.entry,f=fingerprint(e);if(existing.has(e.id)||fingerprints.has(f))continue;add.push(e);existing.add(e.id);fingerprints.add(f)}
- if(!add.length){$('confirmImport').disabled=true;toast('No new transactions to import');return}
- let old=entries;entries=[...entries,...add];if(persist()){render();$('importPreviewModal').classList.remove('show');pendingImport=null;toast(`Imported ${add.length} new transactions`)}else entries=old;
+ if(!add.length){$('confirmImport').disabled=true;$('importSummary').textContent='No new transactions remain to import. Existing entries were not changed.';$('importPreviewCount').textContent='All candidate rows are now duplicates. Cancel to close this review.';toast('No new transactions to import');return}
+ let old=entries;entries=[...entries,...add];if(persist()){render();$('importPreviewModal').classList.remove('show');pendingImport=null;toast(`Imported ${add.length} new transactions`);$('importBtn').focus({preventScroll:true})}else{entries=old;$('importSummary').textContent='Import was not saved. Your existing records are unchanged. Check available storage and retry.';toast('Import could not be saved')}
 }
 function importCSV(text){showImportPreview(text)}
 function fingerprint(e){return e.reference.trim()?['reference',e.platform,e.account,e.currency,e.reference.trim().toLowerCase()].join('|'):['record',e.channel,e.platform,e.account,e.incomeType,e.currency,e.gross,e.fees,e.refunds,e.tax,e.earnedDate,e.description].join('|')}
