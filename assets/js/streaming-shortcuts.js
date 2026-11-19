@@ -22,6 +22,7 @@ function init(doc,store){
   grid.querySelectorAll('[data-custom-streaming]').forEach(el=>el.remove());
   const items=read(store);
   manage.hidden=items.length===0;
+  manage.setAttribute('aria-live','polite');
   const replaceable=defaults.filter(el=>!['Open Discord','Open Patreon'].includes(el.getAttribute('aria-label'))).reverse();
   defaults.forEach(el=>{el.hidden=false});
   replaceable.slice(0,items.length).forEach(el=>{el.hidden=true});
@@ -31,6 +32,7 @@ function init(doc,store){
    const label=doc.createElement('span');label.textContent=item.name;a.append(mark,label);grid.insertBefore(a,add);
   }
   add.setAttribute('aria-label',items.length>=3?'Manage creator shortcuts':'Add a streaming platform');
+  add.title=items.length>=3?'Manage your creator platform shortcuts':'Add a creator platform shortcut';
   manage.replaceChildren();
   items.forEach(item=>{const row=doc.createElement('div');row.className='streaming-manage-item';const label=doc.createElement('span');label.textContent=item.name;const remove=doc.createElement('button');remove.type='button';remove.textContent='Remove';remove.setAttribute('aria-label','Remove '+item.name);remove.addEventListener('click',()=>{if(save(store,read(store).filter(x=>x.url!==item.url)))render()});row.append(label,remove);manage.appendChild(row)});
  }
