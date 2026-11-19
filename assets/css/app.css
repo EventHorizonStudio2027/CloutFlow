@@ -545,3 +545,15 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .streaming-capacity-status{margin:2px 0 6px;color:#a9c3d9;font-size:11px;line-height:1.4;font-variant-numeric:tabular-nums}
 .streaming-add-form[data-at-capacity="true"] .streaming-capacity-status{color:#d8e8f5;font-weight:600}
 @media(max-width:420px){.streaming-capacity-status{font-size:10px;margin-bottom:4px}}
+
+/* CSV import review: prioritize clear, touch-friendly confirmation controls. */
+#importPreviewModal .modal-actions{gap:12px;align-items:center}
+#importPreviewModal .modal-actions-right{gap:10px}
+#importPreviewModal .modal-actions-right .btn{min-height:44px}
+#importPreviewModal .table-wrap{scrollbar-gutter:stable;overscroll-behavior-x:contain}
+@media(max-width:600px){
+ #importPreviewModal .modal-actions{align-items:stretch;gap:8px}
+ #importPreviewModal .modal-actions-right{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+ #importPreviewModal .modal-actions-right .btn{width:100%;padding:11px 8px}
+ #importPreviewModal .modal-actions>.hint{text-align:center;font-size:11px}
+}
