@@ -27,6 +27,10 @@ const memory={};const store={getItem:k=>memory[k]??null,setItem:(k,v)=>memory[k]
 assert.equal(custom.save(store,[{name:'Example',url:'https://example.com/'}]),true);
 assert.deepEqual(custom.read(store),[{name:'Example',url:'https://example.com/'}]);
 assert.equal(custom.save(store,[{name:'Bad',url:'javascript:alert(1)'}]),false);
+assert.equal(custom.save(store,[1,2,3,4].map(n=>({name:'Platform '+n,url:'https://example'+n+'.com'}))),false);
+store.setItem(custom.key,JSON.stringify([null,{name:'Recovered',url:'https://example.net'}]));
+assert.deepEqual(custom.read(store),[{name:'Recovered',url:'https://example.net/'}]);
+store.setItem(custom.key,JSON.stringify([{name:'Example',url:'https://example.com/'}]));
 assert.equal(custom.save(store,[{name:'A',url:'https://example.org'},{name:'B',url:'https://example.org'}]),false);
 assert.deepEqual(custom.read(store),[{name:'Example',url:'https://example.com/'}]);
 console.log('Streaming grid: 9 brand icons, add tile, responsive layout and safe custom URL checks passed');
