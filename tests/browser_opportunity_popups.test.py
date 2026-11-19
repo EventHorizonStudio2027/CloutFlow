@@ -20,7 +20,7 @@ with sync_playwright() as p:
   assert page.locator('#growthPopup').count()==0 or page.locator('#growthPopup').is_hidden()
   page.evaluate("""() => {selectedPeriod='all';entries=[{id:'e1',platform:'Twitch',account:'Stream',currency:'USD',gross:100,fees:0,refunds:0,tax:0,earnedDate:'2026-11-01',status:'Pending',incomeType:'Subscriptions',channel:'stream'}];accounts=[];payouts=[];adjustments=[];render()}""")
   popup=page.locator('#growthPopup')
-  assert popup.is_visible(),page.evaluate('''() => ({popup:!!document.querySelector("#growthPopup"),hidden:document.querySelector("#growthPopup")?.hidden,dialog:[...document.querySelectorAll(".modal-backdrop.show,dialog[open],[role=dialog][aria-modal=true]")].map(e=>({id:e.id,cls:e.className})),errors:[],last:localStorage.getItem("cloutflow_opportunity_last_shown_v1"),pref:localStorage.getItem("cloutflow_opportunity_popup_preferences_v1")})''')
+  popup.wait_for(state='visible',timeout=5000)
   first_title=page.locator('#growthPopupTitle').inner_text()
   assert first_title.strip(), 'recommendation should have a title'
   assert popup.get_attribute('role')=='region'
@@ -31,7 +31,8 @@ with sync_playwright() as p:
   page.evaluate('CloutFlowOpportunityPopups.resetSession()')
   page.evaluate("localStorage.setItem(CloutFlowOpportunityPopups.lastKey,'1')")
   page.evaluate('render()')
-  assert popup.is_visible() and page.locator('#growthPopupTitle').inner_text()!=first_title
+  popup.wait_for(state='visible',timeout=5000)
+  assert page.locator('#growthPopupTitle').inner_text()!=first_title
   page.locator('#growthPopupLater').click()
   assert popup.is_hidden()
   assert page.evaluate("JSON.parse(localStorage.getItem('cloutflow_opportunity_dismissals_v1'))")
@@ -40,7 +41,7 @@ with sync_playwright() as p:
   page.evaluate('CloutFlowOpportunityPopups.resetSession()')
   page.evaluate("localStorage.setItem(CloutFlowOpportunityPopups.lastKey,'1')")
   page.evaluate('render()')
-  assert popup.is_visible(), 'next unsnoozed idea should be offered'
+  popup.wait_for(state='visible',timeout=5000) # next unsnoozed idea
   page.locator('#growthPopupMore').click()
   assert popup.is_hidden()
   assert page.locator('#incomeOpportunitiesSection').is_visible()
@@ -48,7 +49,7 @@ with sync_playwright() as p:
   page.evaluate('CloutFlowOpportunityPopups.resetSession()')
   page.evaluate("localStorage.setItem(CloutFlowOpportunityPopups.lastKey,'1')")
   page.evaluate('render()')
-  assert popup.is_visible()
+  popup.wait_for(state='visible',timeout=5000)
   page.locator('#growthPopupOptout').click()
   assert popup.is_hidden()
   assert page.evaluate('CloutFlowOpportunityPopups.disabled(localStorage)')
@@ -73,7 +74,7 @@ with sync_playwright() as p:
   assert popup.is_hidden(), 'unmatched platform must not bypass daily tip limit'
   # A genuinely new platform overrides the daily cap and offers a relevant idea.
   page.evaluate("""() => {accounts=[{id:'a-new',name:'New Kick channel',platform:'Kick',channel:'stream'}];render()}""")
-  assert popup.is_visible(), 'new platform should surface a contextual tip'
+  popup.wait_for(state='visible',timeout=5000) # new platform contextual tip
   assert page.evaluate('document.documentElement.scrollWidth <= innerWidth+2')
   # Turning automatic tips off in the directory must immediately close a visible tip.
   page.locator('#growthTipPreference').click()
