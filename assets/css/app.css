@@ -567,3 +567,8 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 #importPreviewModal .table-wrap:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:8px}
 #importPreviewModal #importPreviewCount{font-variant-numeric:tabular-nums}
 @media(max-width:600px){#importPreviewModal .table-wrap{border:1px solid var(--line);border-radius:10px}#importPreviewModal .table-wrap table{margin:0}}
+
+/* Import review: readable status and restrained hierarchy across screen sizes. */
+#importSummary{line-height:1.5;overflow-wrap:anywhere}
+#importPreviewModal .modal-actions-right .btn:disabled{opacity:.55;cursor:not-allowed;box-shadow:none}
+@media(max-width:600px){#importSummary{padding:10px 12px;font-size:13px}#importPreviewModal .modal-actions{margin-top:12px}}
