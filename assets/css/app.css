@@ -304,3 +304,7 @@ th{padding:8px 7px}td{padding:9px 7px}.empty{padding:18px}.footnote{margin-top:9
 body:has(.modal-backdrop.show) #growthPopup,
 body:has(dialog[open]) #growthPopup,
 body:has([role="dialog"][aria-modal="true"]) #growthPopup{display:none!important}
+
+/* UI polish: keyboard focus remains clearly visible on dismissible tips. */
+.growth-popup button:focus-visible{outline:2px solid #85c7ff;outline-offset:3px}
+.growth-popup[hidden]{display:none!important}
