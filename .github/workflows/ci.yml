@@ -63,13 +63,28 @@ jobs:
           SHARD: ${{ matrix.shard }}
         run: |
           python - <<'PY'
-          import os, pathlib, subprocess, sys
+          import os, pathlib, subprocess, sys, time
           tests=sorted(pathlib.Path('tests').glob('browser*.test.py'))
           shard=int(os.environ['SHARD'])
           chosen=tests[shard::4]
           print(f'Chromium shard {shard}: {len(chosen)} of {len(tests)} test files',flush=True)
+          durations=[]
           for test in chosen:
-              print(f'Running {test}',flush=True)
-              result=subprocess.run([sys.executable,str(test)])
-              if result.returncode: sys.exit(result.returncode)
+              print(f'::group::Chromium {test}',flush=True)
+              start=time.monotonic()
+              try:
+                  result=subprocess.run([sys.executable,str(test)],timeout=240)
+              except subprocess.TimeoutExpired:
+                  print(f'::error file={test}::Browser test timed out after 240 seconds',flush=True)
+                  sys.exit(124)
+              finally:
+                  print('::endgroup::',flush=True)
+              elapsed=time.monotonic()-start
+              durations.append((str(test),elapsed))
+              print(f'{test}: {elapsed:.1f}s',flush=True)
+              if result.returncode:
+                  print(f'::error file={test}::Browser regression failed (exit {result.returncode})',flush=True)
+                  sys.exit(result.returncode)
+          print('Shard timings:',flush=True)
+          for name,elapsed in durations: print(f'  {elapsed:6.1f}s  {name}',flush=True)
           PY
