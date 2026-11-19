@@ -22,6 +22,10 @@ with sync_playwright() as p:
   popup=page.locator('#growthPopup')
   assert popup.is_visible(), page.evaluate('''() => {const el=document.querySelector('#growthPopup'),cs=getComputedStyle(el),r=el.getBoundingClientRect();return {hidden:el.hidden,display:cs.display,inline:el.style.cssText,visibility:cs.visibility,opacity:cs.opacity,width:r.width,height:r.height,rect:{x:r.x,y:r.y},viewport:[innerWidth,innerHeight],parent:el.parentElement?.tagName,activeModals:[...document.querySelectorAll('.modal-backdrop.show,dialog[open]')].map(x=>({id:x.id,display:getComputedStyle(x).display,hidden:x.hidden})),computedAncestors:[el,...function*(n){while(n=n.parentElement)yield n}(el)].map(n=>({tag:n.tagName,id:n.id,display:getComputedStyle(n).display,visibility:getComputedStyle(n).visibility})),matchingRules:[...document.styleSheets].flatMap(sheet=>{try{return [...sheet.cssRules].filter(r=>r.selectorText&&r.selectorText.includes('growth-popup')&&el.matches(r.selectorText)).map(r=>r.cssText.slice(0,200))}catch{return []}})}}''')
   assert popup.evaluate('(el)=>el.style.getPropertyPriority("display")')=='important', 'growth popup visibility should override legacy stylesheet rules'
+  page.evaluate("""() => {const m=document.querySelector('#payoutModal');m.hidden=false;m.classList.add('show')}""")
+  assert popup.is_hidden(), 'active payout dialog must suppress growth tips'
+  page.evaluate("""() => {const m=document.querySelector('#payoutModal');m.classList.remove('show');m.hidden=true}""")
+  popup.wait_for(state='visible',timeout=5000)
   first_title=page.locator('#growthPopupTitle').inner_text()
   assert first_title.strip(), 'recommendation should have a title'
   assert popup.get_attribute('role')=='region'
