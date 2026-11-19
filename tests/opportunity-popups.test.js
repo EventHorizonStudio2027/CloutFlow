@@ -38,6 +38,7 @@ assert.deepEqual(p.detectMilestones([],milestoneStore),[]);
 assert.deepEqual(p.detectMilestones([sponsor],milestoneStore),['sponsor'],'newly reintroduced type can be detected');
 assert.equal(p.hasActiveDialog({querySelectorAll:()=>[{hidden:false,getAttribute:()=>null}]}),true);
 assert.equal(p.hasActiveDialog({querySelectorAll:()=>[]}),false);
+assert.equal(p.hasActiveDialog({querySelectorAll:()=>[{hidden:false,closest:()=>({hidden:true}),getAttribute:()=>null}]}),false,'hidden search overlay must not suppress tips');
 assert.equal(p.hasActiveDialog({querySelectorAll:()=>[{hidden:true,getAttribute:()=>null}]}),false);
 assert.equal(p.hasActiveDialog({querySelectorAll:()=>[{hidden:false,getAttribute:()=>null}],defaultView:{getComputedStyle:()=>({display:'none',visibility:'visible'})}}),false);
 assert.equal(p.present([{id:'test',already:false}],{querySelectorAll:()=>[{hidden:false,getAttribute:()=>null}]},store,{force:true}),false,'active dialog blocks forced promotional popup');

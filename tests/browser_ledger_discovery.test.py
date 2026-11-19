@@ -30,9 +30,14 @@ with sync_playwright() as p:
         page.locator('#resetLedgerFilters').click()
         assert page.locator('#ledgerSort').input_value()=='newest'
         page.keyboard.press('Control+k')
-        assert page.evaluate('document.activeElement.id')=='search'
-        page.locator('#search').fill('test')
+        assert page.locator('#globalSearchDialog').is_visible()
+        assert page.evaluate('document.activeElement.id')=='globalSearchInput'
+        page.locator('#globalSearchInput').fill('ledger')
         page.keyboard.press('Escape')
+        assert page.locator('#globalSearchDialog').is_hidden()
+        assert page.locator('#search').input_value()==''
+        page.locator('#search').fill('test')
+        page.locator('#search').press('Escape')
         assert page.locator('#search').input_value()==''
         assert page.evaluate('document.documentElement.scrollWidth <= innerWidth + 1')
         assert not errors,errors

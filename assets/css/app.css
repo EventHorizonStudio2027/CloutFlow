@@ -598,3 +598,13 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .global-search-trigger{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:11px;padding:10px 12px;font-size:12px}
 .global-search-dialog :focus-visible,.global-search-trigger:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
 @media(max-width:600px){.global-search-overlay{padding:5vh 10px 15px}.global-search-dialog{max-height:85vh;padding:12px}.global-search-trigger{font-size:11px;padding:8px}}
+
+/* Search refinement: prevent long record names from overflowing narrow screens. */
+.global-search-result{min-width:0;cursor:pointer;overflow-wrap:anywhere}
+.global-search-result span{max-width:100%;line-height:1.4}
+.global-search-dialog{min-width:0}
+@media(prefers-reduced-motion:no-preference){.global-search-result{transition:background-color .14s ease,border-color .14s ease}}
+
+/* Universal search: keep the resting UI entirely out of layout and interaction. */
+.global-search-overlay[hidden] .global-search-dialog{visibility:hidden;pointer-events:none}
+.global-search-overlay:not([hidden]) .global-search-dialog{outline:1px solid #7396b84d}
