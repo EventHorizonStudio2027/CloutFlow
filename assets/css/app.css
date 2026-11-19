@@ -522,3 +522,8 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .streaming-manage-item span{font-weight:600;letter-spacing:.005em}
 .streaming-manage-item button{color:#e7edf6}
 @media(max-width:420px){.streaming-manage-item{padding:6px 8px;min-height:44px}}
+
+/* Shortcut editor: understated privacy hint, aligned with the compact dock. */
+.streaming-storage-hint{grid-column:1/-1;margin:1px 0 4px;color:#aebed0;font-size:11px;line-height:1.35}
+.streaming-add-form:not([hidden]){border-radius:10px}
+@media(max-width:420px){.streaming-storage-hint{font-size:10px;margin:0 0 3px}}
