@@ -33,6 +33,8 @@ with sync_playwright() as p:
   content=page.locator('#incomeOpportunityResults').inner_text()
   assert 'sponsorships' in content and 'multistreaming' not in content
   page.locator('#opportunityCategory').select_option('all')
+  assert page.locator('#opportunityCategory').input_value()=='all'
+  assert page.locator('#incomeOpportunitiesSection').is_visible()
   assert page.evaluate('document.documentElement.scrollWidth <= innerWidth+2')
   assert not errors,errors
   print(f'PASS {width}px income opportunities personalization and layout')
