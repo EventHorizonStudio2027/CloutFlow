@@ -333,3 +333,10 @@ body:has([role="dialog"][aria-modal="true"]) #growthPopup{display:none!important
  .period{align-items:center}
  .streaming-platform-icons a:focus-visible{outline:2px solid #85c7ff;outline-offset:2px}
 }
+
+/* Financial hierarchy: concise card headings and readable values on narrow screens. */
+@media(max-width:600px){
+ .stat-value{font-variant-numeric:tabular-nums;letter-spacing:-.025em}
+ .card-head h3,.card-head h2{line-height:1.25}
+ .stats .card{min-width:0}
+}
