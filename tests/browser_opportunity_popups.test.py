@@ -20,7 +20,7 @@ with sync_playwright() as p:
   assert page.locator('#growthPopup').count()==0 or page.locator('#growthPopup').is_hidden()
   page.evaluate("""() => {selectedPeriod='all';entries=[{id:'e1',platform:'Twitch',account:'Stream',currency:'USD',gross:100,fees:0,refunds:0,tax:0,earnedDate:'2026-11-01',status:'Pending',incomeType:'Subscriptions',channel:'stream'}];accounts=[];payouts=[];adjustments=[];render()}""")
   popup=page.locator('#growthPopup')
-  assert popup.is_visible()
+  assert popup.is_visible(),page.evaluate('''() => ({popup:!!document.querySelector("#growthPopup"),hidden:document.querySelector("#growthPopup")?.hidden,dialog:[...document.querySelectorAll(".modal-backdrop.show,dialog[open],[role=dialog][aria-modal=true]")].map(e=>({id:e.id,cls:e.className})),errors:[],last:localStorage.getItem("cloutflow_opportunity_last_shown_v1"),pref:localStorage.getItem("cloutflow_opportunity_popup_preferences_v1")})''')
   first_title=page.locator('#growthPopupTitle').inner_text()
   assert first_title.strip(), 'recommendation should have a title'
   assert popup.get_attribute('role')=='region'
