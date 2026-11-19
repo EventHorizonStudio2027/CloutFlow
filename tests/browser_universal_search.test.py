@@ -17,6 +17,7 @@ with sync_playwright() as p:
   page.add_style_tag(content=css)
   page.evaluate("""() => {const d={};Object.defineProperty(window,'localStorage',{configurable:true,value:{getItem:k=>d[k]??null,setItem:(k,v)=>d[k]=String(v),removeItem:k=>delete d[k]}})}""")
   for name in names:page.add_script_tag(content=(root/'assets/js'/name).read_text())
+  assert page.locator('#globalSearchDialog').is_hidden()
   page.keyboard.press('Control+k')
   assert page.locator('#globalSearchDialog').is_visible()
   assert page.evaluate('document.activeElement.id')=='globalSearchInput'
