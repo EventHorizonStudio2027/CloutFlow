@@ -1,0 +1,11 @@
+const assert=require('node:assert/strict');
+const {exportCsv}=require('../assets/js/payout-audit-export');
+const payouts=[{platform:'=SUM(1,2)',account:'Main',currency:'USD',reference:'A"123',received:'2026-11-15',amount:5}];
+const csv=exportCsv(payouts,{issues:[{code:'repeated-reference',indices:[0]}]});
+assert.ok(csv.startsWith('\uFEFF'));
+assert.ok(csv.includes('"\'=SUM(1,2)"'));
+assert.ok(csv.includes('"A""123"'));
+assert.ok(csv.includes('"repeated-reference","1"'));
+assert.equal(exportCsv([],{issues:[]}).trim().split('\r\n').length,1);
+assert.ok(exportCsv([],{issues:[{code:'invalid-input',indices:[]}]}).includes('invalid-input'));
+console.log('Payout audit export: 5 checks passed');
