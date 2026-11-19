@@ -24,6 +24,7 @@ function init(doc,store){
   manage.hidden=items.length===0;
   manage.setAttribute('aria-label',items.length+' custom creator '+(items.length===1?'shortcut':'shortcuts')+' saved');
   manage.setAttribute('aria-live','polite');
+  manage.setAttribute('role','group');
   const replaceable=defaults.filter(el=>!['Open Discord','Open Patreon'].includes(el.getAttribute('aria-label'))).reverse();
   defaults.forEach(el=>{el.hidden=false});
   replaceable.slice(0,items.length).forEach(el=>{el.hidden=true});
