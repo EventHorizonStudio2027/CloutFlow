@@ -22,7 +22,7 @@ with sync_playwright() as p:
         page.locator('#search').fill('unfindable-example')
         assert page.locator('#entries tr').count()==0
         assert 'No transactions match' in page.locator('#empty').inner_text() or 'No income entries' in page.locator('#empty').inner_text()
-        assert page.locator('#clearSearch').is_visible()
+        assert page.locator('#clearSearch').is_visible(), {'width':width,'errors':errors,'search':page.locator('#search').input_value(),'clearHidden':page.locator('#clearSearch').get_attribute('hidden')}
         page.locator('#clearSearch').click()
         assert page.locator('#search').input_value()==''
         page.locator('#ledgerSort').select_option('oldest')
