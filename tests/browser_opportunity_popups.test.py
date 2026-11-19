@@ -20,7 +20,7 @@ with sync_playwright() as p:
   assert page.locator('#growthPopup').count()==0 or page.locator('#growthPopup').is_hidden()
   page.evaluate("""() => {selectedPeriod='all';entries=[{id:'e1',platform:'Twitch',account:'Stream',currency:'USD',gross:100,fees:0,refunds:0,tax:0,earnedDate:'2026-11-01',status:'Pending',incomeType:'Subscriptions',channel:'stream'}];accounts=[];payouts=[];adjustments=[];render()}""")
   popup=page.locator('#growthPopup')
-  assert popup.is_visible(), page.evaluate('''() => {const el=document.querySelector('#growthPopup'),cs=getComputedStyle(el),r=el.getBoundingClientRect();return {hidden:el.hidden,display:cs.display,inline:el.style.cssText,visibility:cs.visibility,opacity:cs.opacity,width:r.width,height:r.height,rect:{x:r.x,y:r.y},viewport:[innerWidth,innerHeight],parent:el.parentElement?.tagName}}''')
+  assert popup.is_visible(), page.evaluate('''() => {const el=document.querySelector('#growthPopup'),cs=getComputedStyle(el),r=el.getBoundingClientRect();return {hidden:el.hidden,display:cs.display,inline:el.style.cssText,visibility:cs.visibility,opacity:cs.opacity,width:r.width,height:r.height,rect:{x:r.x,y:r.y},viewport:[innerWidth,innerHeight],parent:el.parentElement?.tagName,activeModals:[...document.querySelectorAll('.modal-backdrop.show,dialog[open]')].map(x=>({id:x.id,display:getComputedStyle(x).display,hidden:x.hidden}))}}''')
   first_title=page.locator('#growthPopupTitle').inner_text()
   assert first_title.strip(), 'recommendation should have a title'
   assert popup.get_attribute('role')=='region'
