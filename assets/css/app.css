@@ -501,3 +501,8 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 /* Dialog editing: make the current field clear without visually enlarging forms. */
 #payoutModal input:focus-visible,#payoutModal select:focus-visible,#payoutModal textarea:focus-visible{outline:2px solid #93d6ff;outline-offset:1px;box-shadow:0 0 0 3px #93d6ff22}
 @media(prefers-reduced-motion:reduce){#payoutModal input,#payoutModal select,#payoutModal textarea{transition:none}}
+
+/* Streamlined shortcut editor: compact two-column inputs with clear, full-width mobile actions. */
+.streaming-add-form input{min-width:0}
+.streaming-manage-item span{min-width:0;overflow-wrap:anywhere}
+@media(max-width:420px){.streaming-manage-item{gap:5px}.streaming-manage-item button{flex:0 0 auto}.streaming-add-form input{font-size:16px}}
