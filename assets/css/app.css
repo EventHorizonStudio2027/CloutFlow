@@ -572,3 +572,13 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 #importSummary{line-height:1.5;overflow-wrap:anywhere}
 #importPreviewModal .modal-actions-right .btn:disabled{opacity:.55;cursor:not-allowed;box-shadow:none}
 @media(max-width:600px){#importSummary{padding:10px 12px;font-size:13px}#importPreviewModal .modal-actions{margin-top:12px}}
+
+/* Payout audit: an understated review surface with findings only when needed. */
+#payoutAuditPanel{margin:12px 0;padding:14px 16px;border:1px solid var(--line);border-radius:13px}
+#payoutAuditPanel .payout-audit-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+#payoutAuditPanel h4{margin:0 0 4px;font-size:15px}
+#payoutAuditPanel p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}
+#payoutAuditPanel ul{margin:9px 0 0;padding-left:20px;font-size:12px}
+#payoutAuditPanel ul:empty{display:none}
+#payoutAuditPanel[data-state="warning"]{border-color:#a9864b}
+@media(max-width:560px){#payoutAuditPanel .payout-audit-heading{flex-direction:column}#payoutAuditPanel .btn{width:100%;min-height:44px}}
