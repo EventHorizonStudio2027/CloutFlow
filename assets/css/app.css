@@ -460,3 +460,7 @@ body:has([role="dialog"][aria-modal="true"]) #growthPopup{display:none!important
 .growth-popup p{margin:6px 0;line-height:1.45}
 .growth-popup-actions{margin-top:10px}
 @media(max-width:520px){.growth-popup:not([hidden]){padding:12px;border-radius:12px}}
+
+/* A modal is a higher-priority task: never let an earlier growth tip cover its controls. */
+body:has(.modal-backdrop.show) .growth-popup,
+body:has(dialog[open]) .growth-popup{display:none!important;pointer-events:none!important}
