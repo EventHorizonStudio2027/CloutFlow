@@ -18,6 +18,7 @@ assert.ok(html.includes('assets/js/streaming-shortcuts.js'));
 const custom=require('../assets/js/streaming-shortcuts.js');
 assert.equal(custom.normalize('Example','javascript:alert(1)'),null);
 assert.equal(custom.normalize('Example','http://example.com'),null);
+assert.deepEqual(custom.normalize('  My   Channel  ',' https://example.com/ '),{name:'My Channel',url:'https://example.com/'});
 assert.equal(custom.normalize('Example','https://user:pass@example.com'),null);
 assert.deepEqual(custom.normalize(' Example ','https://example.com/'),{name:'Example',url:'https://example.com/'});
 const memory={};const store={getItem:k=>memory[k]??null,setItem:(k,v)=>memory[k]=v};
