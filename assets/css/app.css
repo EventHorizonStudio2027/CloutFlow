@@ -598,3 +598,8 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .global-search-trigger{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:11px;padding:10px 12px;font-size:12px}
 .global-search-dialog :focus-visible,.global-search-trigger:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
 @media(max-width:600px){.global-search-overlay{padding:5vh 10px 15px}.global-search-dialog{max-height:85vh;padding:12px}.global-search-trigger{font-size:11px;padding:8px}}
+
+/* Audit review polish: concise findings, clear keyboard navigation and balanced action. */
+#payoutAuditPanel [data-audit-list] li{line-height:1.55;padding-block:4px;overflow-wrap:anywhere}
+#payoutAuditPanel #exportPayoutAudit:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+@media(min-width:561px){#payoutAuditPanel .payout-audit-heading .btn{flex-shrink:0}}
