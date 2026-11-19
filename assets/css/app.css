@@ -326,3 +326,10 @@ body:has([role="dialog"][aria-modal="true"]) #growthPopup{display:none!important
 /* Ledger discovery polish: show clear focus without enlarging the compact toolbar. */
 #search:focus-visible,#ledgerSort:focus-visible,#clearSearch:focus-visible,#resetLedgerFilters:focus-visible{outline:2px solid #85c7ff;outline-offset:2px}
 #clearSearch:hover,#resetLedgerFilters:hover{filter:brightness(1.14)}
+
+/* Finance-first mobile polish: focused filter fields stay crisp and legible. */
+@media(max-width:600px){
+ #search,#ledgerSort{font-size:16px;max-width:100%}
+ .period{align-items:center}
+ .streaming-platform-icons a:focus-visible{outline:2px solid #85c7ff;outline-offset:2px}
+}
