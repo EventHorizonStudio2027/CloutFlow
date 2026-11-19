@@ -375,3 +375,28 @@ body:has([role="dialog"][aria-modal="true"]) #growthPopup{display:none!important
 #showGrowthIdeas[aria-expanded="true"]:hover{background:#2b5272}
 #showGrowthIdeas{transition:background .15s,border-color .15s,color .15s}
 @media(prefers-reduced-motion:reduce){#showGrowthIdeas{transition:none}}
+
+/* Streaming redesign: heading above a fixed ten-tile grid, never a horizontal scroller. */
+.streaming-platform-strip{display:block;padding:11px 13px 12px;margin:8px 0 12px;overflow:visible}
+.streaming-platform-heading{display:flex;flex-direction:row;align-items:baseline;gap:8px;min-width:0;max-width:100%;margin:0 0 9px;white-space:normal}
+.streaming-platform-heading strong{font-size:12px;flex:none}
+.streaming-platform-heading span{display:inline!important;font-size:11px;overflow:visible;text-overflow:clip;max-width:none;white-space:normal}
+.streaming-platform-icons{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:7px;width:100%;min-width:0;align-items:stretch}
+.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{display:flex;box-sizing:border-box;width:100%;min-width:0;height:63px;min-height:63px;flex:none;padding:5px 2px;gap:5px;overflow:hidden;border:1px solid #ffffff17;border-radius:9px;background:#ffffff08;color:#d3e3f2;font:650 9px/1.1 inherit;text-decoration:none;align-items:center;justify-content:center;flex-direction:column;cursor:pointer}
+.streaming-platform-icons a[hidden]{display:none!important}
+.streaming-platform-icons img{width:27px;height:27px;min-width:0;max-width:100%;padding:1px}
+.streaming-platform-icons a span:last-child,.streaming-platform-icons button span:last-child{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:9px}
+.streaming-platform-icons .streaming-plus{display:flex;align-items:center;justify-content:center;width:27px;height:27px;border:1px dashed #6c8ba8;border-radius:8px;color:#a9d8ff;font-size:25px;font-weight:350;line-height:1}
+.streaming-custom-mark{display:flex;align-items:center;justify-content:center;width:27px;height:27px;border-radius:7px;background:#315472;color:#eaf5ff;font-size:16px;font-weight:800}
+.streaming-platform-icons .streaming-add:hover{background:#23405b;border-color:#82afd0}
+.streaming-platform-icons .streaming-add:focus-visible{outline:2px solid #85c7ff;outline-offset:2px}
+.streaming-add-form[hidden]{display:none!important}
+.streaming-add-form{display:grid;grid-template-columns:1fr 1fr;gap:7px 10px;margin-top:11px;padding:11px;border:1px solid #3b5872;border-radius:10px;background:#101e2e}
+.streaming-add-form label{font-size:10px;color:#a8c3dc;font-weight:700}
+.streaming-add-form input{min-width:0;width:100%;box-sizing:border-box;padding:8px;border-radius:7px;border:1px solid #45617d;background:#182c41;color:#f0f7ff;font-size:13px}
+.streaming-form-actions{grid-column:1/-1;display:flex;gap:8px;align-items:center}
+.streaming-form-actions button{padding:7px 10px;border-radius:7px;border:1px solid #587594;background:#274660;color:#f1f8ff;cursor:pointer}
+#streamingAddError{grid-column:1/-1;margin:0;font-size:11px;color:#e9adad}
+@media(max-width:800px){.streaming-platform-strip{display:block;padding:9px}.streaming-platform-heading{width:auto;max-width:none;display:flex;flex-direction:row;gap:7px;margin-bottom:8px}.streaming-platform-heading span{max-width:none;white-space:normal}.streaming-platform-icons{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{height:57px;min-height:57px}}
+@media(max-width:380px){.streaming-platform-heading{max-width:100%}.streaming-platform-heading span{font-size:10px}.streaming-platform-icons{gap:4px}.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{padding:4px 1px}.streaming-platform-icons a span:last-child{font-size:8px}}
+@media(max-width:420px){.streaming-add-form{grid-template-columns:1fr}}
