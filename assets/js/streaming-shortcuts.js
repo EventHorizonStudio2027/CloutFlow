@@ -21,6 +21,7 @@ function init(doc,store){
  function render(){
   grid.querySelectorAll('[data-custom-streaming]').forEach(el=>el.remove());
   const items=read(store);
+  manage.hidden=items.length===0;
   const replaceable=defaults.filter(el=>!['Open Discord','Open Patreon'].includes(el.getAttribute('aria-label'))).reverse();
   defaults.forEach(el=>{el.hidden=false});
   replaceable.slice(0,items.length).forEach(el=>{el.hidden=true});
