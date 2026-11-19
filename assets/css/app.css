@@ -557,3 +557,8 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
  #importPreviewModal .modal-actions-right .btn{width:100%;padding:11px 8px}
  #importPreviewModal .modal-actions>.hint{text-align:center;font-size:11px}
 }
+
+/* CSV review: visible preview scope and clearer primary action on small screens. */
+#importPreviewCount{max-width:420px;line-height:1.4;color:#b7c9de}
+#importPreviewModal .modal-actions-right .btn.primary{font-weight:750}
+@media(max-width:600px){#importPreviewCount{max-width:none;text-align:left}#importPreviewModal .modal-actions-right{grid-template-columns:minmax(0,1fr) minmax(0,1.3fr)}}
