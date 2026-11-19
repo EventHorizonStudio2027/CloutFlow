@@ -3,14 +3,13 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 
 root=Path(__file__).resolve().parent.parent
+import re
 html=(root/'index.html').read_text()
-css=(root/'assets/css/app.css').read_text()
-names=('currency-overview.js','account-insights.js','ledger-tools.js','platform-rankings.js','account-rankings.js','account-growth.js','period-comparison.js','revenue-trends.js','app.js','accessibility.js','mobile-navigation.js')
+names=re.findall(r'<script src="assets/js/([^"]+)"></script>',html)
+html=re.sub(r'<script src="assets/js/[^"]+"></script>','',html)
 html=html.replace('<link rel="stylesheet" href="assets/css/app.css">','')
-for name in names:
-    html=html.replace(f'<script src="assets/js/{name}"></script>','')
+css=(root/'assets/css/app.css').read_text()
 scripts=[(root/'assets/js'/name).read_text() for name in names]
-
 with sync_playwright() as p:
     browser=p.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox'])
     for width in (320,390,768,1280):
