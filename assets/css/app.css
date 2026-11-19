@@ -426,3 +426,9 @@ body:has([role="dialog"][aria-modal="true"]) #growthPopup{display:none!important
 .streaming-platform-icons a,.streaming-platform-icons button.streaming-add{width:60%;justify-self:center}
 @media(max-width:800px){.streaming-platform-icons{gap:1px}.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{width:60%}}
 @media(max-width:420px){.streaming-platform-icons{gap:0}.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{width:60%}}
+
+/* Streaming dock: another 20% wider (60% -> 72%) and visibly closer grouping. */
+.streaming-platform-icons{display:flex;align-items:center;justify-content:center;gap:clamp(1px,.35vw,4px);width:100%;min-width:0}
+.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{flex:0 1 auto;width:clamp(25px,5.2%,44px);min-width:0;max-width:44px;justify-self:auto}
+@media(max-width:800px){.streaming-platform-icons{display:flex;gap:2px}.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{width:clamp(25px,7.2%,44px);flex:0 1 auto}}
+@media(max-width:420px){.streaming-platform-icons{gap:1px}.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{width:clamp(24px,8.5%,38px);flex:0 1 auto}}
