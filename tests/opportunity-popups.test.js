@@ -39,4 +39,8 @@ assert.deepEqual(p.detectMilestones([sponsor],milestoneStore),['sponsor'],'newly
 assert.equal(p.hasActiveDialog({querySelector:()=>({className:'modal-backdrop show'})}),true);
 assert.equal(p.hasActiveDialog({querySelector:()=>null}),false);
 assert.equal(p.present([{id:'test',already:false}],{querySelector:()=>({})},store,{force:true}),false,'active dialog blocks forced promotional popup');
+const fs=require('node:fs');
+const source=fs.readFileSync(require.resolve('../assets/js/opportunity-popups.js'),'utf8');
+assert.ok(source.includes("launcher.setAttribute('aria-expanded','true')"),'Explore ideas should synchronize launcher expansion');
+assert.ok(source.includes("launcher.textContent='− Hide growth ideas'"),'Explore ideas should update launcher label');
 console.log('Opportunity popup tests passed');
