@@ -58,4 +58,7 @@ assert.match(shortcutSource,/Open Discord','Open Patreon/);
 // Compact editor must support keyboard dismissal and hide empty management controls.
 assert.match(shortcutSource,/event\.key==='Escape'/);
 assert.match(shortcutSource,/manage\.hidden=items\.length===0/);
+assert.match(shortcutSource,/streaming-capacity-status/);
+assert.match(shortcutSource,/Remove one to add another/);
+assert.match(css,/\.streaming-capacity-status\{/);
 assert.match(css,/\.streaming-manage-list\[hidden\]\{display:none!important\}/);
