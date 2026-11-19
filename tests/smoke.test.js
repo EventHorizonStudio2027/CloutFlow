@@ -10,6 +10,8 @@ assert.match(html,/<script src="assets\/js\/app\.js"><\/script>/);
 assert(!/<script>/.test(html),'Inline script unexpectedly present');
 assert(!/<style>/.test(html),'Inline stylesheet unexpectedly present');
 assert(css.includes(':root'),'CSS variables missing');
+assert.match(html,/id="importPreviewModal"[\s\S]*?role="region" aria-label="CSV import preview, scroll horizontally for all columns" tabindex="0"/);
+assert.match(css,/#importPreviewModal \.modal-actions-right\{display:grid;grid-template-columns:1fr 1fr/);
 new Function(js);
 const ids=new Set([...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]));
 const missing=[...js.matchAll(/\$\('([^']+)'\)/g)].map(m=>m[1]).filter(id=>!ids.has(id));
