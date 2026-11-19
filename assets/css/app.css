@@ -582,3 +582,19 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 #payoutAuditPanel ul:empty{display:none}
 #payoutAuditPanel[data-state="warning"]{border-color:#a9864b}
 @media(max-width:560px){#payoutAuditPanel .payout-audit-heading{flex-direction:column}#payoutAuditPanel .btn{width:100%;min-height:44px}}
+
+/* Local universal search: focused command palette with comfortable mobile spacing. */
+.global-search-overlay[hidden]{display:none!important}
+.global-search-overlay{position:fixed;inset:0;z-index:2200;background:#080d18dc;display:flex;align-items:flex-start;justify-content:center;padding:12vh 16px 24px;overflow:auto}
+.global-search-dialog{width:min(620px,100%);max-height:75vh;display:flex;flex-direction:column;gap:10px;padding:16px;background:var(--panel);border:1px solid #52739c;border-radius:18px;box-shadow:0 25px 80px #000a}
+.global-search-top{display:flex;gap:8px}
+#globalSearchInput{flex:1;min-width:0;background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:12px;color:var(--text)}
+#globalSearchClose{min-width:44px;border:1px solid var(--line);background:var(--panel2);border-radius:11px;color:var(--text)}
+#globalSearchResults{overflow:auto;display:grid;gap:5px;min-height:48px}
+.global-search-result{display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;border:1px solid transparent;border-radius:10px;background:transparent;color:var(--text);padding:10px 12px}
+.global-search-result small{color:var(--cyan);font-size:11px}
+.global-search-result[aria-selected="true"],.global-search-result:hover{background:var(--panel2);border-color:#49658b}
+.global-search-hint,.global-search-empty{font-size:12px;color:var(--muted);margin:0}
+.global-search-trigger{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:11px;padding:10px 12px;font-size:12px}
+.global-search-dialog :focus-visible,.global-search-trigger:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+@media(max-width:600px){.global-search-overlay{padding:5vh 10px 15px}.global-search-dialog{max-height:85vh;padding:12px}.global-search-trigger{font-size:11px;padding:8px}}
