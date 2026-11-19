@@ -443,3 +443,9 @@ body:has([role="dialog"][aria-modal="true"]) #growthPopup{display:none!important
 .streaming-platform-icons a span:last-child,.streaming-platform-icons button span:last-child{font-size:8px;line-height:1}
 @media(max-width:800px){.streaming-platform-strip{padding:5px 7px 6px}.streaming-platform-icons{gap:1px}.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{flex:0 1 46px;width:46px;max-width:46px;height:44px;min-height:44px;max-height:44px}}
 @media(max-width:420px){.streaming-platform-strip{padding:4px 4px 5px}.streaming-platform-heading{margin-bottom:3px}.streaming-platform-icons{gap:1px}.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{flex:0 1 34px;width:34px;max-width:34px;height:41px;min-height:41px;max-height:41px}.streaming-platform-icons img,.streaming-platform-icons .streaming-icon-fallback,.streaming-platform-icons .streaming-plus,.streaming-custom-mark{width:23px;height:23px}.streaming-platform-icons .streaming-plus{font-size:21px}.streaming-platform-icons a span:last-child,.streaming-platform-icons button span:last-child{font-size:6px}}
+
+/* Streaming custom shortcuts: quiet inline management beneath the compact dock. */
+.streaming-manage-list{grid-column:1/-1;display:flex;flex-direction:column;gap:5px}
+.streaming-manage-item{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:5px 8px;border:1px solid #ffffff14;border-radius:7px;background:#ffffff07;color:#dbe8f7;font-size:11px}
+.streaming-manage-item button{border:1px solid #60758a;border-radius:6px;background:transparent;color:#dce9f5;padding:5px 9px;cursor:pointer;font:inherit}
+.streaming-manage-item button:hover,.streaming-manage-item button:focus-visible{border-color:#9ed1f3;background:#ffffff12}
