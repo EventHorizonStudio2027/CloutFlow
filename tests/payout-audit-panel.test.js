@@ -1,0 +1,20 @@
+const assert=require('node:assert/strict');
+const {audit}=require('../assets/js/reconciliation-audit');
+global.CloutFlowReconciliationAudit={audit};
+const {update}=require('../assets/js/payout-audit-panel');
+function node(){return {textContent:'',dataset:{},children:[],replaceChildren(){this.children=[]},appendChild(x){this.children.push(x)}}}
+const title=node(),detail=node(),list=node(),panel={dataset:{},querySelector(s){return {'[data-audit-title]':title,'[data-audit-detail]':detail,'[data-audit-list]':list}[s]}};
+const doc={getElementById(id){return id==='payoutAuditPanel'?panel:null},createElement(){return node()}};
+const base={platform:'YouTube',account:'Main',currency:'USD',reference:'ABC',amount:15,received:'2026-11-15'};
+update(doc,[base]);
+assert.match(title.textContent,/no issues/);
+assert.equal(list.children.length,0);
+assert.equal(panel.dataset.state,'clear');
+update(doc,[base,{...base,reference:'abc'}]);
+assert.match(title.textContent,/1 payout audit finding/);
+assert.match(detail.textContent,/2 recorded deposits/);
+assert.equal(list.children.length,1);
+assert.match(list.children[0].textContent,/record 1, 2/);
+assert.equal(panel.dataset.state,'warning');
+update({getElementById(){return null}},[base]);
+console.log('Payout audit panel: 8 checks passed');
