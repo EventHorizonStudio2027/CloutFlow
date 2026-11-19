@@ -480,3 +480,8 @@ body:not(:has(.modal-backdrop.show:not([hidden]))):not(:has(dialog[open])) .grow
 
 /* Keep empty streaming management content from taking up space. */
 .streaming-manage-list[hidden]{display:none!important}
+
+/* Streaming shortcuts: crisp, consistent icon interaction with reduced visual clutter. */
+.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{transition:background-color .16s ease,border-color .16s ease,transform .16s ease}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){.streaming-platform-icons a:hover,.streaming-platform-icons button.streaming-add:hover{transform:translateY(-2px)}}
+@media(prefers-reduced-motion:reduce){.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{transition:none}}
