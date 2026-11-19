@@ -517,3 +517,8 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .streaming-add-form:not([hidden]){overflow:visible}
 .streaming-manage-item button:focus-visible,.streaming-platform-icons button.streaming-add[aria-expanded="true"]{outline:2px solid #9bd6ff;outline-offset:2px}
 @media(max-width:420px){.streaming-manage-item{border-radius:8px}.streaming-manage-item span{flex:1 1 auto}}
+
+/* Shortcut management: better hierarchy for the label and destructive action. */
+.streaming-manage-item span{font-weight:600;letter-spacing:.005em}
+.streaming-manage-item button{color:#e7edf6}
+@media(max-width:420px){.streaming-manage-item{padding:6px 8px;min-height:44px}}
