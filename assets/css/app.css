@@ -308,3 +308,8 @@ body:has([role="dialog"][aria-modal="true"]) #growthPopup{display:none!important
 /* UI polish: keyboard focus remains clearly visible on dismissible tips. */
 .growth-popup button:focus-visible{outline:2px solid #85c7ff;outline-offset:3px}
 .growth-popup[hidden]{display:none!important}
+
+/* Human-centered polish: motion-sensitive users get stable, non-animated dashboard controls. */
+@media(prefers-reduced-motion:reduce){
+ .growth-popup,.back-to-top,.streaming-platform-icons a,.density-toggle{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
