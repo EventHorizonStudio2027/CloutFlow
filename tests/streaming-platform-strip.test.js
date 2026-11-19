@@ -32,6 +32,8 @@ assert.equal(custom.save(store,[{name:'Bad',url:'javascript:alert(1)'}]),false);
 assert.equal(custom.save(store,[1,2,3,4].map(n=>({name:'Platform '+n,url:'https://example'+n+'.com'}))),false);
 store.setItem(custom.key,JSON.stringify([null,{name:'Recovered',url:'https://example.net'}]));
 assert.deepEqual(custom.read(store),[{name:'Recovered',url:'https://example.net/'}]);
+store.setItem(custom.key,JSON.stringify([null,null,null,{name:'Fourth',url:'https://fourth.example'}]));
+assert.deepEqual(custom.read(store),[{name:'Fourth',url:'https://fourth.example/'}]);
 store.setItem(custom.key,JSON.stringify([{name:'Example',url:'https://example.com/'}]));
 assert.equal(custom.save(store,[{name:'A',url:'https://example.org'},{name:'B',url:'https://example.org'}]),false);
 assert.equal(custom.save(store,[{name:'Same',url:'https://one.example'},{name:'same',url:'https://two.example'}]),false);
