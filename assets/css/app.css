@@ -477,3 +477,6 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 /* Only a visibly open dialog should suppress the nonblocking growth card. */
 body:has(.modal-backdrop.show:not([hidden])) .growth-popup:not([hidden]){display:none!important}
 body:not(:has(.modal-backdrop.show:not([hidden]))):not(:has(dialog[open])) .growth-popup:not([hidden]){display:block!important;visibility:visible!important}
+
+/* Keep empty streaming management content from taking up space. */
+.streaming-manage-list[hidden]{display:none!important}
