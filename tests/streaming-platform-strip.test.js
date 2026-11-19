@@ -12,7 +12,7 @@ assert.match(section,/id="addStreamingPlatform"/);
 assert.match(section,/id="streamingAddForm"/);
 assert.ok(!section.includes('streaming-platform-scroll'),'horizontal scroll wrapper removed');
 assert.match(css,/grid-template-columns:repeat\(10,minmax\(0,1fr\)\)/);
-assert.match(css,/grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);
+assert.match(css,/\/\* Streaming dock refinement:[\s\S]*display:flex;justify-content:center/);
 for(const slug of ['youtube','twitch','kick','tiktok','facebook','instagram','discord','patreon','kofi'])assert.ok(fs.readFileSync('assets/icons/'+slug+'.svg','utf8').includes('<svg'),slug+' local SVG missing');
 assert.ok(html.includes('assets/js/streaming-shortcuts.js'));
 const custom=require('../assets/js/streaming-shortcuts.js');
@@ -25,9 +25,12 @@ assert.equal(custom.save(store,[{name:'Example',url:'https://example.com/'}]),tr
 assert.deepEqual(custom.read(store),[{name:'Example',url:'https://example.com/'}]);
 console.log('Streaming grid: 9 brand icons, add tile, responsive layout and safe custom URL checks passed');
 
-// The latest responsive override must retain a single ten-column row and half-width centered frames.
-const compact=css.slice(css.lastIndexOf('/* Compact single-row streaming dock:'));
-assert.match(compact,/grid-template-columns:repeat\(10,minmax\(0,1fr\)\)/);
-const narrow=css.slice(css.lastIndexOf('/* Narrow individual streaming icon frames'));
-assert.match(narrow,/width:50%;justify-self:center/);
-assert.ok(!narrow.includes('repeat(5,'),'never wrap the ten streaming icons into two rows');
+// Current dock must stay a single centered flex row with slim shell and larger brand marks.
+const latest=css.slice(css.lastIndexOf('/* Streaming dock refinement:'));
+assert.match(latest,/display:flex;justify-content:center/);
+assert.match(latest,/gap:2px/);
+assert.match(latest,/width:27px;height:27px/);
+assert.match(latest,/padding:5px 10px 6px/);
+assert.ok(!latest.includes('repeat(5,'),'streaming icons must not wrap into two rows');
+const shortcutSource=fs.readFileSync('assets/js/streaming-shortcuts.js','utf8');
+assert.match(shortcutSource,/Open Discord','Open Patreon/);
