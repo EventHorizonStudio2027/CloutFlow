@@ -29,7 +29,7 @@ with sync_playwright() as p:
   page.locator('[data-queue-payout="p1"]').click()
   assert 'show' in (page.locator('#payoutModal').get_attribute('class') or '')
   assert page.locator('#payoutRecordId').input_value()=='p1'
-  assert page.locator('#growthPopup').count()==0 or page.locator('#growthPopup').is_hidden(), 'growth tips must not cover payout editing'
+  assert page.locator('#growthPopup').count()==0 or page.locator('#growthPopup').is_hidden(), page.evaluate('''() => {const p=document.querySelector('#growthPopup'),m=document.querySelector('#payoutModal');return {popupDisplay:p&&getComputedStyle(p).display,popupInline:p?.style.cssText,modalClass:m?.className,modalDisplay:m&&getComputedStyle(m).display}}''')
   # Save an edited allocation, verify persistence, then reload from saved storage.
   page.locator('[data-allocation="e1"]').fill('50')
   page.once('dialog',lambda dialog: dialog.accept())
