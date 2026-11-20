@@ -51,4 +51,5 @@ assert.equal(analyze(dues,[...links,{agreementId:'b',due:'2026-10-15',payoutId:'
 assert.equal(analyze(dues,[...links,{agreementId:'a',due:'2026-11-15',payoutId:'p1',amount:50}],payouts,'2026-11-20').exclusions[0].reason,'Deposit overallocated');
 assert.equal(analyze(dues,[...links,{agreementId:'a',due:'2026-11-15',payoutId:'missing',amount:20}],payouts,'2026-11-20').exclusions[0].reason,'Invalid or duplicate settlement link');
 assert.equal(analyze([...dues,dues[0]],links,payouts,'2026-11-20').exclusions[0].reason,'Duplicate installment schedule');
+assert.equal(analyze(dues,links,[...payouts.slice(0,1),{...payouts[1],currency:'invalid'},...payouts.slice(2)],'2026-11-20').groups.find(x=>x.platform==='YouTube').fullyLinked,1,'malformed currency cannot contribute to verified linkage');
 console.log('Historical payout linkage reliability tests passed');
