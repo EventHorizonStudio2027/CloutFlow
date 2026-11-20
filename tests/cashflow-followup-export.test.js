@@ -2,5 +2,10 @@ const assert=require('node:assert/strict');
 const {csv,filename}=require('../assets/js/cashflow-followup-export');
 const {build}=require('../assets/js/cashflow-attention');
 const summary={rows:[{id:'1',name:'=HYPERLINK("bad")',due:'2026-11-12',status:'overdue',amount:100,allocated:25,remaining:75,currency:'USD'},{id:'2',name:'Annual partner',due:'2026-12-12',status:'upcoming',amount:200,allocated:0,remaining:200,currency:'EUR'}],issues:[]};
-const q=build(summary,'2026-11-16','attention');const report=csv(q);assert(report.startsWith('\uFEFF'));assert(report.includes('"\'=HYPERLINK(""bad"")"'));assert(report.includes('"75.00"'));assert(!report.includes('Annual partner'));assert.equal(report.split('\r\n').length,3);assert.equal(filename('2026-11-16','attention'),'cloutflow-payment-attention-attention-2026-11-16.csv');assert.throws(()=>filename('bad','attention'));assert.throws(()=>csv({rows:[{due:'bad'}]}));assert.equal(summary.rows[0].name,'=HYPERLINK("bad")');\nconst base={due:'2026-11-12',name:'Partner',currency:'USD',amount:100,allocated:25,remaining:75,status:'overdue',daysUntilDue:-4,partial:true};\nassert.throws(()=>csv({rows:[{...base,due:'2026-02-30'}]}));\nassert.throws(()=>csv({rows:[{...base,remaining:74}]}));\nassert.throws(()=>csv({rows:[{...base,currency:'US
-}]}));\nassert.throws(()=>csv({rows:[{...base,allocated:101}]}));\nconsole.log('cashflow followup export tests passed');
+const q=build(summary,'2026-11-16','attention');const report=csv(q);assert(report.startsWith('\uFEFF'));assert(report.includes('"\'=HYPERLINK(""bad"")"'));assert(report.includes('"75.00"'));assert(!report.includes('Annual partner'));assert.equal(report.split('\r\n').length,3);assert.equal(filename('2026-11-16','attention'),'cloutflow-payment-attention-attention-2026-11-16.csv');assert.throws(()=>filename('bad','attention'));assert.throws(()=>csv({rows:[{due:'bad'}]}));assert.equal(summary.rows[0].name,'=HYPERLINK("bad")');
+const base={due:'2026-11-12',name:'Partner',currency:'USD',amount:100,allocated:25,remaining:75,status:'overdue',daysUntilDue:-4,partial:true};
+assert.throws(()=>csv({rows:[{...base,due:'2026-02-30'}]}));
+assert.throws(()=>csv({rows:[{...base,remaining:74}]}));
+assert.throws(()=>csv({rows:[{...base,currency:'XXX!'}]}));
+assert.throws(()=>csv({rows:[{...base,allocated:101}]}));
+console.log('cashflow followup export tests passed');
