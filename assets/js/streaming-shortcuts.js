@@ -33,11 +33,10 @@ function init(doc,store){
   manage.setAttribute('aria-label','Manage '+items.length+' custom creator '+(items.length===1?'shortcut':'shortcuts'));
   // Custom shortcuts supplement the original platform links; never hide built-in icons.
   defaults.forEach(el=>{el.hidden=false});
-  let newestLink=null;
   for(const item of items){
    const a=doc.createElement('a');a.href=item.url;a.target='_blank';a.rel='noopener noreferrer';a.setAttribute('aria-label','Open '+item.name);a.title='Open '+item.name;a.dataset.customStreaming='1';
    const mark=doc.createElement('span');mark.className='streaming-custom-mark';mark.textContent=item.name.slice(0,1).toUpperCase();
-   const label=doc.createElement('span');label.textContent=item.name;a.append(mark,label);grid.insertBefore(a,add);newestLink=a;
+   const label=doc.createElement('span');label.textContent=item.name;a.append(mark,label);grid.insertBefore(a,add);
   }
   add.setAttribute('aria-label',items.length>=3?'Manage creator shortcuts':'Add a streaming platform');
   add.title=items.length>=3?'Manage your creator platform shortcuts':'Add a creator platform shortcut';
