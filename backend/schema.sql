@@ -68,18 +68,26 @@ declare
   d record;
   used_earning bigint;
   used_deposit bigint;
+  lock_key bigint;
 begin
   if new.user_id is distinct from (select auth.uid()) then
     raise exception 'Allocation owner mismatch';
   end if;
-  -- Fixed lock order prevents deadlocks across competing allocations.
+  -- Transaction advisory locks serialize competing allocations without
+  -- granting clients permission to modify earning/deposit source rows.
+  for lock_key in select unnest(array[
+    hashtextextended('earning:'||new.earning_id::text,0),
+    hashtextextended('deposit:'||new.deposit_id::text,0)
+  ]) order by 1 loop
+    perform pg_catalog.pg_advisory_xact_lock(lock_key);
+  end loop;
   select account_id,currency,gross_minor-fee_minor-tax_minor-refund_minor as available
     into e from public.cf_earnings
-    where id=new.earning_id and user_id=new.user_id for update;
+    where id=new.earning_id and user_id=new.user_id;
   if not found then raise exception 'Earning not available'; end if;
   select account_id,currency,amount_minor as available
     into d from public.cf_deposits
-    where id=new.deposit_id and user_id=new.user_id for update;
+    where id=new.deposit_id and user_id=new.user_id;
   if not found then raise exception 'Deposit not available'; end if;
   if e.account_id <> d.account_id or e.currency <> d.currency then
     raise exception 'Allocation account or currency mismatch';
