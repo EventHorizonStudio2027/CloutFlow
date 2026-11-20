@@ -692,3 +692,7 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 
 /* Keep the count badge legible at compact sizes without competing with platform marks. */
 .streaming-platform-icons button.streaming-add[data-shortcut-count]:not([data-shortcut-count="0"])::after{box-shadow:0 0 0 2px var(--panel);font-variant-numeric:tabular-nums}
+
+/* Custom platform monograms: preserve visual balance for emoji and multi-script names. */
+.streaming-custom-mark{font-size:clamp(12px,1.15vw,16px);line-height:1;overflow:hidden;text-align:center;white-space:nowrap}
+@media(max-width:600px){.streaming-custom-mark{font-size:14px}}
