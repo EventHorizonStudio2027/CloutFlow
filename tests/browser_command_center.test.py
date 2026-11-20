@@ -15,12 +15,14 @@ with sync_playwright() as p:
   page.on('pageerror',lambda e:errors.append(str(e)))
   page.set_content(html);page.add_style_tag(content=css);page.add_script_tag(content=js)
   assert page.locator('.command-card').count()==8
+  assert page.locator('#commandCenterCount').inner_text()=='8 of 8 shortcuts shown'
   page.locator('.command-card[data-command-target="ledgerSection"]').click()
   assert page.evaluate("document.activeElement.closest('#ledgerSection') !== null"),'Shortcut should focus target heading'
   page.locator('#customizeCommandCenter').click()
   assert page.locator('#commandCenterSettings').is_visible()
   page.locator('#commandCenterOptions input').first.uncheck()
   assert page.locator('.command-card').count()==7
+  assert page.locator('#commandCenterCount').inner_text()=='7 of 8 shortcuts shown'
   assert page.evaluate("document.activeElement.getAttribute('aria-label') === 'Show Recent transactions'"),'Keep focus after visibility change'
   page.locator('#commandCenterOptions button[aria-label^="Move down"]').first.click()
   page.locator('#resetCommandCenter').click()
