@@ -5,6 +5,17 @@ const root=path.resolve(__dirname,'..');
 const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
 const js=fs.readFileSync(path.join(root,'assets/js/app.js'),'utf8');
 const css=fs.readFileSync(path.join(root,'assets/css/app.css'),'utf8');
+const schema=fs.readFileSync(path.join(root,'backend/schema.sql'),'utf8');
+for(const table of ['cf_accounts','cf_earnings','cf_deposits','cf_allocations']){
+ assert(schema.includes('alter table public.'+table+' enable row level security;'),'RLS required on '+table);
+ assert(schema.includes('create policy '+table+'_owner'),'Ownership policy required on '+table);
+}
+assert.match(schema,/new\.user_id is distinct from \(select auth\.uid\(\)\)/,'Allocations must verify authenticated owner');
+assert.match(schema,/pg_advisory_xact_lock/,'Concurrent allocations require serialization');
+assert.match(schema,/e\.currency <> d\.currency/,'Allocation currencies must match');
+assert.match(schema,/used_earning \+ new\.amount_minor > e\.available/,'Earning balance must be enforced');
+assert.match(schema,/used_deposit \+ new\.amount_minor > d\.available/,'Deposit balance must be enforced');
+assert.match(schema,/revoke update,delete on public\.cf_allocations from authenticated/,'Allocation edits must be blocked');
 assert.match(html,/class="source-trust-strip"/,'Storage disclosure must be visible');
 assert.match(html,/No cloud sync or bank verification yet\./,'Do not imply live connections or verified bank data');
 assert(html.indexOf('class="streaming-platform-strip"')<html.indexOf('class="source-trust-strip"'),'Keep platform strip directly below welcome');
