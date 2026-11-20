@@ -818,3 +818,8 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .source-trust-strip span{overflow-wrap:anywhere}
 .source-trust-backup{opacity:.75;font-size:.75rem}
 @media(max-width:700px){.source-trust-strip{align-items:flex-start;padding:11px 12px}.source-trust-backup{display:none}}
+
+/* Final focus-phase polish: quiet glass texture and crisp connection-state typography. */
+.source-trust-strip{background:linear-gradient(115deg,rgba(213,168,95,.065),rgba(148,163,184,.025) 45%,rgba(148,163,184,.045));box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}
+.source-trust-strip strong{letter-spacing:.012em}
+@media(prefers-contrast:more){.source-trust-strip{border-color:currentColor}.source-trust-indicator{box-shadow:none}}
