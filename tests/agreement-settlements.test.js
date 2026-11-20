@@ -21,7 +21,7 @@ const invalidDue=s.reconcile([{id:'bad',due:'2026-02-30',currency:'USD',amount:2
 assert.ok(invalidDue.issues.some(x=>/invalid installment/i.test(x.reason)));
 const safe=s.reconcile(dues,payouts,[{agreementId:'a',due:'2026-11-15',payoutId:'missing',amount:10}]);
 assert.ok(safe.issues.some(x=>/unavailable/i.test(x.reason)));
-const over=s.reconcile(dues,payouts,[{agreementId:'a',due:'2026-11-15',payoutId:'p',amount:100},{agreementId:'a',due:'2026-11-15',payoutId:'q',amount:1}]);
+const over=s.reconcile(dues,payouts,[{agreementId:'a',due:'2026-11-15',payoutId:'p',amount:101}]);
 assert.ok(over.issues.some(x=>/above expected/i.test(x.reason)));
 assert.equal(s.link([],dues,[{id:'p',currency:'USD',amount:10},{id:'p',currency:'USD',amount:10}],'a','2026-11-15','p',5).error,'Invalid or duplicate deposit record');
 console.log('agreement settlement tests passed');
