@@ -5,7 +5,7 @@ function baseline(series){
  // prior months can form an illustrative baseline; missing data is never treated as zero.
  if(series.length<4)return null;
  const history=series.slice(-4,-1);
- if(history.some(r=>r.amount===null||r.amount<0||!Number.isSafeInteger(r.amount)||typeof r.month!=='string'||!/^\\d{4}-\\d{2}$/.test(r.month)))return null;
+ if(history.some(r=>r.amount===null||r.amount<0||!Number.isSafeInteger(r.amount)||typeof r.month!=='string'||!/^\d{4}-\d{2}$/.test(r.month)))return null;
  const serial=m=>{const [y,n]=m.split('-').map(Number);return n>=1&&n<=12?y*12+n:null};
  const months=history.map(r=>serial(r.month));
  if(months.some(m=>m===null)||months[1]!==months[0]+1||months[2]!==months[1]+1)return null;
