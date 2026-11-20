@@ -62,3 +62,8 @@ create policy cf_allocations_owner on public.cf_allocations for all to authentic
 -- Next gate: implement a transaction-safe allocation RPC enforcing currency,
 -- account ownership and sum(amount_minor) <= source balances before enabling writes.
 revoke insert,update,delete on public.cf_allocations from authenticated;
+-- Restrict direct edits to monetary balances until guarded update workflows exist.
+revoke update on public.cf_earnings, public.cf_deposits from authenticated;
+-- Never allow a client to delete financial evidence outside an audited workflow.
+revoke delete on public.cf_earnings, public.cf_deposits from authenticated;
+
