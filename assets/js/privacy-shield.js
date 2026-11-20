@@ -11,12 +11,13 @@
   button.setAttribute('aria-pressed',String(hidden));
   button.textContent=hidden?'◉ Show amounts':'◌ Hide amounts';
   button.setAttribute('aria-label',hidden?'Show financial amounts':'Hide financial amounts');
+  button.setAttribute('aria-keyshortcuts','Alt+Shift+P');
   button.title=hidden?'Reveal financial figures (Alt+Shift+P)':'Conceal financial figures (Alt+Shift+P)';
  }
  function toggle(){hidden=!hidden;apply();try{localStorage.setItem(KEY,hidden?'on':'off')}catch{}}
  button.addEventListener('click',toggle);
  document.addEventListener('keydown',event=>{
-  if(event.altKey&&event.shiftKey&&event.key.toLowerCase()==='p'&&!event.repeat&&!event.isComposing&&!event.target?.closest?.('input,textarea,select,[contenteditable="true"]')){event.preventDefault();toggle()}
+  if(event.altKey&&event.shiftKey&&event.key.toLowerCase()==='p'&&!event.repeat&&!event.isComposing&&!event.ctrlKey&&!event.metaKey&&!event.target?.closest?.('input,textarea,select,[contenteditable],[role="textbox"]')){event.preventDefault();toggle()}
  });
  apply();
 })();
