@@ -21,6 +21,7 @@ with sync_playwright() as p:
   assert page.locator('#commandCenterSettings').is_visible()
   page.locator('#commandCenterOptions input').first.uncheck()
   assert page.locator('.command-card').count()==7
+  assert page.evaluate("document.activeElement.getAttribute('aria-label') === 'Show Recent transactions'"),'Keep focus after visibility change'
   page.locator('#commandCenterOptions button[aria-label^="Move down"]').first.click()
   page.locator('#resetCommandCenter').click()
   assert page.locator('.command-card').count()==8
