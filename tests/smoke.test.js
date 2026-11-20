@@ -18,7 +18,7 @@ assert.match(schema,/used_earning \+ new\.amount_minor > e\.available/,'Earning 
 assert.match(schema,/used_deposit \+ new\.amount_minor > d\.available/,'Deposit balance must be enforced');
 assert.match(schema,/revoke update,delete on public\.cf_allocations from authenticated/,'Allocation edits must be blocked');
 assert.match(html,/class="source-trust-strip"/,'Storage disclosure must be visible');
-assert.match(html,/No cloud sync or bank verification yet\./,'Do not imply live connections or verified bank data');
+assert.match(html,/Account sign-in, cross-device sync and bank verification are not active yet\./,'Do not imply live sync or verified bank data');
 assert(html.indexOf('class="streaming-platform-strip"')<html.indexOf('class="source-trust-strip"'),'Keep platform strip directly below welcome');
 assert.match(html,/<link rel="stylesheet" href="assets\/css\/app\.css">/);
 assert.match(html,/<script src="assets\/js\/app\.js"><\/script>/);
