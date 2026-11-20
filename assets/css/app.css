@@ -637,3 +637,10 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 @media(prefers-reduced-motion:reduce){.command-card:hover{transform:none}}
 
 .command-center-count{margin:9px 2px 0;color:var(--muted);font-size:11px;line-height:1.4}
+
+/* Privacy shield: conceal visual amounts without changing calculations or exports. */
+.privacy-shield .stat-value,.privacy-shield .amount,.privacy-shield .break-amount,.privacy-shield [data-money],.privacy-shield .currency-amount{filter:blur(9px);user-select:none}
+.privacy-shield .stat-value::selection,.privacy-shield .amount::selection{background:transparent}
+#privacyShieldToggle[aria-pressed="true"]{border-color:var(--cyan);color:var(--cyan);background:rgba(85,223,208,.09)}
+@media(max-width:600px){#privacyShieldToggle{min-height:40px;white-space:nowrap}}
+@media print{.privacy-shield .stat-value,.privacy-shield .amount,.privacy-shield .break-amount,.privacy-shield [data-money],.privacy-shield .currency-amount{filter:none}}
