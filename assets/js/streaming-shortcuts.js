@@ -5,7 +5,7 @@ function normalize(name,url){
  const original=String(name||'');
  if(/[\u0000-\u001f\u007f]/.test(original))return null;
  const label=original.trim().replace(/\s+/g,' ').slice(0,22).trim();
- if(!label)return null;
+ if(!label||/[\u202a-\u202e\u2066-\u2069]/.test(label))return null;
  try{const raw=String(url||'').trim();if(raw.length>2048||/[\u0000-\u001f\u007f]/.test(raw))return null;const parsed=new URL(raw);if(parsed.protocol!=='https:'||!parsed.hostname||parsed.username||parsed.password||parsed.port&&parsed.port!=='443')return null;return {name:label,url:parsed.href}}catch{return null}
 }
 function read(store){try{const data=JSON.parse(store.getItem(KEY)||'[]');if(!Array.isArray(data))return [];const seenUrls=new Set(),seenNames=new Set(),items=[];for(const entry of data){const item=normalize(entry?.name,entry?.url);if(!item)continue;const nameKey=item.name.toLocaleLowerCase();if(seenUrls.has(item.url)||seenNames.has(nameKey))continue;seenUrls.add(item.url);seenNames.add(nameKey);items.push(item);if(items.length===3)break}return items}catch{return []}}
