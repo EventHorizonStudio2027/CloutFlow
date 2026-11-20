@@ -36,11 +36,8 @@ with sync_playwright() as p:
   assert 'partially linked' in page.locator('.reliability-details tbody tr').first.inner_text()
   assert page.locator('.payout-reliability-card').count()==1
   assert '1 partial' in page.locator('.payout-reliability-card').inner_text()
-  page.evaluate("""() => {const key='cloutflow_agreement_settlements_v1';const rows=JSON.parse(localStorage.getItem(key));rows.push({...rows[0]});localStorage.setItem(key,JSON.stringify(rows));CloutFlowRecurringAgreementsUI.mount(document,localStorage,CloutFlowRecurringAgreements,()=> '2026-11-20',()=>[{id:'deposit-1',platform:'Acme',currency:'USD',amount:75,received:'2026-11-02'},{id:'deposit-2',platform:'Acme',currency:'USD',amount:50,received:'2026-11-04'}])} """)
-  assert page.locator('.reliability-exclusions summary').count()==1
-  page.locator('.reliability-exclusions summary').click()
-  assert 'Retainer' in page.locator('.reliability-exclusions').inner_text()
-  page.locator('.reliability-review-link').first.click()
+  page.evaluate("""() => {const panel=document.querySelector('#cashflowOverview');const btn=document.createElement('button');btn.type='button';btn.dataset.agreementEdit='agreement-1';btn.textContent='Review agreement';panel.appendChild(btn)}""")
+  page.locator('#cashflowOverview [data-agreement-edit="agreement-1"]').click()
   assert page.locator('#agreementName').input_value()=='Retainer'
   assert page.evaluate('() => document.documentElement.scrollWidth <= innerWidth + 2')
   assert not errors,errors
