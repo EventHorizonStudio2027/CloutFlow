@@ -34,6 +34,7 @@ function init(doc,store){
   manage.hidden=items.length===0;
   manage.setAttribute('role','group');
   manage.setAttribute('aria-label','Manage '+items.length+' custom creator '+(items.length===1?'shortcut':'shortcuts'));
+  add.dataset.shortcutCount=String(items.length);
   // Custom shortcuts supplement the original platform links; never hide built-in icons.
   defaults.forEach(el=>{el.hidden=false});
   for(const item of items){
