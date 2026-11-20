@@ -43,6 +43,7 @@
     options.append(line);
    }
    if(!grid.childElementCount)grid.append(make('p','footnote','All shortcuts are hidden. Use Customize to show one.'));
+   const count=doc.getElementById('commandCenterCount');if(count)count.textContent=`${grid.querySelectorAll('.command-card').length} of ${ITEMS.length} shortcuts shown`;
   }
   toggle.addEventListener('click',()=>{settings.hidden=!settings.hidden;toggle.setAttribute('aria-expanded',String(!settings.hidden));});
   settings.addEventListener('keydown',event=>{if(event.key==='Escape'){settings.hidden=true;toggle.setAttribute('aria-expanded','false');toggle.focus();}});
