@@ -84,3 +84,8 @@ assert.match(shortcutSource,/builtInUrls\.has\(item\.url\)/);
 assert.match(shortcutSource,/const next=manage\.querySelector\('button'\)\|\|\(!name\.disabled\?name:cancel\)/);
 assert.match(shortcutSource,/capacityStatus\.id='streamingShortcutCount'/);
 assert.match(css,/a\[data-custom-streaming\] span:last-child\{max-width:100%;overflow:hidden;text-overflow:ellipsis/);
+
+// Built-in platform names cannot be impersonated by a custom shortcut.
+assert.match(shortcutSource,/builtInNames\.has\(item\.name\.toLocaleLowerCase\(\)\)/);
+assert.match(shortcutSource,/add\.setAttribute\('aria-haspopup','true'\)/);
+assert.match(shortcutSource,/error\.textContent='';add\.focus\(\)/);
