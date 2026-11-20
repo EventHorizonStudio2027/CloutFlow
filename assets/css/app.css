@@ -777,3 +777,8 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .reliability-exclusions>summary:focus-visible{outline:2px solid #d99e4e;outline-offset:-3px}
 .reliability-exclusions ul{padding:7px 16px 9px 33px;margin:0;font-size:.8rem;line-height:1.6}
 .reliability-exclusions li{overflow-wrap:anywhere}
+
+/* Final polish: distinguish disputed data without competing with primary financial figures. */
+.reliability-exclusions>summary::marker{color:#d99e4e}
+.reliability-exclusions[open]>summary{border-bottom:1px solid rgba(217,158,78,.22);background:linear-gradient(90deg,rgba(217,158,78,.13),rgba(217,158,78,.035))}
+.reliability-exclusions li+li{border-top:1px solid rgba(148,163,184,.12);padding-top:5px;margin-top:5px}
