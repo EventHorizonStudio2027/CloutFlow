@@ -653,3 +653,9 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 /* Privacy action: reserve space for the longer reveal label and avoid awkward wrapping. */
 @media(min-width:601px){#privacyShieldToggle{min-width:132px}}
 @media(max-width:600px){.welcome .period #privacyShieldToggle{flex:0 0 auto;min-height:44px;padding-inline:12px}}
+
+/* Streaming dock: a compact, clearly separated launcher immediately below overview. */
+.welcome + .streaming-platform-strip{margin-top:8px;margin-bottom:14px}
+.welcome + .streaming-platform-strip .streaming-platform-heading{min-width:0}
+.welcome + .streaming-platform-strip .streaming-platform-icons{min-width:0}
+@media(max-width:600px){.welcome + .streaming-platform-strip{margin-top:6px;margin-bottom:12px}}
