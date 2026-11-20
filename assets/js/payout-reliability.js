@@ -9,19 +9,21 @@ function analyze(dueRows,links,payouts,asOf){
  for(const l of links){if(!l||typeof l.agreementId!=='string'||!validDate(l.due)||typeof l.payoutId!=='string'||cents(l.amount)===null){excluded++;continue}const key=JSON.stringify([l.agreementId,l.due,l.payoutId]);if(seen.has(key)){excluded++;continue}seen.add(key);const p=deposits.get(l.payoutId);if(!p){excluded++;continue}const k=JSON.stringify([l.agreementId,l.due]);const rows=allocated.get(k)||[];rows.push({amount:cents(l.amount),received:p.received,currency:p.currency,payoutId:p.id});allocated.set(k,rows)}
  const payoutAllocations=new Map();for(const rows of allocated.values())for(const row of rows)payoutAllocations.set(row.payoutId,(payoutAllocations.get(row.payoutId)||0)+row.amount);
  const overallocatedPayouts=new Set([...payoutAllocations].filter(([id,amount])=>amount>cents(deposits.get(id)?.amount)).map(([id])=>id));
- const groups=new Map(),dueSeen=new Set();
+ const groups=new Map(),dueSeen=new Set(),details=[];
  for(const d of dueRows){if(d&&validDate(d.due)&&d.due>=asOf)continue;if(!d||typeof d.id!=='string'||!d.id.trim()||!validDate(d.due)||typeof d.platform!=='string'||typeof d.currency!=='string'||!/^[A-Z]{3}$/.test(d.currency)||cents(d.amount)===null){excluded++;continue}
   const key=JSON.stringify([d.id,d.due]);if(dueSeen.has(key)){excluded++;continue}dueSeen.add(key);
   const allLinks=allocated.get(key)||[];if(allLinks.some(x=>x.currency!==d.currency||overallocatedPayouts.has(x.payoutId))){excluded++;continue}
   const matching=allLinks,total=matching.reduce((n,x)=>n+x.amount,0),expected=cents(d.amount);
   if(total>expected||!Number.isSafeInteger(total)){excluded++;continue}
+  const status=total===expected?'fully-linked':total>0?'partially-linked':'unlinked';
+  details.push({agreementId:d.id,name:typeof d.name==='string'?d.name:'',platform:d.platform.trim()||'Unspecified',currency:d.currency,due:d.due,expected:expected/100,linked:total/100,outstanding:(expected-total)/100,status});
   const gKey=JSON.stringify([d.platform.trim()||'Unspecified',d.currency]);const g=groups.get(gKey)||{platform:d.platform.trim()||'Unspecified',currency:d.currency,installments:0,fullyLinked:0,partiallyLinked:0,unlinked:0,linkedOnTime:0,linkedLate:0,expectedCents:0,linkedCents:0,outstandingCents:0};
   g.installments++;g.expectedCents+=expected;g.linkedCents+=total;g.outstandingCents+=expected-total;
   if(total===expected){g.fullyLinked++;const last=matching.map(x=>x.received).sort().at(-1);if(last<=d.due)g.linkedOnTime++;else g.linkedLate++}
   else if(total>0)g.partiallyLinked++;else g.unlinked++;
   groups.set(gKey,g);
  }
- return {groups:[...groups.values()].map(g=>({...g,expected:g.expectedCents/100,linked:g.linkedCents/100,outstanding:g.outstandingCents/100,coveragePercent:Math.round(g.fullyLinked/g.installments*100),coverageLabel:g.installments<3?'Limited history':g.installments<6?'Developing history':'Established history'})).sort((a,b)=>a.platform.localeCompare(b.platform)||a.currency.localeCompare(b.currency)),excluded,error:''};
+ return {details:details.sort((a,b)=>b.due.localeCompare(a.due)||a.platform.localeCompare(b.platform)||a.agreementId.localeCompare(b.agreementId)),groups:[...groups.values()].map(g=>({...g,expected:g.expectedCents/100,linked:g.linkedCents/100,outstanding:g.outstandingCents/100,coveragePercent:Math.round(g.fullyLinked/g.installments*100),coverageLabel:g.installments<3?'Limited history':g.installments<6?'Developing history':'Established history'})).sort((a,b)=>a.platform.localeCompare(b.platform)||a.currency.localeCompare(b.currency)),excluded,error:''};
 }
 const api={analyze};root.CloutFlowPayoutReliability=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(typeof window!=='undefined'?window:globalThis);
