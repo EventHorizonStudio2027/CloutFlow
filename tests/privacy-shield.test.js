@@ -17,9 +17,14 @@ const localStorage={getItem(){return stored},setItem(k,v){assert.equal(k,'cloutf
 vm.runInNewContext(source,{document,localStorage});
 assert.equal(attrs['aria-pressed'],'false');
 assert.equal(attrs['aria-label'],'Hide financial amounts');
+assert.equal(attrs['aria-keyshortcuts'],'Alt+Shift+P');
 listeners['button:click']();
 assert.equal(attrs['aria-pressed'],'true');assert(classes.has('privacy-shield'));assert.equal(stored,'on');assert.equal(attrs['aria-label'],'Show financial amounts');
 listeners['doc:keydown']({altKey:true,shiftKey:true,key:'p',repeat:false,isComposing:false,target:{closest:()=>({})},preventDefault(){throw Error('Editable shortcut intercepted')}});
+assert.equal(attrs['aria-pressed'],'true');
+listeners['doc:keydown']({altKey:true,shiftKey:true,key:'p',repeat:false,target:{closest:selector=>selector.includes('[contenteditable]')?{}:null},preventDefault(){throw Error('Rich editor shortcut intercepted')}});
+assert.equal(attrs['aria-pressed'],'true');
+listeners['doc:keydown']({altKey:true,shiftKey:true,ctrlKey:true,key:'p',repeat:false,preventDefault(){throw Error('Ctrl modifier shortcut intercepted')}});
 assert.equal(attrs['aria-pressed'],'true');
 listeners['doc:keydown']({altKey:true,shiftKey:true,key:'P',repeat:false,preventDefault(){}});
 assert.equal(attrs['aria-pressed'],'false');assert(!classes.has('privacy-shield'));
