@@ -11,7 +11,7 @@ function analyze(dueRows,links,payouts,asOf){
  const overallocatedPayouts=new Set([...payoutAllocations].filter(([id,amount])=>amount>cents(deposits.get(id)?.amount)).map(([id])=>id));
  const groups=new Map(),dueSeen=new Set(),details=[],exclusions=[];
  for(const d of dueRows){if(d&&validDate(d.due)&&d.due>=asOf)continue;if(!d||typeof d.id!=='string'||!d.id.trim()||!validDate(d.due)||typeof d.platform!=='string'||typeof d.currency!=='string'||!/^[A-Z]{3}$/.test(d.currency)||cents(d.amount)===null){excluded++;continue}
-  const key=JSON.stringify([d.id,d.due]);if(invalidInstallments.has(key)){excluded++;exclusions.push({agreementId:d.id,due:d.due,reason:'Invalid or duplicate settlement link'});continue}if(dueSeen.has(key)){excluded++;continue}dueSeen.add(key);
+  const key=JSON.stringify([d.id,d.due]);if(invalidInstallments.has(key)){excluded++;exclusions.push({agreementId:d.id,due:d.due,reason:'Invalid or duplicate settlement link'});continue}if(dueSeen.has(key)){excluded++;exclusions.push({agreementId:d.id,due:d.due,reason:'Duplicate installment schedule'});continue}dueSeen.add(key);
   const allLinks=allocated.get(key)||[];if(allLinks.some(x=>x.currency!==d.currency||overallocatedPayouts.has(x.payoutId))){excluded++;exclusions.push({agreementId:d.id,due:d.due,reason:allLinks.some(x=>x.currency!==d.currency)?'Currency mismatch':'Deposit overallocated'});continue}
   const matching=allLinks,total=matching.reduce((n,x)=>n+x.amount,0),expected=cents(d.amount);
   if(total>expected||!Number.isSafeInteger(total)){excluded++;exclusions.push({agreementId:d.id,due:d.due,reason:'Installment overallocated'});continue}
