@@ -770,3 +770,10 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .reliability-details[open]>summary{border-bottom:1px solid rgba(148,163,184,.2);background:linear-gradient(90deg,rgba(102,195,195,.11),rgba(148,163,184,.035))}
 .reliability-details tbody tr:hover{background:rgba(102,195,195,.055)}
 @media(prefers-reduced-motion:no-preference){.reliability-details>summary{transition:background .18s ease}}
+
+.reliability-quality{font-size:.79rem;line-height:1.5;margin:9px 0;color:var(--muted);font-variant-numeric:tabular-nums}
+.reliability-exclusions{margin-top:10px;border:1px solid rgba(217,158,78,.32);border-radius:10px;overflow:hidden}
+.reliability-exclusions>summary{padding:11px 13px;cursor:pointer;font-size:.83rem;font-weight:650;background:rgba(217,158,78,.075)}
+.reliability-exclusions>summary:focus-visible{outline:2px solid #d99e4e;outline-offset:-3px}
+.reliability-exclusions ul{padding:7px 16px 9px 33px;margin:0;font-size:.8rem;line-height:1.6}
+.reliability-exclusions li{overflow-wrap:anywhere}
