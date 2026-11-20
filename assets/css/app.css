@@ -787,3 +787,8 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .reliability-exclusions>summary{line-height:1.5;overflow-wrap:anywhere}
 .reliability-exclusions>summary:hover{background:rgba(217,158,78,.12)}
 @media(max-width:480px){.reliability-exclusions>summary{padding:12px 13px}.reliability-exclusions ul{padding-left:28px}}
+
+/* Final design pass: softer amber focus halo with motion-aware feedback. */
+.reliability-exclusions:focus-within{box-shadow:0 0 0 3px rgba(217,158,78,.1)}
+.reliability-exclusions>summary{transition:background-color .18s ease,color .18s ease}
+@media(prefers-reduced-motion:reduce){.reliability-exclusions>summary{transition:none}}
