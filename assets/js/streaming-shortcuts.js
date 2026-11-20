@@ -4,7 +4,7 @@ const KEY='cloutflow_streaming_shortcuts_v1';
 function normalize(name,url){
  const original=String(name||'');
  if(/[\u0000-\u001f\u007f]/.test(original))return null;
- const label=original.trim().replace(/\s+/g,' ').slice(0,22).trim();
+ const label=Array.from(original.trim().replace(/\s+/g,' ')).slice(0,22).join('').trim();
  if(!label||/[\u202a-\u202e\u2066-\u2069]/.test(label))return null;
  try{const raw=String(url||'').trim();if(raw.length>2048||/[\u0000-\u001f\u007f]/.test(raw))return null;const parsed=new URL(raw);if(parsed.protocol!=='https:'||!parsed.hostname||parsed.username||parsed.password||parsed.port&&parsed.port!=='443')return null;return {name:label,url:parsed.href}}catch{return null}
 }
