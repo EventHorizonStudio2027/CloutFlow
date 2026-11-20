@@ -608,3 +608,8 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 /* Universal search: keep the resting UI entirely out of layout and interaction. */
 .global-search-overlay[hidden] .global-search-dialog{visibility:hidden;pointer-events:none}
 .global-search-overlay:not([hidden]) .global-search-dialog{outline:1px solid #7396b84d}
+
+/* Audit review polish: concise findings, clear keyboard navigation and balanced action. */
+#payoutAuditPanel [data-audit-list] li{line-height:1.55;padding-block:4px;overflow-wrap:anywhere}
+#payoutAuditPanel #exportPayoutAudit:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+@media(min-width:561px){#payoutAuditPanel .payout-audit-heading .btn{flex-shrink:0}}
