@@ -23,7 +23,7 @@ function analyze(dueRows,links,payouts,asOf){
   else if(total>0)g.partiallyLinked++;else g.unlinked++;
   groups.set(gKey,g);
  }
- return {exclusions:exclusions.sort((a,b)=>b.due.localeCompare(a.due)),details:details.sort((a,b)=>b.due.localeCompare(a.due)||a.platform.localeCompare(b.platform)||a.agreementId.localeCompare(b.agreementId)),groups:[...groups.values()].map(g=>({...g,expected:g.expectedCents/100,linked:g.linkedCents/100,outstanding:g.outstandingCents/100,coveragePercent:Math.round(g.fullyLinked/g.installments*100),coverageLabel:g.installments<3?'Limited history':g.installments<6?'Developing history':'Established history'})).sort((a,b)=>a.platform.localeCompare(b.platform)||a.currency.localeCompare(b.currency)),excluded,error:''};
+ return {quality:{validInstallments:details.length,disputedInstallments:exclusions.length,otherExcluded:Math.max(0,excluded-exclusions.length),complete:excluded===0},exclusions:exclusions.sort((a,b)=>b.due.localeCompare(a.due)),details:details.sort((a,b)=>b.due.localeCompare(a.due)||a.platform.localeCompare(b.platform)||a.agreementId.localeCompare(b.agreementId)),groups:[...groups.values()].map(g=>({...g,expected:g.expectedCents/100,linked:g.linkedCents/100,outstanding:g.outstandingCents/100,coveragePercent:Math.round(g.fullyLinked/g.installments*100),coverageLabel:g.installments<3?'Limited history':g.installments<6?'Developing history':'Established history'})).sort((a,b)=>a.platform.localeCompare(b.platform)||a.currency.localeCompare(b.currency)),excluded,error:''};
 }
 const api={analyze};root.CloutFlowPayoutReliability=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(typeof window!=='undefined'?window:globalThis);
