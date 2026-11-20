@@ -18,7 +18,7 @@ with sync_playwright() as p:
   queue=page.locator('#cashflowAttention')
   assert 'Payment attention queue' in queue.inner_text()
   assert 'Overdue' in queue.inner_text()
-  assert queue.locator('tbody tr').count()==3
+  assert queue.locator('tbody tr').count()==3\n  assert queue.locator('.cashflow-status.status-overdue').count()==1\n  assert queue.locator('.cashflow-due-hint').count()==3\n  assert 'days overdue' in queue.inner_text()
   page.locator('#cashflowAttentionFilter').select_option('upcoming')
   assert queue.locator('tbody tr').count()==2
   with page.expect_download() as download_info:
