@@ -4,7 +4,7 @@ const defaults=c.normalize(null);
 assert.equal(defaults.order.length,c.ITEMS.length);
 assert.deepEqual(defaults.hidden,[]);
 assert.deepEqual(c.normalize({order:['ledgerSection','ledgerSection','unknown'],hidden:['accountsSection','invalid']}).order.slice(0,2),['ledgerSection','paymentDashboard']);
-assert.deepEqual(c.normalize({hidden:['accountsSection','invalid']}).hidden,['accountsSection']);
+assert.deepEqual(c.normalize({hidden:['accountsSection','invalid','accountsSection']}).hidden,['accountsSection']);
 assert.equal(new Set(c.ITEMS.map(x=>x.id)).size,c.ITEMS.length);
 const fs=require('node:fs');const html=fs.readFileSync(require.resolve('../index.html'),'utf8');
 for(const item of c.ITEMS)assert.ok(html.includes('id="'+item.id+'"'),'Missing command destination '+item.id);
