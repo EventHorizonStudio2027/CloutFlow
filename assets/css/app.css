@@ -809,3 +809,12 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 /* Final finish: understated amber accent stripe on review controls. */
 .reliability-review-link{border-left:3px solid rgba(217,158,78,.85);letter-spacing:.005em}
 .reliability-review-link:active{background:rgba(217,158,78,.23)}
+
+/* Focus phase: factual storage/connection disclosure, visually secondary to financial KPIs. */
+.source-trust-strip{display:flex;align-items:center;gap:11px;margin:10px 0 13px;padding:10px 14px;border:1px solid rgba(148,163,184,.22);border-radius:12px;background:rgba(148,163,184,.045);font-size:.79rem;line-height:1.45}
+.source-trust-indicator{flex:0 0 8px;width:8px;height:8px;border-radius:50%;background:#d5a85f;box-shadow:0 0 0 3px rgba(213,168,95,.11)}
+.source-trust-strip>div{display:flex;flex-wrap:wrap;gap:4px 9px;min-width:0;flex:1}
+.source-trust-strip strong{font-weight:700;white-space:nowrap}
+.source-trust-strip span{overflow-wrap:anywhere}
+.source-trust-backup{opacity:.75;font-size:.75rem}
+@media(max-width:700px){.source-trust-strip{align-items:flex-start;padding:11px 12px}.source-trust-backup{display:none}}
