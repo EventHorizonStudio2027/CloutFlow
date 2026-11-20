@@ -14,4 +14,7 @@ assert.equal(candidates({...base,id:'new',amount:0},list).length,0);
 assert.equal(candidates({...base,id:'new',currency:'US$'},list).length,0);
 assert.equal(candidates({...base,id:'new'},[...list,{...base,id:'invalid',received:'2026-02-30'}]).length,1);
 assert.equal(candidates({...base,id:'new'},[...list,{...base,id:'bad-amount',amount:123.456}]).length,1);
-console.log('Payout duplicate advisory: 12 checks passed');
+assert.equal(candidates({...base,id:''},list).length,1,'new payout must receive duplicate warning before it has an ID');
+assert.equal(candidates({...base,id:'',amount:0},list).length,0);
+assert.equal(candidates({...base,id:'',amount:123.456},list).length,0);
+console.log('Payout duplicate advisory: 15 checks passed');
