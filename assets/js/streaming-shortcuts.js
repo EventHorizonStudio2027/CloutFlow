@@ -11,6 +11,7 @@ function save(store,items){try{if(!Array.isArray(items)||items.length>3)return f
 function init(doc,store){
  const grid=doc.getElementById('streamingPlatformIcons'),add=doc.getElementById('addStreamingPlatform'),form=doc.getElementById('streamingAddForm');
  if(!grid||!add||!form||!store||add.dataset.bound)return;
+ if(!doc.getElementById('streamingNewName')||!doc.getElementById('streamingNewUrl')||!doc.getElementById('streamingAddError')||!doc.getElementById('streamingAddCancel'))return;
  add.dataset.bound='1';
  const name=doc.getElementById('streamingNewName'),url=doc.getElementById('streamingNewUrl'),error=doc.getElementById('streamingAddError'),cancel=doc.getElementById('streamingAddCancel');
  const defaults=Array.from(grid.querySelectorAll('a'));
@@ -27,13 +28,10 @@ function init(doc,store){
   const items=read(store);
   syncCapacity();
   manage.hidden=items.length===0;
-  manage.setAttribute('aria-label',items.length+' custom creator '+(items.length===1?'shortcut':'shortcuts')+' saved');
-  manage.setAttribute('aria-live','polite');
   manage.setAttribute('role','group');
   manage.setAttribute('aria-label','Manage '+items.length+' custom creator '+(items.length===1?'shortcut':'shortcuts'));
-  const replaceable=defaults.filter(el=>!['Open Discord','Open Patreon'].includes(el.getAttribute('aria-label'))).reverse();
+  // Custom shortcuts supplement the original platform links; never hide built-in icons.
   defaults.forEach(el=>{el.hidden=false});
-  replaceable.slice(0,items.length).forEach(el=>{el.hidden=true});
   for(const item of items){
    const a=doc.createElement('a');a.href=item.url;a.target='_blank';a.rel='noopener noreferrer';a.setAttribute('aria-label','Open '+item.name);a.title='Open '+item.name;a.dataset.customStreaming='1';
    const mark=doc.createElement('span');mark.className='streaming-custom-mark';mark.textContent=item.name.slice(0,1).toUpperCase();
