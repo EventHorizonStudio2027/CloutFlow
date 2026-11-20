@@ -22,6 +22,10 @@ const malformed=[
  {id:'invalid-date',received:'2026-02-30',amount:10},
  {id:'invalid-currency',received:'2026-11-01',currency:'US$',amount:10},
  {id:'blank-money',received:'2026-11-01',amount:''},
+ {id:'space-money',received:'2026-11-01',amount:'   '},
+ {id:'boolean-money',received:'2026-11-01',amount:false},
+ {id:'fractional-cent',received:'2026-11-01',amount:10.001},
+ {id:'fractional-allocation',received:'2026-11-01',amount:10,allocations:[{amount:1.001}]},
  {id:'valid',received:'2026-11-05',amount:20,allocations:[{amount:5}]}
 ];
 assert.deepEqual(pending(malformed).map(p=>p.id),['valid']);
