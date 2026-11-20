@@ -756,3 +756,11 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .payout-reliability-card{border-left:3px solid rgba(102,195,195,.5)}
 .payout-reliability-card .reliability-amounts{letter-spacing:.005em}
 @media(prefers-contrast:more){.payout-reliability-card{border-left-color:currentColor}.reliability-meter{outline:1px solid currentColor}}
+
+/* Disclosure keeps installment detail available without crowding the dashboard. */
+.reliability-details{margin-top:12px;border:1px solid rgba(148,163,184,.22);border-radius:12px;overflow:hidden}
+.reliability-details>summary{cursor:pointer;padding:12px 14px;font-weight:650;font-size:.86rem;list-style-position:inside;background:rgba(148,163,184,.055)}
+.reliability-details>summary:hover{background:rgba(102,195,195,.09)}
+.reliability-details>summary:focus-visible{outline:2px solid #66c3c3;outline-offset:-3px}
+.reliability-details .growth-trends-scroll{margin:0;max-width:100%;overflow-x:auto}
+.reliability-details td,.reliability-details th{white-space:nowrap;font-variant-numeric:tabular-nums}
