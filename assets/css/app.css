@@ -751,3 +751,8 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 /* Keep expected-versus-linked amounts readable on narrow creator dashboards. */
 .payout-reliability-card .reliability-amounts{display:block;padding:8px 0;border-top:1px solid rgba(148,163,184,.17);font-variant-numeric:tabular-nums;overflow-wrap:anywhere;line-height:1.55;color:var(--text)}
 @media(max-width:480px){.payout-reliability-grid{grid-template-columns:minmax(0,1fr)}.payout-reliability-card{padding:13px 14px}}
+
+/* Extra finishing pass: a gentle accent edge separates linked-payment history from forecast-like data. */
+.payout-reliability-card{border-left:3px solid rgba(102,195,195,.5)}
+.payout-reliability-card .reliability-amounts{letter-spacing:.005em}
+@media(prefers-contrast:more){.payout-reliability-card{border-left-color:currentColor}.reliability-meter{outline:1px solid currentColor}}
