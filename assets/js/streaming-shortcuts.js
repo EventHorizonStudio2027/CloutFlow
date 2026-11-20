@@ -3,7 +3,7 @@
 const KEY='cloutflow_streaming_shortcuts_v1';
 function normalize(name,url){
  const label=String(name||'').trim().replace(/\s+/g,' ').slice(0,22);
- if(!label||/[\u0000-\u001f\u007f]/.test(label))return null;
+ if(!label)return null;
  try{const raw=String(url||'').trim();if(raw.length>2048||/[\u0000-\u001f\u007f]/.test(raw))return null;const parsed=new URL(raw);if(parsed.protocol!=='https:'||!parsed.hostname||parsed.username||parsed.password||parsed.port&&parsed.port!=='443')return null;return {name:label,url:parsed.href}}catch{return null}
 }
 function read(store){try{const data=JSON.parse(store.getItem(KEY)||'[]');return Array.isArray(data)?data.map(x=>normalize(x?.name,x?.url)).filter(Boolean).filter((x,i,a)=>a.findIndex(y=>y.url===x.url)===i).slice(0,3):[]}catch{return []}}
