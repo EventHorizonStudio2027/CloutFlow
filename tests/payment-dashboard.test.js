@@ -4,7 +4,7 @@ const queue={rows:[{remaining:100,currency:'USD',status:'overdue',partial:false}
 assert.deepEqual(api.summarize(queue,[{},{}]),{blocked:false,overdue:1,dueToday:1,partial:2,reminders:2,attention:3,upcomingWeek:0,upcomingMonth:0,nextDue:null,weekAmounts:[],monthAmounts:[],overdueAmounts:[{currency:'USD',amount:100}],excludedAmounts:0});
 assert.equal(api.summarize(queue,[],true).blocked,true);
 const fields={title:{textContent:''},detail:{textContent:''},button:{textContent:''}};const host={dataset:{},querySelector(s){return fields[s.includes('title')?'title':s.includes('detail')?'detail':'button']}};
-api.update({getElementById:()=>host},api.summarize(queue,[{}]));assert.match(fields.title.textContent,/3 payment alerts/);assert.match(fields.detail.textContent,/Counts may overlap/);assert.equal(host.dataset.state,'urgent');
+api.update({getElementById:()=>host},api.summarize(queue,[{}]));assert.match(fields.title.textContent,/2 overdue or due-today payments/);assert.match(fields.detail.textContent,/Counts may overlap/);assert.equal(host.dataset.state,'urgent');
 api.update({getElementById:()=>host},api.summarize(null,null,true));assert.equal(host.dataset.state,'warning');
 console.log('Payment dashboard tests passed');
 
@@ -49,3 +49,8 @@ api.update({getElementById:()=>host},outlook);
 assert.match(fields.detail.textContent,/Next 30-day outstanding amounts:/);
 assert.match(fields.detail.textContent,/Overdue outstanding amounts:/);
 assert.doesNotMatch(fields.detail.textContent,/\$100\.00/);
+
+// An alert count must not imply distinct payments when reminders overlap.
+const reminderOnly=api.summarize({rows:[]},[{},{}]);api.update({getElementById:()=>host},reminderOnly);assert.match(fields.title.textContent,/2 follow-up reminders/);assert.equal(host.dataset.state,'urgent');
+// Sub-cent, non-finite and nonnumeric balances must never enter cash totals.
+const invalidAmounts=api.moneyGroups([{currency:'USD',remaining:12.34},{currency:'USD',remaining:1.001},{currency:'USD',remaining:'20'},{currency:'USD',remaining:Infinity},{currency:'USD',remaining:5}]);assert.deepEqual(invalidAmounts.totals,[{currency:'USD',amount:17.34}]);assert.equal(invalidAmounts.excluded,3);
