@@ -24,14 +24,14 @@ function summarize(queue,reminders,blocked=false){
 function formatGroups(groups){return groups.map(({currency,amount})=>`${new Intl.NumberFormat('en-US',{style:'currency',currency}).format(amount)} ${currency}`).join(' · ');}
 function update(doc,data){const el=doc.getElementById('paymentDashboard');if(!el)return;const s=data||summarize(null,null,true);const title=el.querySelector('[data-payment-title]');const detail=el.querySelector('[data-payment-detail]');const button=el.querySelector('[data-payment-open]');if(!title||!detail||!button)return;
  if(s.blocked){title.textContent='Payment review unavailable';detail.textContent='Check agreement, allocation, and follow-up data for errors before reviewing reminders.';button.textContent='Review payment records';el.dataset.state='warning';return}
- const urgent=s.overdue+s.dueToday+s.reminders;
- title.textContent=urgent?`${urgent} payment alert${urgent===1?'':'s'} to review`:s.attention?`${s.attention} expected payment${s.attention===1?'':'s'} need review`:s.upcomingWeek?`${s.upcomingWeek} expected payment${s.upcomingWeek===1?'':'s'} due within 7 days`:'No urgent payment reminders';
+ const urgent=s.overdue+s.dueToday;
+ title.textContent=urgent?`${urgent} overdue or due-today payment${urgent===1?'':'s'} to review`:s.reminders?`${s.reminders} follow-up reminder${s.reminders===1?'':'s'} to review`:s.attention?`${s.attention} expected payment${s.attention===1?'':'s'} need review`:s.upcomingWeek?`${s.upcomingWeek} expected payment${s.upcomingWeek===1?'':'s'} due within 7 days`:'No urgent payment reminders';
  const amounts=s.weekAmounts?.length?` Upcoming 7-day outstanding amounts: ${formatGroups(s.weekAmounts)}.`:'';
  const monthly=s.monthAmounts?.length?` Next 30-day outstanding amounts: ${formatGroups(s.monthAmounts)}.`:'';
  const late=s.overdueAmounts?.length?` Overdue outstanding amounts: ${formatGroups(s.overdueAmounts)}.`:'';
  const skipped=s.excludedAmounts?` ${s.excludedAmounts} installment amount(s) omitted from totals due to invalid currency or amount.`:'';
  detail.textContent=`${s.overdue} overdue · ${s.dueToday} due today · ${s.partial} partially allocated · ${s.reminders} follow-up reminder${s.reminders===1?'':'s'} due · ${s.upcomingWeek||0} due in the next 7 days · ${s.upcomingMonth||0} due in the next 30 days.${s.nextDue?' Next expected date: '+s.nextDue+'.':''}${amounts}${monthly}${late}${skipped} Counts may overlap; expected payments are not earned revenue.`;
- button.textContent='Review agreements & follow-ups';el.dataset.state=urgent?'urgent':s.attention||s.upcomingWeek?'attention':'clear';
+ button.textContent='Review agreements & follow-ups';el.dataset.state=urgent||s.reminders?'urgent':s.attention||s.upcomingWeek?'attention':'clear';
 }
 function mount(doc){const el=doc.getElementById('paymentDashboard');if(!el)return;el.querySelector('[data-payment-open]')?.addEventListener('click',()=>{const target=doc.getElementById('recurringAgreements');if(!target)return;target.scrollIntoView({behavior:'smooth',block:'start'});target.setAttribute('tabindex','-1');target.focus({preventScroll:true})});}
 const api={summarize,update,mount,moneyGroups};root.CloutFlowPaymentDashboard=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
