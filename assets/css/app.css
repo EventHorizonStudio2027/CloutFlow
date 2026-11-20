@@ -666,3 +666,7 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .streaming-platform-icons:focus-within{scroll-behavior:smooth}
 @media(max-width:600px){.streaming-platform-icons{justify-content:flex-start;padding-block:2px 5px;scroll-padding-inline:8px}.streaming-platform-strip{min-width:0}}
 @media(prefers-reduced-motion:reduce){.streaming-platform-icons:focus-within{scroll-behavior:auto}}
+
+/* Shortcut dock polish: keyboard focus stays visible within the horizontal launcher. */
+.streaming-platform-icons a:focus-visible,.streaming-platform-icons button.streaming-add:focus-visible{outline:2px solid var(--cyan);outline-offset:-2px;box-shadow:0 0 0 2px rgba(8,14,30,.8)}
+.streaming-platform-icons a[data-custom-streaming] .streaming-custom-mark{font-weight:800;letter-spacing:-.03em}
