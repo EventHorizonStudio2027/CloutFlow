@@ -792,3 +792,8 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .reliability-exclusions:focus-within{box-shadow:0 0 0 3px rgba(217,158,78,.1)}
 .reliability-exclusions>summary{transition:background-color .18s ease,color .18s ease}
 @media(prefers-reduced-motion:reduce){.reliability-exclusions>summary{transition:none}}
+
+/* Disputed record actions remain small, readable, and unmistakably interactive. */
+.reliability-review-link{display:inline-flex;align-items:center;margin:2px 0 2px 7px;padding:3px 8px;border:1px solid rgba(217,158,78,.38);border-radius:7px;background:rgba(217,158,78,.09);color:inherit;font:inherit;font-weight:650;cursor:pointer}
+.reliability-review-link:hover{background:rgba(217,158,78,.19)}
+.reliability-review-link:focus-visible{outline:2px solid #d99e4e;outline-offset:2px}
