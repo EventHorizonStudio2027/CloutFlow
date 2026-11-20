@@ -28,6 +28,10 @@ with sync_playwright() as p:
   assert len(page.evaluate("JSON.parse(localStorage.getItem('cloutflow_agreement_settlements_v1'))"))==2
   page.locator('[data-settlement-remove]').first.click()
   assert 'Partially allocated' in page.locator('#agreementSchedule tbody tr').first.inner_text()
+  page.evaluate("""() => {const a=CloutFlowRecurringAgreements;CloutFlowRecurringAgreementsUI.mount(document,localStorage,a,()=> '2026-11-20',()=>[{id:'deposit-1',platform:'Acme',currency:'USD',amount:75,received:'2026-11-02'},{id:'deposit-2',platform:'Acme',currency:'USD',amount:50,received:'2026-11-04'}])}""")
+  assert page.locator('.payout-reliability-card').count()==1
+  assert '1 partial' in page.locator('.payout-reliability-card').inner_text()
+  assert page.evaluate('() => document.documentElement.scrollWidth <= innerWidth + 2')
   assert not errors,errors
   print(f'PASS {width}px: partial allocation, full allocation, unlink, persistence')
   page.close()
