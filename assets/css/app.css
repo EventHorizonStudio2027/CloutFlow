@@ -659,3 +659,10 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .welcome + .streaming-platform-strip .streaming-platform-heading{min-width:0}
 .welcome + .streaming-platform-strip .streaming-platform-icons{min-width:0}
 @media(max-width:600px){.welcome + .streaming-platform-strip{margin-top:6px;margin-bottom:12px}}
+
+/* Creator launcher: keep every built-in icon visible when custom platforms are added. */
+.streaming-platform-icons{overflow-x:auto;overflow-y:hidden;justify-content:safe center;scrollbar-width:thin;scrollbar-color:var(--line) transparent;overscroll-behavior-x:contain}
+.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{flex-shrink:0}
+.streaming-platform-icons:focus-within{scroll-behavior:smooth}
+@media(max-width:600px){.streaming-platform-icons{justify-content:flex-start;padding-block:2px 5px;scroll-padding-inline:8px}.streaming-platform-strip{min-width:0}}
+@media(prefers-reduced-motion:reduce){.streaming-platform-icons:focus-within{scroll-behavior:auto}}
