@@ -7,10 +7,13 @@ function analyze(dueRows,links,payouts,asOf){
  const deposits=new Map(),allocated=new Map(),seen=new Set(),bad=new Set();let excluded=0;
  for(const p of payouts){if(!p||typeof p.id!=='string'||!p.id.trim()||deposits.has(p.id)||bad.has(p.id)||!validDate(p.received)||cents(p.amount)===null||typeof p.currency!=='string'){excluded++;if(p?.id){deposits.delete(p.id);bad.add(p.id)}continue}deposits.set(p.id,p)}
  for(const l of links){if(!l||typeof l.agreementId!=='string'||!validDate(l.due)||typeof l.payoutId!=='string'||cents(l.amount)===null){excluded++;continue}const key=JSON.stringify([l.agreementId,l.due,l.payoutId]);if(seen.has(key)){excluded++;continue}seen.add(key);const p=deposits.get(l.payoutId);if(!p){excluded++;continue}const k=JSON.stringify([l.agreementId,l.due]);const rows=allocated.get(k)||[];rows.push({amount:cents(l.amount),received:p.received,currency:p.currency,payoutId:p.id});allocated.set(k,rows)}
+ const payoutAllocations=new Map();for(const rows of allocated.values())for(const row of rows)payoutAllocations.set(row.payoutId,(payoutAllocations.get(row.payoutId)||0)+row.amount);
+ const overallocatedPayouts=new Set([...payoutAllocations].filter(([id,amount])=>amount>cents(deposits.get(id)?.amount)).map(([id])=>id));
  const groups=new Map(),dueSeen=new Set();
  for(const d of dueRows){if(d&&validDate(d.due)&&d.due>=asOf)continue;if(!d||typeof d.id!=='string'||!d.id.trim()||!validDate(d.due)||typeof d.platform!=='string'||typeof d.currency!=='string'||!/^[A-Z]{3}$/.test(d.currency)||cents(d.amount)===null){excluded++;continue}
   const key=JSON.stringify([d.id,d.due]);if(dueSeen.has(key)){excluded++;continue}dueSeen.add(key);
-  const matching=(allocated.get(key)||[]).filter(x=>x.currency===d.currency),total=matching.reduce((n,x)=>n+x.amount,0),expected=cents(d.amount);
+  const allLinks=allocated.get(key)||[];if(allLinks.some(x=>x.currency!==d.currency||overallocatedPayouts.has(x.payoutId))){excluded++;continue}
+  const matching=allLinks,total=matching.reduce((n,x)=>n+x.amount,0),expected=cents(d.amount);
   if(total>expected||!Number.isSafeInteger(total)){excluded++;continue}
   const gKey=JSON.stringify([d.platform.trim()||'Unspecified',d.currency]);const g=groups.get(gKey)||{platform:d.platform.trim()||'Unspecified',currency:d.currency,installments:0,fullyLinked:0,partiallyLinked:0,unlinked:0,linkedOnTime:0,linkedLate:0};
   g.installments++;
