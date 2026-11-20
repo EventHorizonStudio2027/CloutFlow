@@ -19,13 +19,15 @@ with sync_playwright() as p:
   for name in names: page.add_script_tag(content=(root/'assets/js'/name).read_text())
   page.evaluate("""() => {
    selectedPeriod='all';entries=[{id:'e1',platform:'YouTube',account:'Main',currency:'USD',gross:100,fees:0,refunds:0,tax:0,earnedDate:'2026-11-01',status:'Pending',incomeType:'Ads',channel:'stream'}];
-   payouts=[{id:'p1',platform:'YouTube',account:'Main',currency:'USD',amount:100,received:'2026-11-10',reference:'Bank-001',notes:'',allocations:[{entryId:'e1',amount:40}]},{id:'p2',platform:'YouTube',account:'Main',currency:'USD',amount:20,received:'2026-11-11',reference:'Complete',notes:'',allocations:[{entryId:'e1',amount:20}]}];
+   payouts=[{id:'p1',platform:'YouTube',account:'Main',currency:'USD',amount:100,received:'2026-11-10',reference:'Bank-001',notes:'',allocations:[{entryId:'e1',amount:40}]},{id:'p2',platform:'YouTube',account:'Main',currency:'USD',amount:20,received:'2026-11-11',reference:'Complete',notes:'',allocations:[{entryId:'e1',amount:20}]},{id:'p3',platform:'Twitch',account:'Main',currency:'USD',amount:30,received:'2026-11-12',reference:'Overallocated',notes:'',allocations:[{entryId:'e1',amount:40}]}];
    accounts=[];adjustments=[];render();
   }""")
-  assert page.locator('#payoutQueueCount').inner_text()=='1 deposit'
+  assert page.locator('#payoutQueueCount').inner_text()=='2 items to review'
   assert '$60.00' in page.locator('#payoutQueueRows').inner_text()
   assert 'Bank-001' in page.locator('#payoutQueueRows').inner_text()
   assert 'Complete' not in page.locator('#payoutQueueRows').inner_text()
+  assert 'Over by $10.00' in page.locator('#payoutQueueRows').inner_text()
+  assert page.locator('.payout-queue-item.is-overallocated').count()==1
   page.locator('[data-queue-payout="p1"]').click()
   assert 'show' in (page.locator('#payoutModal').get_attribute('class') or '')
   assert page.locator('#payoutRecordId').input_value()=='p1'
