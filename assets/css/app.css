@@ -696,3 +696,8 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 /* Custom platform monograms: preserve visual balance for emoji and multi-script names. */
 .streaming-custom-mark{font-size:clamp(12px,1.15vw,16px);line-height:1;overflow:hidden;text-align:center;white-space:nowrap}
 @media(max-width:600px){.streaming-custom-mark{font-size:14px}}
+
+/* Payout attention: make allocation errors distinct from ordinary unallocated deposits. */
+.payout-queue-item.is-overallocated{border-color:rgba(245,158,11,.58);background:linear-gradient(100deg,rgba(245,158,11,.09),rgba(245,158,11,.025))}
+.payout-queue-item.is-overallocated .payout-queue-amount strong{color:#fbbf24}
+.payout-queue-item.is-overallocated .payout-queue-amount small{color:#fcd38a;font-weight:700}
