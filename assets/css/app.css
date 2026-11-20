@@ -732,3 +732,8 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .payout-reliability-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:9px;margin-top:10px}
 .payout-reliability-card{display:grid;gap:5px;padding:12px 13px;border:1px solid rgba(148,163,184,.25);border-radius:12px;background:rgba(148,163,184,.055)}
 .payout-reliability-card strong{font-size:.88rem}.payout-reliability-card span{font-size:1rem;font-weight:700;font-variant-numeric:tabular-nums}.payout-reliability-card small{font-size:.76rem;line-height:1.45;color:var(--muted)}
+
+/* Historical linkage coverage: low-profile and non-promissory. */
+.reliability-meter{height:5px;border-radius:99px;background:rgba(148,163,184,.22);overflow:hidden}
+.reliability-meter>i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#579fdb,#66c3c3);transition:width .24s ease-out}
+@media(prefers-reduced-motion:reduce){.reliability-meter>i{transition:none}}
