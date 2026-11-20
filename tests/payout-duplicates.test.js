@@ -8,5 +8,7 @@ assert.equal(candidates({...base,id:'new',platform:'youtube',account:' main '},l
 assert.equal(candidates({...base,id:'new',amount:123.46},list).length,0);
 assert.equal(candidates({...base,id:'new',amount:''},list).length,0);
 assert.equal(candidates({...base,id:'new'},null).length,0);
-assert.equal(candidates({...base,id:'new',received:''},list).length,0);
+assert.equal(candidates({...base,id:'new',received:''},list).length,0);\nassert.equal(candidates({...base,id:'new',received:'2026-02-30'},list).length,0);\nassert.equal(candidates({...base,id:'new',amount:0},list).length,0);\nassert.equal(candidates({...base,id:'new',currency:'US
+console.log('Payout duplicate advisory: 7 checks passed');
+},list).length,0);\nassert.equal(candidates({...base,id:'new'},[...list,{...base,id:'invalid',received:'2026-02-30'}]).length,1);\nassert.equal(candidates({...base,id:'new'},[...list,{...base,id:'bad-amount',amount:123.456}]).length,1);
 console.log('Payout duplicate advisory: 7 checks passed');
