@@ -94,3 +94,9 @@ assert.match(shortcutSource,/error\.textContent='';add\.focus\(\)/);
 assert.equal(custom.normalize('Safe'+String.fromCharCode(10)+'Name','https://example.com'),null);
 assert.equal(custom.normalize('Safe'+String.fromCharCode(0)+'Name','https://example.com'),null);
 assert.deepEqual(custom.normalize('  My   Channel  ','https://example.com'),{name:'My Channel',url:'https://example.com/'});
+
+// Corrupt localStorage must not produce duplicate shortcut names or crowd out unique entries.
+store.setItem(custom.key,JSON.stringify([{name:'One',url:'https://one.example'},{name:'one',url:'https://two.example'},{name:'Three',url:'https://three.example'}]));
+assert.deepEqual(custom.read(store),[{name:'One',url:'https://one.example/'},{name:'Three',url:'https://three.example/'}]);
+assert.match(shortcutSource,/add\.dataset\.shortcutCount=String\(items\.length\)/);
+assert.match(css,/content:attr\(data-shortcut-count\)/);
