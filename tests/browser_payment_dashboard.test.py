@@ -16,6 +16,7 @@ with sync_playwright() as p:
   for name in names:page.add_script_tag(content=(root/'assets/js'/name).read_text())
   page.evaluate("""() => {const a=CloutFlowRecurringAgreements;a.save(localStorage,[{id:'a',name:'Brand Retainer',platform:'Acme',currency:'USD',amount:100,frequency:'monthly',start:'2026-09-15',end:'',status:'active'}]);CloutFlowRecurringAgreementsUI.mount(document,localStorage,a,()=> '2026-11-16',()=>[]);CloutFlowPaymentDashboard.mount(document)}""")
   assert 'payment' in page.locator('[data-payment-title]').inner_text().lower()
+  assert 'overdue or due-today' in page.locator('[data-payment-title]').inner_text(), 'Overdue installment should be distinct from follow-up reminder counts'
   assert page.locator('#paymentDashboard').get_attribute('data-state') in ('urgent','attention')
   assert page.evaluate('() => document.documentElement.scrollWidth <= innerWidth + 2')
   page.evaluate("""() => {const a=CloutFlowRecurringAgreements;a.save(localStorage,[{id:'soon',name:'Upcoming Sponsor',platform:'Acme',currency:'USD',amount:75,frequency:'monthly',start:'2026-11-20',end:'',status:'active'}]);CloutFlowAgreementUIInstance?.refresh?.();CloutFlowRecurringAgreementsUI.mount(document,localStorage,a,()=> '2026-11-16',()=>[])}""")
