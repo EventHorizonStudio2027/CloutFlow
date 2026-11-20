@@ -835,3 +835,6 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 /* Final visual pass: soft highlight and refined amber text on connection state. */
 .source-trust-pill{box-shadow:inset 0 1px 0 rgba(255,255,255,.09);letter-spacing:.012em}
 @media(max-width:380px){.source-trust-pill{margin-left:4px;padding-inline:6px}}
+
+/* Focus-phase usability: keep the connection disclosure calm and readable on narrow screens. */
+@media(max-width:560px){.source-trust-strip{gap:9px}.source-trust-strip>div{line-height:1.4}.source-trust-strip strong{display:inline-flex;align-items:center;flex-wrap:wrap;gap:3px}}
