@@ -68,3 +68,9 @@ assert.match(css,/\.streaming-manage-list\[hidden\]\{display:none!important\}/);
 
 // Regression: capacity status must be inserted only after its reference element exists.
 assert.ok(shortcutSource.indexOf('form.appendChild(manage)')<shortcutSource.indexOf('form.insertBefore(capacityStatus,manage)'));
+
+// Adding custom links must never silently replace original platform icons.
+assert.doesNotMatch(shortcutSource,/replaceable\.slice\(/);
+assert.match(shortcutSource,/defaults\.forEach\(el=>\{el\.hidden=false\}\)/);
+assert.match(css,/\.streaming-platform-icons\{overflow-x:auto;overflow-y:hidden/);
+assert.match(css,/\.streaming-platform-icons a,\.streaming-platform-icons button\.streaming-add\{flex-shrink:0\}/);
