@@ -831,3 +831,7 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 
 /* Workspace state is legible at a glance without expanding the dashboard. */
 .source-trust-pill{display:inline-block;margin-left:7px;padding:1px 7px;border:1px solid rgba(213,168,95,.34);border-radius:999px;background:rgba(213,168,95,.09);font-size:.68rem;font-weight:650;vertical-align:middle;white-space:nowrap}
+
+/* Final visual pass: soft highlight and refined amber text on connection state. */
+.source-trust-pill{box-shadow:inset 0 1px 0 rgba(255,255,255,.09);letter-spacing:.012em}
+@media(max-width:380px){.source-trust-pill{margin-left:4px;padding-inline:6px}}
