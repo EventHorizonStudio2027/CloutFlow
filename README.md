@@ -4,6 +4,31 @@ CloutFlow is the current working name. Financial data compatibility is retained 
 
 A local-first creator income tracking application.
 
+
+## Product focus — Phase: Focus, Connect, Perfect (2026-11-20)
+
+**Product promise:** CloutFlow is a creator income and payout command center. It answers: *What did I earn, what was paid, what is still owed, and can I trust the records?*
+
+### The four essential jobs
+1. **Capture verified earnings:** manual entries and supported statement CSV/TSV imports today; consent-based official platform connections only after backend authorization and real end-to-end verification.
+2. **Reconcile payouts:** match expected earnings and contractual installments to received deposits; preserve currency boundaries, refunds, fees, and evidence; never claim creator-confirmed links are bank-verified.
+3. **Explain financial performance:** show gross, fees, refunds, net, paid/pending, trends, and outstanding balances from the underlying ledger, with clear date/currency provenance.
+4. **Safeguard records:** secure user accounts, server-side data storage, backups, migration, access controls, and cross-device sync before claiming production-ready persistence.
+
+### Scope decisions
+- **Core:** accounts, income ledger, supported imports, deposits, reconciliation, financial dashboard, recurring agreements when they create expected payments, backups and secure persistence.
+- **Supporting only:** platform shortcuts, search, exports, notifications and filters that help a core workflow.
+- **Deprioritized:** speculative opportunity scoring, goal coaching, unrelated growth advice, decorative dashboards, and integrations without a demonstrable real workflow. Existing code remains intact until migration and compatibility tests prove safe removal.
+- **Truth in UI:** no fake account connections, fake balances, invented bank verification, or implied cloud sync. Display the actual data source and connection state.
+
+### Delivery gates
+- **Gate 1 — local financial correctness:** imports, manual entry, reconciliation, exports, corruption handling, restart and browser tests; real statement fixtures where legally usable.
+- **Gate 2 — durable identity and storage:** select a backend, configure secrets server-side, implement authentication, user-scoped authorization, migrations, backups, and end-to-end multi-device tests. **Blocked pending owner choice of hosting/identity provider and required credentials.**
+- **Gate 3 — first official platform connection:** choose one provider, verify its permitted API and OAuth scopes, securely implement token refresh and account unlink, ingest actual earnings, deduplicate idempotently, and test reconciliation against source statements. **Requires provider developer credentials and owner consent.**
+- **Gate 4 — expand carefully:** repeat Gate 3 per platform only after first integration is reliable; remove or hide unrelated UI after regression coverage.
+
+**Current status:** GitHub Pages serves a static local-first app. It does not provide a secure OAuth backend, shared financial database, or server-side secrets. Connecting these requires a backend service and authorization. Do not place client secrets or service-role keys in this repository or browser code.
+
 ## Project files
 
 - `index.html` — mobile-first interface and dialogs
