@@ -802,3 +802,6 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .reliability-review-link{box-shadow:inset 0 1px 0 rgba(255,255,255,.09);transition:background .16s ease,border-color .16s ease}
 .reliability-review-link:hover{border-color:rgba(217,158,78,.75)}
 @media(prefers-reduced-motion:reduce){.reliability-review-link{transition:none}}
+
+/* Mobile polish: compact, easily tappable agreement investigation links. */
+@media(max-width:480px){.reliability-review-link{min-height:36px;margin-left:0;margin-top:6px;padding:7px 11px}.reliability-exclusions li{padding-bottom:5px}}
