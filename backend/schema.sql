@@ -37,6 +37,7 @@ create table if not exists public.cf_deposits (
  foreign key (account_id,user_id) references public.cf_accounts(id,user_id) on delete restrict
 );
 create unique index if not exists cf_deposits_source_key_unique on public.cf_deposits(user_id,account_id,source_key) where source_key is not null;
+alter table public.cf_earnings add constraint cf_earnings_id_user_unique unique (id,user_id);
 create table if not exists public.cf_allocations (
  id uuid primary key default gen_random_uuid(),
  user_id uuid not null default auth.uid() references auth.users(id) on delete cascade,
@@ -48,7 +49,6 @@ create table if not exists public.cf_allocations (
  foreign key (earning_id,user_id) references public.cf_earnings(id,user_id) on delete restrict,
  foreign key (deposit_id,user_id) references public.cf_deposits(id,user_id) on delete restrict
 );
-alter table public.cf_earnings add constraint cf_earnings_id_user_unique unique (id,user_id);
 alter table public.cf_accounts enable row level security;
 alter table public.cf_earnings enable row level security;
 alter table public.cf_deposits enable row level security;
