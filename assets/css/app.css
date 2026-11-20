@@ -712,3 +712,5 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .cashflow-status.status-due-today{border-color:rgba(245,158,11,.48);background:rgba(245,158,11,.09);color:#f8c56c}
 .cashflow-status.status-upcoming{border-color:rgba(101,168,255,.35);background:rgba(101,168,255,.08);color:#8fc0ff}
 .cashflow-status.status-allocated{border-color:rgba(101,214,160,.35);background:rgba(101,214,160,.08);color:#83e0b3}
+
+.cashflow-data-warning ul{margin:7px 0 0;padding-left:19px}.cashflow-data-warning li{margin:3px 0}.cashflow-data-warning strong{display:block;margin-bottom:2px}
