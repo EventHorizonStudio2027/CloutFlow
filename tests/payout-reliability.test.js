@@ -25,6 +25,7 @@ const usd=result.groups.find(x=>x.platform==='YouTube');
 assert.deepEqual({count:usd.installments,fully:usd.fullyLinked,partial:usd.partiallyLinked,onTime:usd.linkedOnTime,late:usd.linkedLate},{count:3,fully:2,partial:1,onTime:1,late:1});
 assert.equal(result.groups.find(x=>x.currency==='EUR').fullyLinked,1);
 assert.equal(analyze(dues,links,payouts,'2026-02-30').error,'Invalid reliability inputs');
+assert.equal(analyze(dues,links,payouts,'2026-11-20').excluded,0,'future installments are not invalid history');
 assert.equal(analyze(dues,[...links,links[0]],payouts,'2026-11-20').excluded,1);
 assert.equal(analyze([...dues,dues[0]],links,payouts,'2026-11-20').excluded,1);
 assert.equal(analyze(dues,links,[...payouts,payouts[0]],'2026-11-20').groups.find(x=>x.platform==='YouTube').fullyLinked,1);
