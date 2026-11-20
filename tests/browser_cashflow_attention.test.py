@@ -19,7 +19,7 @@ with sync_playwright() as p:
   assert 'Payment attention queue' in queue.inner_text()
   assert 'Overdue' in queue.inner_text()
   assert queue.locator('tbody tr').count()==3
-  assert queue.locator('.cashflow-status.status-overdue').count()==1
+  assert queue.locator('.cashflow-status.status-overdue').count()==3
   assert queue.locator('.cashflow-due-hint').count()==3
   assert 'days overdue' in queue.inner_text()
   page.locator('#cashflowAttentionFilter').select_option('upcoming')
