@@ -15,7 +15,7 @@
  function normalize(input){
   const all=ITEMS.map(x=>x.id),valid=Array.isArray(input?.order)?input.order.filter((id,i,a)=>all.includes(id)&&a.indexOf(id)===i):[];
   const order=[...valid,...all.filter(id=>!valid.includes(id))];
-  const hidden=Array.isArray(input?.hidden)?input.hidden.filter(id=>all.includes(id)):[];
+  const hidden=Array.isArray(input?.hidden)?[...new Set(input.hidden.filter(id=>all.includes(id)))]:[];
   return {order,hidden};
  }
  function init(doc){
