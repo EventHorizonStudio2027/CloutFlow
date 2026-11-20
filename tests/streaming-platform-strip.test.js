@@ -87,7 +87,7 @@ assert.match(css,/a\[data-custom-streaming\] span:last-child\{max-width:100%;ove
 
 // Built-in platform names cannot be impersonated by a custom shortcut.
 assert.match(shortcutSource,/builtInNames\.has\(item\.name\.toLocaleLowerCase\(\)\)/);
-assert.match(shortcutSource,/add\.setAttribute\('aria-haspopup','true'\)/);
+assert.doesNotMatch(shortcutSource,/aria-haspopup/,'inline shortcut disclosure is not a menu popup');
 assert.match(shortcutSource,/error\.textContent='';add\.focus\(\)/);
 
 // Reject hidden control characters in shortcut names before whitespace normalization.
