@@ -846,3 +846,8 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .source-trust-pill{border-color:rgba(81,190,173,.38);background:rgba(81,190,173,.075);color:#a5e7db;font-size:.67rem}
 .source-trust-strip{border-left-color:rgba(81,190,173,.65)}
 @media(max-width:480px){.source-trust-pill{white-space:normal;line-height:1.25}}
+
+/* Final visual polish: quiet dual-state sheen and accessible focus contrast. */
+.source-trust-strip{background-image:linear-gradient(110deg,rgba(81,190,173,.075),rgba(148,163,184,.03) 48%,rgba(213,168,95,.035));box-shadow:inset 0 1px 0 rgba(255,255,255,.055),0 3px 12px rgba(0,0,0,.055)}
+.source-trust-pill{box-shadow:inset 0 1px 0 rgba(255,255,255,.075);letter-spacing:.018em}
+@media(prefers-contrast:more){.source-trust-pill{border-color:currentColor;color:inherit}}
