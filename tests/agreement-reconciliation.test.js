@@ -4,7 +4,13 @@ const payouts=[{id:'p1',platform:'Brand',currency:'USD',amount:250.25,received:'
 assert.deepEqual(a.candidates(due,payouts).map(p=>p.id),['p1','p2']);
 assert.equal(a.review([due],[], '2026-11-16')[0].needsReview,true);
 assert.equal(a.review([due],payouts,'2026-11-16')[0].candidateCount,2);
-assert.equal(a.review([due],payouts,'2026-11-16')[0].needsReview,true);\nassert.equal(a.review([due],payouts,'2026-11-16')[0].hasSuggestedMatch,true);
+assert.equal(a.review([due],payouts,'2026-11-16')[0].needsReview,true);
+assert.equal(a.review([due],payouts,'2026-11-16')[0].hasSuggestedMatch,true);
 assert.equal(a.review([due],[], '2026-11-10')[0].reviewStatus,'Upcoming');
 assert.equal(a.candidates(due,[{id:'bad',currency:'USD',amount:250.25,received:'2026-02-30'}]).length,0);
-assert.equal(a.candidates({...due,amount:250.251},payouts).length,0);\nassert.equal(a.candidates(due,[{id:'bad',currency:'USD',amount:250.251,received:'2026-11-15'}]).length,0);\nassert.equal(a.candidates(due,payouts,-1).length,0);\nassert.equal(a.review(null,payouts,'2026-11-16').length,0);\nassert.equal(a.review([due],payouts,'2026-11-16')[0].candidateCount,2);\nconsole.log('agreement reconciliation tests passed');
+assert.equal(a.candidates({...due,amount:250.251},payouts).length,0);
+assert.equal(a.candidates(due,[{id:'bad',currency:'USD',amount:250.251,received:'2026-11-15'}]).length,0);
+assert.equal(a.candidates(due,payouts,-1).length,0);
+assert.equal(a.review(null,payouts,'2026-11-16').length,0);
+assert.equal(a.review([due],payouts,'2026-11-16')[0].candidateCount,2);
+console.log('agreement reconciliation tests passed');
