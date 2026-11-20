@@ -721,3 +721,9 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 /* Make duplicate review readable on small screens without overwhelming the payout form. */
 .payout-duplicate-warning{border-left:4px solid #f4af43;max-width:100%;overflow-wrap:anywhere;box-shadow:0 4px 18px rgba(0,0,0,.08)}
 @media(max-width:480px){.payout-duplicate-warning{padding:10px 12px;font-size:.84rem;line-height:1.45}}
+
+/* Compact historical planning baseline: secondary to confirmed earnings. */
+.income-baseline{display:grid;gap:3px;margin-top:12px;padding:12px 14px;border:1px solid rgba(125,165,218,.28);border-radius:12px;background:linear-gradient(125deg,rgba(85,131,201,.11),rgba(85,131,201,.025))}
+.income-baseline-label{font-size:.7rem;letter-spacing:.055em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.income-baseline>strong{font-size:1.16rem;line-height:1.3;font-variant-numeric:tabular-nums}
+.income-baseline>small{color:var(--muted);font-size:.75rem;line-height:1.45}
