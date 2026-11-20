@@ -3,7 +3,8 @@
  'use strict';
  const cents=value=>Math.round(Number(value)*100);
  function pending(payouts){
-  return payouts.map(p=>{
+  if(!Array.isArray(payouts))return [];
+  return payouts.filter(p=>p&&typeof p==='object'&&!Array.isArray(p)&&typeof p.received==='string'&&Number.isFinite(Number(p.amount))&&Number(p.amount)>=0&&(!p.allocations||Array.isArray(p.allocations))&&(p.allocations||[]).every(a=>a&&Number.isFinite(Number(a.amount))&&Number(a.amount)>=0)).map(p=>{
    const deposit=cents(p.amount);
    const allocated=(p.allocations||[]).reduce((sum,a)=>sum+cents(a.amount),0);
    return {...p,allocated:allocated/100,remaining:Math.max(0,deposit-allocated)/100};
