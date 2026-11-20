@@ -120,3 +120,5 @@ assert.equal(custom.normalize('Creator','https://example.net:8443'),null);
 
 assert.match(shortcutSource,/graphemes\(original\.trim\(\)\.replace\(\/\\s\+\/g,' '\)\)\.slice\(0,22\)/);
 assert.match(css,/button\.streaming-add\[data-shortcut-count\]:not\(\[data-shortcut-count="0"\]\)::after/);
+
+assert.match(css,/\.streaming-custom-mark\{font-size:clamp\(12px,1\.15vw,16px\);line-height:1;overflow:hidden/);
