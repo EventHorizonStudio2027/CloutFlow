@@ -823,3 +823,8 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .source-trust-strip{background:linear-gradient(115deg,rgba(213,168,95,.065),rgba(148,163,184,.025) 45%,rgba(148,163,184,.045));box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}
 .source-trust-strip strong{letter-spacing:.012em}
 @media(prefers-contrast:more){.source-trust-strip{border-color:currentColor}.source-trust-indicator{box-shadow:none}}
+
+/* Backend phase final visual pass: calm amber pending-connection treatment. */
+.source-trust-strip{border-left:3px solid rgba(213,168,95,.65)}
+.source-trust-strip strong{font-variant-numeric:tabular-nums;letter-spacing:.015em}
+@media(max-width:420px){.source-trust-strip>div{gap:3px}.source-trust-strip strong{white-space:normal}}
