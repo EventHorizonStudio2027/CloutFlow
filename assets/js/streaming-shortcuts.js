@@ -8,7 +8,7 @@ function normalize(name,url){
  if(!label)return null;
  try{const raw=String(url||'').trim();if(raw.length>2048||/[\u0000-\u001f\u007f]/.test(raw))return null;const parsed=new URL(raw);if(parsed.protocol!=='https:'||!parsed.hostname||parsed.username||parsed.password||parsed.port&&parsed.port!=='443')return null;return {name:label,url:parsed.href}}catch{return null}
 }
-function read(store){try{const data=JSON.parse(store.getItem(KEY)||'[]');return Array.isArray(data)?data.map(x=>normalize(x?.name,x?.url)).filter(Boolean).filter((x,i,a)=>a.findIndex(y=>y.url===x.url)===i).slice(0,3):[]}catch{return []}}
+function read(store){try{const data=JSON.parse(store.getItem(KEY)||'[]');if(!Array.isArray(data))return [];const seenUrls=new Set(),seenNames=new Set(),items=[];for(const entry of data){const item=normalize(entry?.name,entry?.url);if(!item)continue;const nameKey=item.name.toLocaleLowerCase();if(seenUrls.has(item.url)||seenNames.has(nameKey))continue;seenUrls.add(item.url);seenNames.add(nameKey);items.push(item);if(items.length===3)break}return items}catch{return []}}
 function save(store,items){try{if(!Array.isArray(items)||items.length>3)return false;const valid=items.map(x=>normalize(x?.name,x?.url));if(valid.some(x=>!x)||new Set(valid.map(x=>x.url)).size!==valid.length||new Set(valid.map(x=>x.name.toLocaleLowerCase())).size!==valid.length)return false;store.setItem(KEY,JSON.stringify(valid));return true}catch{return false}}
 function init(doc,store){
  const grid=doc.getElementById('streamingPlatformIcons'),add=doc.getElementById('addStreamingPlatform'),form=doc.getElementById('streamingAddForm');
