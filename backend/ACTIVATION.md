@@ -35,3 +35,9 @@ No claim of live synchronization or fully functional connected accounts until th
 - Security advisor initially flagged publicly executable `public.rls_auto_enable()` (existing event trigger function). Applied `backend/security-hardening.sql`; rechecked security advisors: **0 findings**.
 - No real creator financial records migrated. No credentials, passwords or secret service-role keys committed.
 - Website now accurately labels the backend as provisioned while sign-in and cloud sync remain pending.
+
+## Account access increment — 2026-11-20
+- Added email/password sign-in, sign-up and sign-out UI backed by the CloutFlow Supabase Auth REST API and a **publishable** browser key.
+- Access tokens remain in page memory and are cleared on sign-out; refresh requires signing in again. This is a deliberately limited initial authentication step, not full session persistence.
+- No financial data is sent to Supabase by this account panel. Existing records remain local and are not linked to the account until migration and authorization testing are complete.
+- Automated static checks cover the public-key boundary and truthful storage disclosure. Real account creation/sign-in and two-user RLS tests still require end-to-end verification.
