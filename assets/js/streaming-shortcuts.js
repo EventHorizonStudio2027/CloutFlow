@@ -46,7 +46,6 @@ function init(doc,store){
   add.title=items.length>=3?'Manage your creator platform shortcuts':'Add a creator platform shortcut';
   add.setAttribute('aria-expanded',String(!form.hidden));
   add.setAttribute('aria-describedby','streamingShortcutCount');
-  add.setAttribute('aria-haspopup','true');
   manage.replaceChildren();
   items.forEach(item=>{const row=doc.createElement('div');row.className='streaming-manage-item';const label=doc.createElement('span');label.textContent=item.name;const remove=doc.createElement('button');remove.type='button';remove.textContent='Remove';remove.setAttribute('aria-label','Remove '+item.name);remove.addEventListener('click',()=>{if(save(store,read(store).filter(x=>x.url!==item.url))){render();const next=manage.querySelector('button')||(!name.disabled?name:cancel);(form.hidden?add:next).focus()}});row.append(label,remove);manage.appendChild(row)});
  }
