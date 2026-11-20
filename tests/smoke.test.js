@@ -11,6 +11,7 @@ for(const table of ['cf_accounts','cf_earnings','cf_deposits','cf_allocations'])
  assert(schema.includes('create policy '+table+'_owner'),'Ownership policy required on '+table);
 }
 assert.match(schema,/new\.user_id is distinct from \(select auth\.uid\(\)\)/,'Allocations must verify authenticated owner');
+assert.match(schema,/as \$cloutflow\$[\s\S]*end \$cloutflow\$;/,'Database trigger must have valid dollar quoting');
 assert.match(schema,/pg_advisory_xact_lock/,'Concurrent allocations require serialization');
 assert.match(schema,/e\.currency <> d\.currency/,'Allocation currencies must match');
 assert.match(schema,/used_earning \+ new\.amount_minor > e\.available/,'Earning balance must be enforced');
