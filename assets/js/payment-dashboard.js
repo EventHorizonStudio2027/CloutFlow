@@ -3,7 +3,7 @@
 function moneyGroups(rows){
  const totals=new Map();let excluded=0;
  for(const r of rows){
-  if(typeof r.currency!=='string'||!/^[A-Z]{3}$/.test(r.currency)||!Number.isSafeInteger(Math.round(r.remaining*100))||r.remaining<=0){excluded++;continue;}
+  if(!r||typeof r.currency!=='string'||!/^[A-Z]{3}$/.test(r.currency)||typeof r.remaining!=='number'||!Number.isFinite(r.remaining)||r.remaining<=0||r.remaining>Number.MAX_SAFE_INTEGER/100||Math.abs(r.remaining*100-Math.round(r.remaining*100))>1e-6||!Number.isSafeInteger(Math.round(r.remaining*100))){excluded++;continue;}
   const cents=Math.round(r.remaining*100);const next=(totals.get(r.currency)||0)+cents;
   if(!Number.isSafeInteger(next)){excluded++;continue;}
   totals.set(r.currency,next);
