@@ -5,6 +5,13 @@ const root=path.resolve(__dirname,'..');
 const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
 const js=fs.readFileSync(path.join(root,'assets/js/app.js'),'utf8');
 const css=fs.readFileSync(path.join(root,'assets/css/app.css'),'utf8');
+const auth=fs.readFileSync(path.join(root,'assets/js/cloud-auth.js'),'utf8');
+const accountUi=fs.readFileSync(path.join(root,'assets/js/cloud-account-ui.js'),'utf8');
+assert.match(html,/id="cloudAccountPanel"/,'Cloud account panel must exist');
+assert.match(html,/id="cloudAccountStatus"/,'Account status must be accessible');
+assert.match(auth,/\/auth\/v1\//,'Use dedicated authentication endpoint');
+assert(!/service_role|sb_secret_/.test(auth),'Never embed privileged API keys in public client');
+assert.match(accountUi,/Financial data is still stored only in this browser/,'Never imply finance synchronization on sign-in');
 const schema=fs.readFileSync(path.join(root,'backend/schema.sql'),'utf8');
 for(const table of ['cf_accounts','cf_earnings','cf_deposits','cf_allocations']){
  assert(schema.includes('alter table public.'+table+' enable row level security;'),'RLS required on '+table);
@@ -18,7 +25,7 @@ assert.match(schema,/used_earning \+ new\.amount_minor > e\.available/,'Earning 
 assert.match(schema,/used_deposit \+ new\.amount_minor > d\.available/,'Deposit balance must be enforced');
 assert.match(schema,/revoke update,delete on public\.cf_allocations from authenticated/,'Allocation edits must be blocked');
 assert.match(html,/class="source-trust-strip"/,'Storage disclosure must be visible');
-assert.match(html,/Account sign-in, cross-device sync and bank verification are not active yet\./,'Do not imply live sync or verified bank data');
+assert.match(html,/cross-device sync and bank verification are not active yet\./,'Do not imply live sync or verified bank data');
 assert(html.indexOf('class="streaming-platform-strip"')<html.indexOf('class="source-trust-strip"'),'Keep platform strip directly below welcome');
 assert.match(html,/<link rel="stylesheet" href="assets\/css\/app\.css">/);
 assert.match(html,/<script src="assets\/js\/app\.js"><\/script>/);
