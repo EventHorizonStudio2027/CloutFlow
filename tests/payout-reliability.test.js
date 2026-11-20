@@ -50,4 +50,5 @@ assert.equal(analyze(dues,[...links,{agreementId:'a',due:'2026-11-15',payoutId:'
 assert.equal(analyze(dues,[...links,{agreementId:'b',due:'2026-10-15',payoutId:'p1',amount:20}],payouts,'2026-11-20').exclusions[0].reason,'Currency mismatch');
 assert.equal(analyze(dues,[...links,{agreementId:'a',due:'2026-11-15',payoutId:'p1',amount:50}],payouts,'2026-11-20').exclusions[0].reason,'Deposit overallocated');
 assert.equal(analyze(dues,[...links,{agreementId:'a',due:'2026-11-15',payoutId:'missing',amount:20}],payouts,'2026-11-20').exclusions[0].reason,'Invalid or duplicate settlement link');
+assert.equal(analyze([...dues,dues[0]],links,payouts,'2026-11-20').exclusions[0].reason,'Duplicate installment schedule');
 console.log('Historical payout linkage reliability tests passed');
