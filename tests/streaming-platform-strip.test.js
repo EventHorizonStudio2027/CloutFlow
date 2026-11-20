@@ -110,9 +110,13 @@ assert.match(css,/\.streaming-add-form input\{min-height:44px\}/);
 // Name length is measured in Unicode code points so emoji are never split mid-surrogate.
 const emojiName='🎮'.repeat(23);
 assert.deepEqual(custom.normalize(emojiName,'https://example.net'),{name:'🎮'.repeat(22),url:'https://example.net/'});
+const family='👨‍👩‍👧‍👦';
+assert.deepEqual(custom.normalize(family.repeat(23),'https://example.net'),{name:family.repeat(22),url:'https://example.net/'});
+assert.equal(custom.graphemes('é')[0],'é');
+assert.match(shortcutSource,/graphemes\(item\.name\)\[0\]/);
 assert.equal(custom.normalize('Creator','javascript:alert(1)'),null);
 assert.equal(custom.normalize('Creator','https://user:pass@example.net'),null);
 assert.equal(custom.normalize('Creator','https://example.net:8443'),null);
 
-assert.match(shortcutSource,/Array\.from\(original\.trim\(\)\.replace\(\/\\s\+\/g,' '\)\)\.slice\(0,22\)/);
+assert.match(shortcutSource,/graphemes\(original\.trim\(\)\.replace\(\/\\s\+\/g,' '\)\)\.slice\(0,22\)/);
 assert.match(css,/button\.streaming-add\[data-shortcut-count\]:not\(\[data-shortcut-count="0"\]\)::after/);
