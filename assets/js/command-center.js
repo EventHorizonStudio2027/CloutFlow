@@ -45,6 +45,7 @@
    if(!grid.childElementCount)grid.append(make('p','footnote','All shortcuts are hidden. Use Customize to show one.'));
   }
   toggle.addEventListener('click',()=>{settings.hidden=!settings.hidden;toggle.setAttribute('aria-expanded',String(!settings.hidden));});
+  settings.addEventListener('keydown',event=>{if(event.key==='Escape'){settings.hidden=true;toggle.setAttribute('aria-expanded','false');toggle.focus();}});
   doc.getElementById('resetCommandCenter')?.addEventListener('click',()=>{state=normalize(null);save();render();});
   render();
  }
