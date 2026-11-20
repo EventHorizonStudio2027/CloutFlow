@@ -701,3 +701,6 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .payout-queue-item.is-overallocated{border-color:rgba(245,158,11,.58);background:linear-gradient(100deg,rgba(245,158,11,.09),rgba(245,158,11,.025))}
 .payout-queue-item.is-overallocated .payout-queue-amount strong{color:#fbbf24}
 .payout-queue-item.is-overallocated .payout-queue-amount small{color:#fcd38a;font-weight:700}
+
+/* Cash-flow integrity notice: compact, distinct warning that keeps the queue readable. */
+.cashflow-data-warning{margin:10px 0;padding:10px 12px;border:1px solid rgba(245,158,11,.42);border-left:3px solid #f59e0b;border-radius:10px;background:rgba(245,158,11,.075);color:var(--text);font-size:.9rem;line-height:1.45}
