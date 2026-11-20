@@ -74,3 +74,8 @@ assert.doesNotMatch(shortcutSource,/replaceable\.slice\(/);
 assert.match(shortcutSource,/defaults\.forEach\(el=>\{el\.hidden=false\}\)/);
 assert.match(css,/\.streaming-platform-icons\{overflow-x:auto;overflow-y:hidden/);
 assert.match(css,/\.streaming-platform-icons a,\.streaming-platform-icons button\.streaming-add\{flex-shrink:0\}/);
+
+// New shortcuts receive focus and are scrolled into view for keyboard and mobile users.
+assert.match(shortcutSource,/added\.scrollIntoView\?\.\(\{block:'nearest',inline:'nearest'\}\)/);
+assert.match(shortcutSource,/added\.focus\(\)/);
+assert.match(shortcutSource,/builtInUrls\.has\(item\.url\)/);
