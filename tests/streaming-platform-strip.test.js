@@ -100,3 +100,9 @@ store.setItem(custom.key,JSON.stringify([{name:'One',url:'https://one.example'},
 assert.deepEqual(custom.read(store),[{name:'One',url:'https://one.example/'},{name:'Three',url:'https://three.example/'}]);
 assert.match(shortcutSource,/add\.dataset\.shortcutCount=String\(items\.length\)/);
 assert.match(css,/content:attr\(data-shortcut-count\)/);
+
+// Truncation must not leave a trailing space; bidi overrides must not spoof labels.
+assert.deepEqual(custom.normalize('A'.repeat(21)+' B','https://example.org'),{name:'A'.repeat(21),url:'https://example.org/'});
+assert.equal(custom.normalize('Safe\u202eName','https://example.org'),null);
+assert.match(css,/\.streaming-manage-item button:focus-visible/);
+assert.match(css,/\.streaming-add-form input\{min-height:44px\}/);
