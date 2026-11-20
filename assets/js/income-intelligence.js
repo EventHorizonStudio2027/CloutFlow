@@ -1,5 +1,17 @@
 /* Read-only creator income intelligence. No cross-currency aggregation or causal attribution. */
 (function(root){'use strict';
+function baseline(series){
+ // Exclude the newest (possibly incomplete) reporting month. Only consecutive, observed
+ // prior months can form an illustrative baseline; missing data is never treated as zero.
+ if(series.length<4)return null;
+ const history=series.slice(-4,-1);
+ if(history.some(r=>r.amount===null||r.amount<0||!Number.isSafeInteger(r.amount)||typeof r.month!=='string'||!/^\\d{4}-\\d{2}$/.test(r.month)))return null;
+ const serial=m=>{const [y,n]=m.split('-').map(Number);return n>=1&&n<=12?y*12+n:null};
+ const months=history.map(r=>serial(r.month));
+ if(months.some(m=>m===null)||months[1]!==months[0]+1||months[2]!==months[1]+1)return null;
+ const sorted=history.map(r=>r.amount).sort((a,b)=>a-b);
+ return {amount:sorted[1]/100,months:history.map(r=>r.month),method:'median of three completed recorded months'};
+}
 function analyze(report){
  const rows=Array.isArray(report?.rows)?report.rows:[];
  const currencies=Array.isArray(report?.currencies)?report.currencies:[];
@@ -17,7 +29,7 @@ function analyze(report){
   const changes=[];
   for(let i=1;i<series.length;i++)if(series[i].amount!==null&&series[i-1].amount!==null&&series[i-1].amount>0)changes.push((series[i].amount-series[i-1].amount)/series[i-1].amount);
   const averageAbsoluteChange=changes.length>=2?Math.round(changes.reduce((s,n)=>s+Math.abs(n),0)/changes.length*10000)/100:null;
-  return {currency,currentMonth:current?.month??null,previousMonth:previous?.month??null,current:currentCents===null?null:currentCents/100,previous:previousCents===null?null:previousCents/100,delta:delta===null?null:delta/100,percentChange:pct,average:avg===null?null:avg/100,min:min===null?null:min/100,max:max===null?null:max/100,observedMonths:observed.length,selectedMonths:series.length,consecutiveComparisons:changes.length,averageAbsoluteChange};
+  return {currency,currentMonth:current?.month??null,previousMonth:previous?.month??null,current:currentCents===null?null:currentCents/100,previous:previousCents===null?null:previousCents/100,delta:delta===null?null:delta/100,percentChange:pct,average:avg===null?null:avg/100,min:min===null?null:min/100,max:max===null?null:max/100,observedMonths:observed.length,selectedMonths:series.length,consecutiveComparisons:changes.length,averageAbsoluteChange,baseline:baseline(series)};
  });
 }
 const api={analyze};root.CloutFlowIncomeIntelligence=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
