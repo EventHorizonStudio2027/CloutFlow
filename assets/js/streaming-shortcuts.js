@@ -15,6 +15,7 @@ function init(doc,store){
  add.dataset.bound='1';
  const name=doc.getElementById('streamingNewName'),url=doc.getElementById('streamingNewUrl'),error=doc.getElementById('streamingAddError'),cancel=doc.getElementById('streamingAddCancel');
  const defaults=Array.from(grid.querySelectorAll('a'));
+ const builtInUrls=new Set(defaults.map(link=>link.href));
  const fields=[name,url,...Array.from(form.querySelectorAll('button[type="submit"]'))];
  const capacityStatus=doc.createElement('p');capacityStatus.className='streaming-capacity-status';capacityStatus.setAttribute('role','status');capacityStatus.setAttribute('aria-live','polite');
  function syncCapacity(){const count=read(store).length;const full=count>=3;fields.forEach(el=>{el.hidden=full;el.disabled=full});form.dataset.atCapacity=String(full);capacityStatus.textContent=full?'3 of 3 shortcuts saved. Remove one to add another.':count+' of 3 shortcuts saved';return full}
@@ -32,10 +33,11 @@ function init(doc,store){
   manage.setAttribute('aria-label','Manage '+items.length+' custom creator '+(items.length===1?'shortcut':'shortcuts'));
   // Custom shortcuts supplement the original platform links; never hide built-in icons.
   defaults.forEach(el=>{el.hidden=false});
+  let newestLink=null;
   for(const item of items){
    const a=doc.createElement('a');a.href=item.url;a.target='_blank';a.rel='noopener noreferrer';a.setAttribute('aria-label','Open '+item.name);a.title='Open '+item.name;a.dataset.customStreaming='1';
    const mark=doc.createElement('span');mark.className='streaming-custom-mark';mark.textContent=item.name.slice(0,1).toUpperCase();
-   const label=doc.createElement('span');label.textContent=item.name;a.append(mark,label);grid.insertBefore(a,add);
+   const label=doc.createElement('span');label.textContent=item.name;a.append(mark,label);grid.insertBefore(a,add);newestLink=a;
   }
   add.setAttribute('aria-label',items.length>=3?'Manage creator shortcuts':'Add a streaming platform');
   add.title=items.length>=3?'Manage your creator platform shortcuts':'Add a creator platform shortcut';
@@ -45,7 +47,7 @@ function init(doc,store){
  }
  add.addEventListener('click',()=>{form.hidden=!form.hidden;add.setAttribute('aria-expanded',String(!form.hidden));error.textContent='';if(!form.hidden)(syncCapacity()?manage.querySelector('button')||cancel:name).focus()});
  cancel.addEventListener('click',()=>{form.hidden=true;add.setAttribute('aria-expanded','false');add.focus()});
- form.addEventListener('submit',e=>{e.preventDefault();if(syncCapacity()){error.textContent='Remove a shortcut before adding another.';return}const item=normalize(name.value,url.value);if(!item){error.textContent='Enter a name and a secure https:// website URL.';return}const items=read(store);if(items.some(x=>x.url===item.url)||defaults.some(x=>x.href===item.url)){error.textContent='This shortcut already exists.';return}if(items.some(x=>x.name.toLocaleLowerCase()===item.name.toLocaleLowerCase())){error.textContent='Use a different name for this shortcut.';return}if(items.length>=3){error.textContent='Up to three custom shortcuts can be added.';return}if(!save(store,[...items,item])){error.textContent='Could not save this shortcut on this device.';return}error.textContent='';form.reset();form.hidden=true;render();add.focus()});
+ form.addEventListener('submit',e=>{e.preventDefault();if(syncCapacity()){error.textContent='Remove a shortcut before adding another.';return}const item=normalize(name.value,url.value);if(!item){error.textContent='Enter a name and a secure https:// website URL.';return}const items=read(store);if(items.some(x=>x.url===item.url)||builtInUrls.has(item.url)){error.textContent='This shortcut already exists.';return}if(items.some(x=>x.name.toLocaleLowerCase()===item.name.toLocaleLowerCase())){error.textContent='Use a different name for this shortcut.';return}if(items.length>=3){error.textContent='Up to three custom shortcuts can be added.';return}if(!save(store,[...items,item])){error.textContent='Could not save this shortcut on this device.';return}error.textContent='';form.reset();form.hidden=true;render();const added=Array.from(grid.querySelectorAll('[data-custom-streaming]')).at(-1);if(added){added.scrollIntoView?.({block:'nearest',inline:'nearest'});added.focus()}else add.focus()});
  render();
 }
 const api={normalize,read,save,init,key:KEY};
