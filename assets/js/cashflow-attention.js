@@ -1,7 +1,7 @@
 /* Read-only installment attention queue. No predicted earnings or automatic settlement. */
 (function(root){'use strict';
 const DAY=86400000;
-const validDate=value=>{if(typeof value!=='string'||!/^\\d{4}-\\d{2}-\\d{2}$/.test(value))return false;const date=new Date(value+'T00:00:00Z');return Number.isFinite(date.getTime())&&date.toISOString().slice(0,10)===value};
+const validDate=value=>{if(typeof value!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(value))return false;const date=new Date(value+'T00:00:00Z');return Number.isFinite(date.getTime())&&date.toISOString().slice(0,10)===value};
 const cents=value=>{const amount=Number(value);return value!==null&&value!==''&&Number.isFinite(amount)&&amount>=0&&amount<=Number.MAX_SAFE_INTEGER/100?Math.round(amount*100):null};
 function build(summary,today,filter='attention'){
  if(!summary||!Array.isArray(summary.rows)||!validDate(today))throw Error('Invalid cash-flow queue input');
