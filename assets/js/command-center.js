@@ -5,9 +5,9 @@
  const ITEMS=[
   {id:'ledgerSection',name:'Recent transactions',detail:'Review earnings and latest activity',icon:'≋'},
   {id:'paymentDashboard',name:'Payment reminders',detail:'See payments requiring attention',icon:'◷'},
-  {id:'payoutCenterSection',name:'Payout center',detail:'Review pending and recorded payouts',icon:'↗'},
+  {id:'reconciliationSection',name:'Payout center',detail:'Review pending and recorded payouts',icon:'↗'},
   {id:'recurringAgreements',name:'Agreements & follow-ups',detail:'Track expected income and follow-ups',icon:'▤'},
-  {id:'revenueChartsSection',name:'Income trends',detail:'Explore earnings over time',icon:'▥'},
+  {id:'appRevenueSection',name:'Income trends',detail:'Explore earnings over time',icon:'▥'},
   {id:'accountsSection',name:'Creator accounts',detail:'Manage your linked platform profiles',icon:'◎'},
   {id:'incomeOpportunitiesSection',name:'Growth ideas',detail:'Explore possible revenue opportunities',icon:'✦'},
   {id:'integritySection',name:'Financial integrity',detail:'Review data health and discrepancies',icon:'✓'}
