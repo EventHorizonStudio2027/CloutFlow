@@ -23,3 +23,8 @@ Create a Supabase project called **CloutFlow** in the connected account and say 
 
 ## Release rule
 No claim of live synchronization or fully functional connected accounts until the production path is verified end-to-end.
+
+## Verification record — 2026-11-20
+- Repaired invalid PL/pgSQL function dollar-quoting discovered during source review. Added a structural regression assertion; **database execution remains unverified**.
+- Prevented concurrent GitHub Pages deployments from cancelling one another while artifacts are handed off. The preceding Pages run failed to find its uploaded artifact even though the upload step reported success; recheck the newest run before claiming deployment.
+- Do not run the SQL in the Social Eyes project. A dedicated CloutFlow project is still required.
