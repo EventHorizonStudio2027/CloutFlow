@@ -670,3 +670,9 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 /* Shortcut dock polish: keyboard focus stays visible within the horizontal launcher. */
 .streaming-platform-icons a:focus-visible,.streaming-platform-icons button.streaming-add:focus-visible{outline:2px solid var(--cyan);outline-offset:-2px;box-shadow:0 0 0 2px rgba(8,14,30,.8)}
 .streaming-platform-icons a[data-custom-streaming] .streaming-custom-mark{font-weight:800;letter-spacing:-.03em}
+
+/* Streaming launcher refinement: restrained hover feedback and readable custom labels. */
+.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{transition:border-color .16s ease,background-color .16s ease,box-shadow .16s ease}
+.streaming-platform-icons a:hover,.streaming-platform-icons button.streaming-add:hover{border-color:var(--cyan);background:rgba(85,223,208,.075)}
+.streaming-platform-icons a[data-custom-streaming] span:last-child{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(prefers-reduced-motion:reduce){.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{transition:none}}
