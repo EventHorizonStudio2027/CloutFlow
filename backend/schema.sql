@@ -59,9 +59,47 @@ create policy cf_accounts_owner on public.cf_accounts for all to authenticated u
 create policy cf_earnings_owner on public.cf_earnings for all to authenticated using ((select auth.uid()) = user_id) with check ((select auth.uid()) = user_id);
 create policy cf_deposits_owner on public.cf_deposits for all to authenticated using ((select auth.uid()) = user_id) with check ((select auth.uid()) = user_id);
 create policy cf_allocations_owner on public.cf_allocations for all to authenticated using ((select auth.uid()) = user_id) with check ((select auth.uid()) = user_id);
--- Next gate: implement a transaction-safe allocation RPC enforcing currency,
--- account ownership and sum(amount_minor) <= source balances before enabling writes.
-revoke insert,update,delete on public.cf_allocations from authenticated;
+-- Allocation writes are permitted only through an invoker-rights trigger that
+-- serializes concurrent writers on both financial source rows.
+create or replace function public.cf_validate_allocation()
+returns trigger language plpgsql security invoker set search_path = '' as $
+declare
+  e record;
+  d record;
+  used_earning bigint;
+  used_deposit bigint;
+begin
+  if new.user_id is distinct from (select auth.uid()) then
+    raise exception 'Allocation owner mismatch';
+  end if;
+  -- Fixed lock order prevents deadlocks across competing allocations.
+  select account_id,currency,gross_minor-fee_minor-tax_minor-refund_minor as available
+    into e from public.cf_earnings
+    where id=new.earning_id and user_id=new.user_id for update;
+  if not found then raise exception 'Earning not available'; end if;
+  select account_id,currency,amount_minor as available
+    into d from public.cf_deposits
+    where id=new.deposit_id and user_id=new.user_id for update;
+  if not found then raise exception 'Deposit not available'; end if;
+  if e.account_id <> d.account_id or e.currency <> d.currency then
+    raise exception 'Allocation account or currency mismatch';
+  end if;
+  select coalesce(sum(amount_minor),0) into used_earning
+    from public.cf_allocations where user_id=new.user_id and earning_id=new.earning_id;
+  select coalesce(sum(amount_minor),0) into used_deposit
+    from public.cf_allocations where user_id=new.user_id and deposit_id=new.deposit_id;
+  if used_earning + new.amount_minor > e.available
+     or used_deposit + new.amount_minor > d.available then
+    raise exception 'Allocation exceeds available balance';
+  end if;
+  return new;
+end $;
+revoke all on function public.cf_validate_allocation() from public,anon;
+create trigger cf_allocation_guard before insert on public.cf_allocations
+  for each row execute function public.cf_validate_allocation();
+revoke update,delete on public.cf_allocations from authenticated;
+-- The trigger uses invoker permissions and therefore respects RLS.
+grant insert on public.cf_allocations to authenticated;
 -- Restrict direct edits to monetary balances until guarded update workflows exist.
 revoke update on public.cf_earnings, public.cf_deposits from authenticated;
 -- Never allow a client to delete financial evidence outside an audited workflow.
