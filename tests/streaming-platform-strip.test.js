@@ -79,3 +79,8 @@ assert.match(css,/\.streaming-platform-icons a,\.streaming-platform-icons button
 assert.match(shortcutSource,/added\.scrollIntoView\?\.\(\{block:'nearest',inline:'nearest'\}\)/);
 assert.match(shortcutSource,/added\.focus\(\)/);
 assert.match(shortcutSource,/builtInUrls\.has\(item\.url\)/);
+
+// Removal at capacity must focus an enabled control, not a disabled name field.
+assert.match(shortcutSource,/const next=manage\.querySelector\('button'\)\|\|\(!name\.disabled\?name:cancel\)/);
+assert.match(shortcutSource,/capacityStatus\.id='streamingShortcutCount'/);
+assert.match(css,/a\[data-custom-streaming\] span:last-child\{max-width:100%;overflow:hidden;text-overflow:ellipsis/);
