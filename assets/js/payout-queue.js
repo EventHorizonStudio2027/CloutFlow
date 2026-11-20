@@ -3,7 +3,7 @@
  'use strict';
  const cents=value=>Math.round(Number(value)*100);
  function validDate(value){if(typeof value!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(value))return false;const date=new Date(value+'T00:00:00Z');return Number.isFinite(date.getTime())&&date.toISOString().slice(0,10)===value}
- function validMoney(value){const amount=Number(value);return value!==null&&value!==''&&Number.isFinite(amount)&&amount>=0&&amount<=Number.MAX_SAFE_INTEGER/100}
+ function validMoney(value){const amount=typeof value==='number'?value:typeof value==='string'&&value.trim()?Number(value):NaN;return Number.isFinite(amount)&&amount>=0&&amount<=Number.MAX_SAFE_INTEGER/100&&Math.abs(amount*100-Math.round(amount*100))<1e-6}
  function pending(payouts){
   if(!Array.isArray(payouts))return [];
   return payouts.filter(p=>p&&typeof p==='object'&&!Array.isArray(p)&&validDate(p.received)&&validMoney(p.amount)&&(!p.currency||/^[A-Z]{3}$/.test(p.currency))&&(!p.allocations||Array.isArray(p.allocations))&&(p.allocations||[]).every(a=>a&&validMoney(a.amount))).map(p=>{
