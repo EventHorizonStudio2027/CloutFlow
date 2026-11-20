@@ -637,3 +637,18 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 @media(prefers-reduced-motion:reduce){.command-card:hover{transform:none}}
 
 .command-center-count{margin:9px 2px 0;color:var(--muted);font-size:11px;line-height:1.4}
+
+/* Provider roadmap stays subordinate to actual financial accounts. */
+.integration-center{margin-top:18px;padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+.integration-head h4{margin:0 0 5px;font-size:16px}
+.integration-head p,.integration-state{color:var(--muted);font-size:12px;line-height:1.5}
+.integration-state{margin:10px 0}
+.integration-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,225px),1fr));gap:9px}
+.integration-card{display:grid;grid-template-columns:32px minmax(0,1fr);align-items:center;gap:7px 10px;padding:11px;border:1px solid var(--line);border-radius:11px;background:var(--panel2)}
+.integration-icon{display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:var(--panel);color:var(--cyan);font-weight:700}
+.integration-icon img{max-width:23px;max-height:23px}
+.integration-card strong,.integration-card small{display:block;overflow-wrap:anywhere}
+.integration-card strong{font-size:12px}
+.integration-card small{font-size:10px;color:var(--muted);line-height:1.4}
+.integration-card .btn{grid-column:2;justify-self:start}
+@media(max-width:560px){.integration-center{padding:12px}.integration-grid{grid-template-columns:1fr}.integration-card{grid-template-columns:32px minmax(0,1fr) auto}.integration-card .btn{grid-column:3;grid-row:1;align-self:center}}
