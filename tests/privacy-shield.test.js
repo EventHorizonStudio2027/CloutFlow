@@ -16,8 +16,11 @@ const document={body:{classList:{toggle(k,v){v?classes.add(k):classes.delete(k)}
 const localStorage={getItem(){return stored},setItem(k,v){assert.equal(k,'cloutflow_privacy_shield_v1');stored=v}};
 vm.runInNewContext(source,{document,localStorage});
 assert.equal(attrs['aria-pressed'],'false');
+assert.equal(attrs['aria-label'],'Hide financial amounts');
 listeners['button:click']();
-assert.equal(attrs['aria-pressed'],'true');assert(classes.has('privacy-shield'));assert.equal(stored,'on');
+assert.equal(attrs['aria-pressed'],'true');assert(classes.has('privacy-shield'));assert.equal(stored,'on');assert.equal(attrs['aria-label'],'Show financial amounts');
+listeners['doc:keydown']({altKey:true,shiftKey:true,key:'p',repeat:false,isComposing:false,target:{closest:()=>({})},preventDefault(){throw Error('Editable shortcut intercepted')}});
+assert.equal(attrs['aria-pressed'],'true');
 listeners['doc:keydown']({altKey:true,shiftKey:true,key:'P',repeat:false,preventDefault(){}});
 assert.equal(attrs['aria-pressed'],'false');assert(!classes.has('privacy-shield'));
 console.log('Privacy shield structural and interaction checks passed');
