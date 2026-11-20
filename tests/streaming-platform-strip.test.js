@@ -56,7 +56,7 @@ assert.match(latest,/width:27px;height:27px/);
 assert.match(latest,/padding:5px 10px 6px/);
 assert.ok(!latest.includes('repeat(5,'),'streaming icons must not wrap into two rows');
 const shortcutSource=fs.readFileSync('assets/js/streaming-shortcuts.js','utf8');
-assert.match(shortcutSource,/Open Discord','Open Patreon/);
+assert.match(shortcutSource,/Custom shortcuts supplement the original platform links/);
 
 // Compact editor must support keyboard dismissal and hide empty management controls.
 assert.match(shortcutSource,/event\.key==='Escape'/);
