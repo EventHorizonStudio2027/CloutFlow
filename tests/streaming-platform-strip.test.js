@@ -106,3 +106,10 @@ assert.deepEqual(custom.normalize('A'.repeat(21)+' B','https://example.org'),{na
 assert.equal(custom.normalize('Safe\u202eName','https://example.org'),null);
 assert.match(css,/\.streaming-manage-item button:focus-visible/);
 assert.match(css,/\.streaming-add-form input\{min-height:44px\}/);
+
+// Name length is measured in Unicode code points so emoji are never split mid-surrogate.
+const emojiName='🎮'.repeat(23);
+assert.deepEqual(custom.normalize(emojiName,'https://example.net'),{name:'🎮'.repeat(22),url:'https://example.net/'});
+assert.equal(custom.normalize('Creator','javascript:alert(1)'),null);
+assert.equal(custom.normalize('Creator','https://user:pass@example.net'),null);
+assert.equal(custom.normalize('Creator','https://example.net:8443'),null);
