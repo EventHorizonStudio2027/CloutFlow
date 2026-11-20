@@ -25,8 +25,10 @@ with sync_playwright() as p:
   page.locator('#commandCenterOptions button[aria-label^="Move down"]').first.click()
   page.locator('#resetCommandCenter').click()
   assert page.locator('.command-card').count()==8
-  page.locator('#customizeCommandCenter').click()
+  page.locator('#commandCenterOptions input').first.focus()
+  page.keyboard.press('Escape')
   assert page.locator('#commandCenterSettings').is_hidden()
+  assert page.evaluate("document.activeElement.id === 'customizeCommandCenter'")
   assert page.evaluate('document.documentElement.scrollWidth <= innerWidth + 2')
   assert not errors,errors
   print(f'PASS {width}px command center customization, reset and layout')
