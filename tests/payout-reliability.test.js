@@ -44,4 +44,6 @@ assert.equal(analyze(dues,[...links,{agreementId:'a',due:'2026-09-15',payoutId:'
 assert.equal(analyze(dues,[...links,{agreementId:'b',due:'2026-10-15',payoutId:'p1',amount:20}],payouts,'2026-11-20').groups.find(x=>x.platform==='Twitch'),undefined,'currency-mismatched allocation cannot count as reliable');
 assert.equal(analyze(dues,[...links,{agreementId:'b',due:'2026-10-15',payoutId:'p4',amount:1}],payouts,'2026-11-20').groups.find(x=>x.platform==='Twitch').fullyLinked,1,'duplicate link is excluded without changing settled history');
 assert.equal(analyze(dues,[...links,{agreementId:'a',due:'2026-11-15',payoutId:'p1',amount:50}],payouts,'2026-11-20').groups.find(x=>x.platform==='YouTube').fullyLinked,1,'deposit overallocated across installments must not count');
+assert.equal(analyze(dues,[...links,{agreementId:'b',due:'2026-10-15',payoutId:'p1',amount:20}],payouts,'2026-11-20').exclusions[0].reason,'Currency mismatch');
+assert.equal(analyze(dues,[...links,{agreementId:'a',due:'2026-11-15',payoutId:'p1',amount:50}],payouts,'2026-11-20').exclusions[0].reason,'Deposit overallocated');
 console.log('Historical payout linkage reliability tests passed');
