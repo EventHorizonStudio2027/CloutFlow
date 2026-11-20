@@ -717,3 +717,7 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 
 /* Advisory matches are intentionally subdued: they are not confirmed payments. */
 .agreement-match-advisory{display:inline-flex;align-items:center;margin:3px 0 3px 5px;padding:3px 7px;border:1px dashed rgba(148,163,184,.55);border-radius:999px;background:rgba(148,163,184,.07);color:var(--muted);font-size:.75rem;font-weight:600;line-height:1.2;white-space:normal}
+
+/* Make duplicate review readable on small screens without overwhelming the payout form. */
+.payout-duplicate-warning{border-left:4px solid #f4af43;max-width:100%;overflow-wrap:anywhere;box-shadow:0 4px 18px rgba(0,0,0,.08)}
+@media(max-width:480px){.payout-duplicate-warning{padding:10px 12px;font-size:.84rem;line-height:1.45}}
