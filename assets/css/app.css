@@ -764,3 +764,9 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .reliability-details>summary:focus-visible{outline:2px solid #66c3c3;outline-offset:-3px}
 .reliability-details .growth-trends-scroll{margin:0;max-width:100%;overflow-x:auto}
 .reliability-details td,.reliability-details th{white-space:nowrap;font-variant-numeric:tabular-nums}
+
+/* Final finishing detail: gentle disclosure chevron and deliberate motion. */
+.reliability-details>summary::marker{color:#66c3c3}
+.reliability-details[open]>summary{border-bottom:1px solid rgba(148,163,184,.2);background:linear-gradient(90deg,rgba(102,195,195,.11),rgba(148,163,184,.035))}
+.reliability-details tbody tr:hover{background:rgba(102,195,195,.055)}
+@media(prefers-reduced-motion:no-preference){.reliability-details>summary{transition:background .18s ease}}
