@@ -714,3 +714,6 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .cashflow-status.status-allocated{border-color:rgba(101,214,160,.35);background:rgba(101,214,160,.08);color:#83e0b3}
 
 .cashflow-data-warning ul{margin:7px 0 0;padding-left:19px}.cashflow-data-warning li{margin:3px 0}.cashflow-data-warning strong{display:block;margin-bottom:2px}
+
+/* Advisory matches are intentionally subdued: they are not confirmed payments. */
+.agreement-match-advisory{display:inline-flex;align-items:center;margin:3px 0 3px 5px;padding:3px 7px;border:1px dashed rgba(148,163,184,.55);border-radius:999px;background:rgba(148,163,184,.07);color:var(--muted);font-size:.75rem;font-weight:600;line-height:1.2;white-space:normal}
