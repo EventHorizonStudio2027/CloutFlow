@@ -11,4 +11,17 @@ assert.equal(s.reconcile(dues,[],rows).issues.length,2);
 rows=s.unlink(rows,'a','2026-11-15','p');assert.equal(rows.length,1);
 const data={};const store={getItem:k=>data[k]??null,setItem:(k,v)=>data[k]=v};assert.equal(s.save(store,rows),true);assert.deepEqual(s.read(store).records,rows);
 data[s.KEY]='broken';assert.ok(s.read(store).error);assert.equal(s.validate([{agreementId:'a',due:'2026-11-15',payoutId:'p',amount:1},{agreementId:'a',due:'2026-11-15',payoutId:'p',amount:1}]),'Duplicate settlement link');
+
+assert.match(s.validate([{agreementId:'a',due:'2026-02-30',payoutId:'p',amount:1}]),/Invalid settlement/);
+assert.match(s.validate([{agreementId:'a',due:'2026-11-15',payoutId:'p',amount:0}]),/Invalid settlement/);
+assert.match(s.validate([{agreementId:'a',due:'2026-11-15',payoutId:'p',amount:1.001}]),/Invalid settlement/);
+const duplicateIds=s.reconcile(dues,[{id:'p',currency:'USD',amount:100},{id:'p',currency:'USD',amount:100}],[]);
+assert.ok(duplicateIds.issues.some(x=>/duplicate deposit/i.test(x.reason)));
+const invalidDue=s.reconcile([{id:'bad',due:'2026-02-30',currency:'USD',amount:20}],payouts,[]);
+assert.ok(invalidDue.issues.some(x=>/invalid installment/i.test(x.reason)));
+const safe=s.reconcile(dues,payouts,[{agreementId:'a',due:'2026-11-15',payoutId:'missing',amount:10}]);
+assert.ok(safe.issues.some(x=>/unavailable/i.test(x.reason)));
+const over=s.reconcile(dues,payouts,[{agreementId:'a',due:'2026-11-15',payoutId:'p',amount:100},{agreementId:'a',due:'2026-11-15',payoutId:'q',amount:1}]);
+assert.ok(over.issues.some(x=>/above expected/i.test(x.reason)));
+assert.equal(s.link([],dues,[{id:'p',currency:'USD',amount:10},{id:'p',currency:'USD',amount:10}],'a','2026-11-15','p',5).error,'Invalid or duplicate deposit record');
 console.log('agreement settlement tests passed');
