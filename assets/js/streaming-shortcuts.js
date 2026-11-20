@@ -1,10 +1,11 @@
 /* Custom creator shortcuts: local-only, no remote icon fetches or injected HTML. */
 (function(root){'use strict';
 const KEY='cloutflow_streaming_shortcuts_v1';
+function graphemes(value){const text=String(value??'');try{if(typeof Intl!=='undefined'&&Intl.Segmenter)return Array.from(new Intl.Segmenter(undefined,{granularity:'grapheme'}).segment(text),part=>part.segment)}catch{}return Array.from(text)}
 function normalize(name,url){
  const original=String(name||'');
  if(/[\u0000-\u001f\u007f]/.test(original))return null;
- const label=Array.from(original.trim().replace(/\s+/g,' ')).slice(0,22).join('').trim();
+ const label=graphemes(original.trim().replace(/\s+/g,' ')).slice(0,22).join('').trim();
  if(!label||/[\u202a-\u202e\u2066-\u2069]/.test(label))return null;
  try{const raw=String(url||'').trim();if(raw.length>2048||/[\u0000-\u001f\u007f]/.test(raw))return null;const parsed=new URL(raw);if(parsed.protocol!=='https:'||!parsed.hostname||parsed.username||parsed.password||parsed.port&&parsed.port!=='443')return null;return {name:label,url:parsed.href}}catch{return null}
 }
@@ -39,7 +40,7 @@ function init(doc,store){
   defaults.forEach(el=>{el.hidden=false});
   for(const item of items){
    const a=doc.createElement('a');a.href=item.url;a.target='_blank';a.rel='noopener noreferrer';a.setAttribute('aria-label','Open '+item.name);a.title='Open '+item.name;a.dataset.customStreaming='1';
-   const mark=doc.createElement('span');mark.className='streaming-custom-mark';mark.textContent=item.name.slice(0,1).toUpperCase();
+   const mark=doc.createElement('span');mark.className='streaming-custom-mark';mark.textContent=graphemes(item.name)[0]?.toLocaleUpperCase()||'?';
    const label=doc.createElement('span');label.textContent=item.name;a.append(mark,label);grid.insertBefore(a,add);
   }
   add.setAttribute('aria-label',items.length>=3?'Manage creator shortcuts':'Add a streaming platform');
@@ -54,7 +55,7 @@ function init(doc,store){
  form.addEventListener('submit',e=>{e.preventDefault();if(syncCapacity()){error.textContent='Remove a shortcut before adding another.';return}const item=normalize(name.value,url.value);if(!item){error.textContent='Enter a name and a secure https:// website URL.';return}const items=read(store);if(items.some(x=>x.url===item.url)||builtInUrls.has(item.url)){error.textContent='This shortcut already exists.';return}if(builtInNames.has(item.name.toLocaleLowerCase())||items.some(x=>x.name.toLocaleLowerCase()===item.name.toLocaleLowerCase())){error.textContent='Use a different name for this shortcut.';return}if(items.length>=3){error.textContent='Up to three custom shortcuts can be added.';return}if(!save(store,[...items,item])){error.textContent='Could not save this shortcut on this device.';return}error.textContent='';form.reset();form.hidden=true;render();const added=Array.from(grid.querySelectorAll('[data-custom-streaming]')).at(-1);if(added){added.scrollIntoView?.({block:'nearest',inline:'nearest'});added.focus()}else add.focus()});
  render();
 }
-const api={normalize,read,save,init,key:KEY};
+const api={normalize,read,save,init,key:KEY,graphemes};
 root.CloutFlowStreamingShortcuts=api;
 if(typeof module!=='undefined'&&module.exports)module.exports=api;
 if(root.document){const start=()=>{try{init(root.document,root.localStorage)}catch{}};if(root.document.readyState==='loading')root.document.addEventListener('DOMContentLoaded',start);else start()}
