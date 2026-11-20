@@ -89,3 +89,8 @@ assert.match(css,/a\[data-custom-streaming\] span:last-child\{max-width:100%;ove
 assert.match(shortcutSource,/builtInNames\.has\(item\.name\.toLocaleLowerCase\(\)\)/);
 assert.match(shortcutSource,/add\.setAttribute\('aria-haspopup','true'\)/);
 assert.match(shortcutSource,/error\.textContent='';add\.focus\(\)/);
+
+// Reject hidden control characters in shortcut names before whitespace normalization.
+assert.equal(custom.normalize('Safe'+String.fromCharCode(10)+'Name','https://example.com'),null);
+assert.equal(custom.normalize('Safe'+String.fromCharCode(0)+'Name','https://example.com'),null);
+assert.deepEqual(custom.normalize('  My   Channel  ','https://example.com'),{name:'My Channel',url:'https://example.com/'});
