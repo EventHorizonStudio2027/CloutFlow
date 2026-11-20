@@ -676,3 +676,9 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .streaming-platform-icons a:hover,.streaming-platform-icons button.streaming-add:hover{border-color:var(--cyan);background:rgba(85,223,208,.075)}
 .streaming-platform-icons a[data-custom-streaming] span:last-child{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 @media(prefers-reduced-motion:reduce){.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{transition:none}}
+
+/* Streaming launcher: readable touch feedback without shifting the dashboard layout. */
+.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{position:relative;isolation:isolate}
+.streaming-platform-icons a:active,.streaming-platform-icons button.streaming-add:active{background:rgba(85,223,208,.13)}
+.streaming-platform-icons a[data-custom-streaming] .streaming-custom-mark{border-radius:7px}
+@media(max-width:600px){.streaming-platform-icons a,.streaming-platform-icons button.streaming-add{min-height:44px}.streaming-platform-icons{scrollbar-width:thin}}
