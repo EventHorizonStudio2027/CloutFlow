@@ -643,4 +643,9 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .privacy-shield .stat-value::selection,.privacy-shield .amount::selection{background:transparent}
 #privacyShieldToggle[aria-pressed="true"]{border-color:var(--cyan);color:var(--cyan);background:rgba(85,223,208,.09)}
 @media(max-width:600px){#privacyShieldToggle{min-height:40px;white-space:nowrap}}
-@media print{.privacy-shield .stat-value,.privacy-shield .amount,.privacy-shield .break-amount,.privacy-shield [data-money],.privacy-shield .currency-amount{filter:none}}
+@media print{.privacy-shield .stat-value,.privacy-shield .amount,.privacy-shield .break-amount,.privacy-shield [data-money],.privacy-shield .currency-amount{visibility:hidden!important}body.privacy-shield::before{content:"CloutFlow privacy mode is active — financial amounts are hidden";display:block;font:600 12pt system-ui;color:#111;margin:12px 0}}
+
+/* Privacy control: clear active state, consistent touch target and restrained motion. */
+#privacyShieldToggle{display:inline-flex;align-items:center;justify-content:center;min-height:40px;gap:6px;transition:border-color .15s ease,background-color .15s ease}
+#privacyShieldToggle:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){#privacyShieldToggle{transition:none}}
