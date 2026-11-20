@@ -33,7 +33,7 @@
     if(!hidden){
      const card=make('button','command-card');card.type='button';card.dataset.commandTarget=id;
      card.append(make('span','command-icon',item.icon),make('strong','',item.name),make('span','command-detail',item.detail));
-     card.addEventListener('click',()=>{if(typeof root.CloutFlowOpenWorkspace==='function')root.CloutFlowOpenWorkspace(id);});grid.append(card);
+     card.addEventListener('click',()=>{const section=doc.getElementById(id);if(!section)return;section.scrollIntoView({behavior:root.matchMedia?.('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});const heading=section.querySelector('h2,h3,h4');if(heading){if(!heading.hasAttribute('tabindex'))heading.setAttribute('tabindex','-1');heading.focus({preventScroll:true});}});grid.append(card);
     }
     const line=make('div','command-option');const label=make('label','command-option-label');const check=make('input');check.type='checkbox';check.checked=!hidden;check.setAttribute('aria-label','Show '+item.name);check.addEventListener('change',()=>{state.hidden=check.checked?state.hidden.filter(x=>x!==id):[...state.hidden,id];save();render();});label.append(check,doc.createTextNode(item.name));line.append(label);
     for(const [direction,delta] of [['Move up',-1],['Move down',1]]){
