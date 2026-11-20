@@ -4,7 +4,10 @@ const html=fs.readFileSync('index.html','utf8');
 const css=fs.readFileSync('assets/css/app.css','utf8');
 const start=html.indexOf('class="streaming-platform-strip"');
 const section=html.slice(start,html.indexOf('</section>',start));
-assert.ok(start>html.indexOf('class="quick-access"'));
+assert.ok(start>html.indexOf('class="welcome"'));
+assert.ok(start<html.indexOf('class="quick-access"'),'streaming dock must remain above Quick access');
+assert.ok(start<html.indexOf('class="command-center"'),'streaming dock must remain above workspace');
+assert.equal((html.match(/class="streaming-platform-strip"/g)||[]).length,1);
 assert.match(section,/<strong>Streaming<\/strong><span>Quick links to your creator platforms<\/span>/);
 for(const name of ['YouTube','Twitch','Kick','TikTok','Facebook','Instagram','Discord','Patreon','Ko-fi'])assert.ok(section.includes('>'+name+'</span>'),name+' shortcut missing');
 assert.equal((section.match(/<a href=/g)||[]).length,9);
@@ -62,3 +65,6 @@ assert.match(shortcutSource,/streaming-capacity-status/);
 assert.match(shortcutSource,/Remove one to add another/);
 assert.match(css,/\.streaming-capacity-status\{/);
 assert.match(css,/\.streaming-manage-list\[hidden\]\{display:none!important\}/);
+
+// Regression: capacity status must be inserted only after its reference element exists.
+assert.ok(shortcutSource.indexOf('form.appendChild(manage)')<shortcutSource.indexOf('form.insertBefore(capacityStatus,manage)'));
