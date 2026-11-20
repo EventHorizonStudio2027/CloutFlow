@@ -27,6 +27,8 @@ assert.equal(result.groups.find(x=>x.currency==='EUR').fullyLinked,1);
 assert.equal(usd.coveragePercent,67);
 assert.equal(usd.expected,300);
 assert.equal(result.details.length,4);
+assert.deepEqual(result.quality,{validInstallments:4,disputedInstallments:0,otherExcluded:0,complete:true});
+assert.equal(analyze(dues,[...links,links[0]],payouts,'2026-11-20').quality.otherExcluded,1);
 assert.deepEqual(result.details.filter(x=>x.platform==='YouTube').map(x=>x.outstanding),[80,0,0]);
 assert.equal(result.details[0].status,'partially-linked');
 assert.equal(result.details.some(x=>x.due==='2026-12-15'),false);
