@@ -727,3 +727,8 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .income-baseline-label{font-size:.7rem;letter-spacing:.055em;text-transform:uppercase;color:var(--muted);font-weight:700}
 .income-baseline>strong{font-size:1.16rem;line-height:1.3;font-variant-numeric:tabular-nums}
 .income-baseline>small{color:var(--muted);font-size:.75rem;line-height:1.45}
+
+.payout-reliability{margin-top:14px;padding-top:12px;border-top:1px solid rgba(148,163,184,.24)}
+.payout-reliability-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:9px;margin-top:10px}
+.payout-reliability-card{display:grid;gap:5px;padding:12px 13px;border:1px solid rgba(148,163,184,.25);border-radius:12px;background:rgba(148,163,184,.055)}
+.payout-reliability-card strong{font-size:.88rem}.payout-reliability-card span{font-size:1rem;font-weight:700;font-variant-numeric:tabular-nums}.payout-reliability-card small{font-size:.76rem;line-height:1.45;color:var(--muted)}
