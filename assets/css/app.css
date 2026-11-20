@@ -649,3 +649,7 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 #privacyShieldToggle{display:inline-flex;align-items:center;justify-content:center;min-height:40px;gap:6px;transition:border-color .15s ease,background-color .15s ease}
 #privacyShieldToggle:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
 @media(prefers-reduced-motion:reduce){#privacyShieldToggle{transition:none}}
+
+/* Privacy action: reserve space for the longer reveal label and avoid awkward wrapping. */
+@media(min-width:601px){#privacyShieldToggle{min-width:132px}}
+@media(max-width:600px){.welcome .period #privacyShieldToggle{flex:0 0 auto;min-height:44px;padding-inline:12px}}
