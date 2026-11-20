@@ -18,7 +18,7 @@ function analyze(dueRows,links,payouts,asOf){
   else if(total>0)g.partiallyLinked++;else g.unlinked++;
   groups.set(gKey,g);
  }
- return {groups:[...groups.values()].sort((a,b)=>a.platform.localeCompare(b.platform)||a.currency.localeCompare(b.currency)),excluded,error:''};
+ return {groups:[...groups.values()].map(g=>({...g,coveragePercent:Math.round(g.fullyLinked/g.installments*100),coverageLabel:g.installments<3?'Limited history':g.installments<6?'Developing history':'Established history'})).sort((a,b)=>a.platform.localeCompare(b.platform)||a.currency.localeCompare(b.currency)),excluded,error:''};
 }
 const api={analyze};root.CloutFlowPayoutReliability=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(typeof window!=='undefined'?window:globalThis);
