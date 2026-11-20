@@ -22,7 +22,7 @@ function init(doc,store){
  function syncCapacity(){const count=read(store).length;const full=count>=3;fields.forEach(el=>{el.hidden=full;el.disabled=full});form.dataset.atCapacity=String(full);capacityStatus.textContent=full?'3 of 3 shortcuts saved. Remove one to add another.':count+' of 3 shortcuts saved';return full}
  const manage=doc.createElement('div');manage.className='streaming-manage-list';manage.setAttribute('aria-label','Your custom platform shortcuts');form.appendChild(manage);
  capacityStatus.id='streamingShortcutCount';form.insertBefore(capacityStatus,manage);
- form.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();form.hidden=true;add.setAttribute('aria-expanded','false');add.focus()}});
+ form.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();form.hidden=true;add.setAttribute('aria-expanded','false');error.textContent='';add.focus()}});
  defaults.forEach(link=>{link.title=link.getAttribute('aria-label')||link.textContent.trim()});
  add.title='Add a creator platform shortcut';
  function render(){
@@ -43,6 +43,7 @@ function init(doc,store){
   add.title=items.length>=3?'Manage your creator platform shortcuts':'Add a creator platform shortcut';
   add.setAttribute('aria-expanded',String(!form.hidden));
   add.setAttribute('aria-describedby','streamingShortcutCount');
+  add.setAttribute('aria-haspopup','true');
   manage.replaceChildren();
   items.forEach(item=>{const row=doc.createElement('div');row.className='streaming-manage-item';const label=doc.createElement('span');label.textContent=item.name;const remove=doc.createElement('button');remove.type='button';remove.textContent='Remove';remove.setAttribute('aria-label','Remove '+item.name);remove.addEventListener('click',()=>{if(save(store,read(store).filter(x=>x.url!==item.url))){render();const next=manage.querySelector('button')||(!name.disabled?name:cancel);(form.hidden?add:next).focus()}});row.append(label,remove);manage.appendChild(row)});
  }
