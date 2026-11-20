@@ -805,3 +805,7 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 
 /* Mobile polish: compact, easily tappable agreement investigation links. */
 @media(max-width:480px){.reliability-review-link{min-height:36px;margin-left:0;margin-top:6px;padding:7px 11px}.reliability-exclusions li{padding-bottom:5px}}
+
+/* Final finish: understated amber accent stripe on review controls. */
+.reliability-review-link{border-left:3px solid rgba(217,158,78,.85);letter-spacing:.005em}
+.reliability-review-link:active{background:rgba(217,158,78,.23)}
