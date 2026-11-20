@@ -62,7 +62,7 @@ create policy cf_allocations_owner on public.cf_allocations for all to authentic
 -- Allocation writes are permitted only through an invoker-rights trigger that
 -- serializes concurrent writers on both financial source rows.
 create or replace function public.cf_validate_allocation()
-returns trigger language plpgsql security invoker set search_path = '' as $
+returns trigger language plpgsql security invoker set search_path = '' as $cloutflow$
 declare
   e record;
   d record;
@@ -76,8 +76,8 @@ begin
   -- Transaction advisory locks serialize competing allocations without
   -- granting clients permission to modify earning/deposit source rows.
   for lock_key in select unnest(array[
-    hashtextextended('earning:'||new.earning_id::text,0),
-    hashtextextended('deposit:'||new.deposit_id::text,0)
+    pg_catalog.hashtextextended('earning:'||new.earning_id::text,0),
+    pg_catalog.hashtextextended('deposit:'||new.deposit_id::text,0)
   ]) order by 1 loop
     perform pg_catalog.pg_advisory_xact_lock(lock_key);
   end loop;
@@ -101,7 +101,7 @@ begin
     raise exception 'Allocation exceeds available balance';
   end if;
   return new;
-end $;
+end $cloutflow$;
 revoke all on function public.cf_validate_allocation() from public,anon;
 create trigger cf_allocation_guard before insert on public.cf_allocations
   for each row execute function public.cf_validate_allocation();
