@@ -782,3 +782,8 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .reliability-exclusions>summary::marker{color:#d99e4e}
 .reliability-exclusions[open]>summary{border-bottom:1px solid rgba(217,158,78,.22);background:linear-gradient(90deg,rgba(217,158,78,.13),rgba(217,158,78,.035))}
 .reliability-exclusions li+li{border-top:1px solid rgba(148,163,184,.12);padding-top:5px;margin-top:5px}
+
+/* Responsive investigation panel: emphasize readable actions over dense data. */
+.reliability-exclusions>summary{line-height:1.5;overflow-wrap:anywhere}
+.reliability-exclusions>summary:hover{background:rgba(217,158,78,.12)}
+@media(max-width:480px){.reliability-exclusions>summary{padding:12px 13px}.reliability-exclusions ul{padding-left:28px}}
