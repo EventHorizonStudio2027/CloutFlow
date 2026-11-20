@@ -4,7 +4,7 @@ const KEY='cloutflow_streaming_shortcuts_v1';
 function normalize(name,url){
  const label=String(name||'').trim().replace(/\s+/g,' ').slice(0,22);
  if(!label||/[\u0000-\u001f\u007f]/.test(label))return null;
- try{const raw=String(url||'').trim();if(raw.length>2048||/[\u0000-\u001f\u007f]/.test(raw))return null;const parsed=new URL(raw);if(parsed.protocol!=='https:'||!parsed.hostname||parsed.username||parsed.password)return null;return {name:label,url:parsed.href}}catch{return null}
+ try{const raw=String(url||'').trim();if(raw.length>2048||/[\u0000-\u001f\u007f]/.test(raw))return null;const parsed=new URL(raw);if(parsed.protocol!=='https:'||!parsed.hostname||parsed.username||parsed.password||parsed.port&&parsed.port!=='443')return null;return {name:label,url:parsed.href}}catch{return null}
 }
 function read(store){try{const data=JSON.parse(store.getItem(KEY)||'[]');return Array.isArray(data)?data.map(x=>normalize(x?.name,x?.url)).filter(Boolean).filter((x,i,a)=>a.findIndex(y=>y.url===x.url)===i).slice(0,3):[]}catch{return []}}
 function save(store,items){try{if(!Array.isArray(items)||items.length>3)return false;const valid=items.map(x=>normalize(x?.name,x?.url));if(valid.some(x=>!x)||new Set(valid.map(x=>x.url)).size!==valid.length||new Set(valid.map(x=>x.name.toLocaleLowerCase())).size!==valid.length)return false;store.setItem(KEY,JSON.stringify(valid));return true}catch{return false}}
@@ -16,6 +16,7 @@ function init(doc,store){
  const name=doc.getElementById('streamingNewName'),url=doc.getElementById('streamingNewUrl'),error=doc.getElementById('streamingAddError'),cancel=doc.getElementById('streamingAddCancel');
  const defaults=Array.from(grid.querySelectorAll('a'));
  const builtInUrls=new Set(defaults.map(link=>link.href));
+ const builtInNames=new Set(defaults.map(link=>(link.getAttribute('aria-label')||'').replace(/^Open /,'').toLocaleLowerCase()));
  const fields=[name,url,...Array.from(form.querySelectorAll('button[type="submit"]'))];
  const capacityStatus=doc.createElement('p');capacityStatus.className='streaming-capacity-status';capacityStatus.setAttribute('role','status');capacityStatus.setAttribute('aria-live','polite');
  function syncCapacity(){const count=read(store).length;const full=count>=3;fields.forEach(el=>{el.hidden=full;el.disabled=full});form.dataset.atCapacity=String(full);capacityStatus.textContent=full?'3 of 3 shortcuts saved. Remove one to add another.':count+' of 3 shortcuts saved';return full}
@@ -47,7 +48,7 @@ function init(doc,store){
  }
  add.addEventListener('click',()=>{form.hidden=!form.hidden;add.setAttribute('aria-expanded',String(!form.hidden));error.textContent='';if(!form.hidden)(syncCapacity()?manage.querySelector('button')||cancel:name).focus()});
  cancel.addEventListener('click',()=>{form.hidden=true;add.setAttribute('aria-expanded','false');add.focus()});
- form.addEventListener('submit',e=>{e.preventDefault();if(syncCapacity()){error.textContent='Remove a shortcut before adding another.';return}const item=normalize(name.value,url.value);if(!item){error.textContent='Enter a name and a secure https:// website URL.';return}const items=read(store);if(items.some(x=>x.url===item.url)||builtInUrls.has(item.url)){error.textContent='This shortcut already exists.';return}if(items.some(x=>x.name.toLocaleLowerCase()===item.name.toLocaleLowerCase())){error.textContent='Use a different name for this shortcut.';return}if(items.length>=3){error.textContent='Up to three custom shortcuts can be added.';return}if(!save(store,[...items,item])){error.textContent='Could not save this shortcut on this device.';return}error.textContent='';form.reset();form.hidden=true;render();const added=Array.from(grid.querySelectorAll('[data-custom-streaming]')).at(-1);if(added){added.scrollIntoView?.({block:'nearest',inline:'nearest'});added.focus()}else add.focus()});
+ form.addEventListener('submit',e=>{e.preventDefault();if(syncCapacity()){error.textContent='Remove a shortcut before adding another.';return}const item=normalize(name.value,url.value);if(!item){error.textContent='Enter a name and a secure https:// website URL.';return}const items=read(store);if(items.some(x=>x.url===item.url)||builtInUrls.has(item.url)){error.textContent='This shortcut already exists.';return}if(builtInNames.has(item.name.toLocaleLowerCase())||items.some(x=>x.name.toLocaleLowerCase()===item.name.toLocaleLowerCase())){error.textContent='Use a different name for this shortcut.';return}if(items.length>=3){error.textContent='Up to three custom shortcuts can be added.';return}if(!save(store,[...items,item])){error.textContent='Could not save this shortcut on this device.';return}error.textContent='';form.reset();form.hidden=true;render();const added=Array.from(grid.querySelectorAll('[data-custom-streaming]')).at(-1);if(added){added.scrollIntoView?.({block:'nearest',inline:'nearest'});added.focus()}else add.focus()});
  render();
 }
 const api={normalize,read,save,init,key:KEY};
