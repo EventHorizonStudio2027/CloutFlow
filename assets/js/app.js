@@ -571,7 +571,7 @@ function payoutDuplicatePreview(){
  const matches=CloutFlowPayoutDuplicates.candidates(draft,payouts);
  const warning=$('payoutDuplicateWarning');
  warning.classList.toggle('hidden',!matches.length);
- warning.textContent=matches.length?`Possible duplicate deposit: ${matches.length} existing record(s) have the same account, date, currency and amount. Review your bank statement before saving.`:'';
+ warning.textContent=matches.length?`Possible duplicate · ${matches.length} matching deposit${matches.length===1?'':'s'} already recorded for this platform, account, date, currency and amount. Check your bank statement before saving; this warning does not block an intentional second deposit.`:'';
  return matches;
 }
 function openPayout(p){if(!requireWritable())return;$('payoutForm').reset();$('payoutRecordId').value=p?.id||'';payoutOptions();if(p&&[...$('payoutPlatform').options].some(o=>o.value===p.platform))$('payoutPlatform').value=p.platform;payoutAccounts(p?.account);$('payoutCurrency').value=p?.currency||'USD';$('payoutAmount').value=p?.amount??'';$('payoutReceived').value=p?.received||today();$('payoutReference').value=p?.reference||'';$('payoutNotes').value=p?.notes||'';$('deletePayoutBtn').classList.toggle('hidden',!p);payoutAllocationRows(p);payoutDuplicatePreview();$('payoutModal').classList.add('show')}
