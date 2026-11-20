@@ -113,3 +113,6 @@ assert.deepEqual(custom.normalize(emojiName,'https://example.net'),{name:'🎮'.
 assert.equal(custom.normalize('Creator','javascript:alert(1)'),null);
 assert.equal(custom.normalize('Creator','https://user:pass@example.net'),null);
 assert.equal(custom.normalize('Creator','https://example.net:8443'),null);
+
+assert.match(shortcutSource,/Array\.from\(original\.trim\(\)\.replace\(\/\\s\+\/g,' '\)\)\.slice\(0,22\)/);
+assert.match(css,/button\.streaming-add\[data-shortcut-count\]:not\(\[data-shortcut-count="0"\]\)::after/);
