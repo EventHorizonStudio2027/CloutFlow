@@ -613,3 +613,25 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 #payoutAuditPanel [data-audit-list] li{line-height:1.55;padding-block:4px;overflow-wrap:anywhere}
 #payoutAuditPanel #exportPayoutAudit:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
 @media(min-width:561px){#payoutAuditPanel .payout-audit-heading .btn{flex-shrink:0}}
+
+/* Compact creator workspace: a clear hierarchy without a wall of navigation. */
+.command-center{margin:12px 0 18px;padding:16px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
+.command-center-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.command-center-head h3{margin:0 0 3px;font-size:17px}
+.command-center-head p{margin:0;color:var(--muted);font-size:12px}
+.command-center-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:9px}
+.command-card{display:grid;grid-template-columns:28px minmax(0,1fr);gap:2px 9px;align-content:center;text-align:left;min-height:74px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--panel2);color:var(--text);cursor:pointer}
+.command-card:hover{border-color:var(--cyan);transform:translateY(-1px)}
+.command-card:focus-visible,.command-center button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.command-icon{grid-row:span 2;color:var(--cyan);font-size:23px}
+.command-card strong{font-size:13px;overflow-wrap:anywhere}
+.command-detail{color:var(--muted);font-size:11px;line-height:1.35}
+#commandCenterSettings{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+#commandCenterSettings[hidden]{display:none!important}
+.command-center-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,265px),1fr));gap:8px;margin-bottom:10px}
+.command-option{display:flex;align-items:center;gap:6px}
+.command-option-label{display:flex;align-items:center;gap:7px;flex:1;min-width:0;font-size:12px}
+.command-option .btn{min-width:36px}
+@media(max-width:560px){.command-center{padding:12px}.command-center-head{align-items:flex-start}.command-center-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.command-card{grid-template-columns:1fr;min-height:100px}.command-icon{grid-row:auto}.command-detail{font-size:10px}}
+@media(max-width:350px){.command-center-cards{grid-template-columns:1fr}.command-card{min-height:65px;grid-template-columns:28px minmax(0,1fr)}.command-icon{grid-row:span 2}}
+@media(prefers-reduced-motion:reduce){.command-card:hover{transform:none}}
