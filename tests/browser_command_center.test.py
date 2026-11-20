@@ -15,6 +15,8 @@ with sync_playwright() as p:
   page.on('pageerror',lambda e:errors.append(str(e)))
   page.set_content(html);page.add_style_tag(content=css);page.add_script_tag(content=js)
   assert page.locator('.command-card').count()==8
+  page.locator('.command-card[data-command-target="ledgerSection"]').click()
+  assert page.evaluate("document.activeElement.closest('#ledgerSection') !== null"),'Shortcut should focus target heading'
   page.locator('#customizeCommandCenter').click()
   assert page.locator('#commandCenterSettings').is_visible()
   page.locator('#commandCenterOptions input').first.uncheck()
