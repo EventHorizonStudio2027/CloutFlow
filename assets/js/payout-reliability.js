@@ -15,13 +15,13 @@ function analyze(dueRows,links,payouts,asOf){
   const allLinks=allocated.get(key)||[];if(allLinks.some(x=>x.currency!==d.currency||overallocatedPayouts.has(x.payoutId))){excluded++;continue}
   const matching=allLinks,total=matching.reduce((n,x)=>n+x.amount,0),expected=cents(d.amount);
   if(total>expected||!Number.isSafeInteger(total)){excluded++;continue}
-  const gKey=JSON.stringify([d.platform.trim()||'Unspecified',d.currency]);const g=groups.get(gKey)||{platform:d.platform.trim()||'Unspecified',currency:d.currency,installments:0,fullyLinked:0,partiallyLinked:0,unlinked:0,linkedOnTime:0,linkedLate:0};
-  g.installments++;
+  const gKey=JSON.stringify([d.platform.trim()||'Unspecified',d.currency]);const g=groups.get(gKey)||{platform:d.platform.trim()||'Unspecified',currency:d.currency,installments:0,fullyLinked:0,partiallyLinked:0,unlinked:0,linkedOnTime:0,linkedLate:0,expectedCents:0,linkedCents:0,outstandingCents:0};
+  g.installments++;g.expectedCents+=expected;g.linkedCents+=total;g.outstandingCents+=expected-total;
   if(total===expected){g.fullyLinked++;const last=matching.map(x=>x.received).sort().at(-1);if(last<=d.due)g.linkedOnTime++;else g.linkedLate++}
   else if(total>0)g.partiallyLinked++;else g.unlinked++;
   groups.set(gKey,g);
  }
- return {groups:[...groups.values()].map(g=>({...g,coveragePercent:Math.round(g.fullyLinked/g.installments*100),coverageLabel:g.installments<3?'Limited history':g.installments<6?'Developing history':'Established history'})).sort((a,b)=>a.platform.localeCompare(b.platform)||a.currency.localeCompare(b.currency)),excluded,error:''};
+ return {groups:[...groups.values()].map(g=>({...g,expected:g.expectedCents/100,linked:g.linkedCents/100,outstanding:g.outstandingCents/100,coveragePercent:Math.round(g.fullyLinked/g.installments*100),coverageLabel:g.installments<3?'Limited history':g.installments<6?'Developing history':'Established history'})).sort((a,b)=>a.platform.localeCompare(b.platform)||a.currency.localeCompare(b.currency)),excluded,error:''};
 }
 const api={analyze};root.CloutFlowPayoutReliability=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(typeof window!=='undefined'?window:globalThis);
