@@ -737,3 +737,8 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .reliability-meter{height:5px;border-radius:99px;background:rgba(148,163,184,.22);overflow:hidden}
 .reliability-meter>i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#579fdb,#66c3c3);transition:width .24s ease-out}
 @media(prefers-reduced-motion:reduce){.reliability-meter>i{transition:none}}
+
+/* Final polish: tactile focus and subtle surface depth for reliability cards. */
+.payout-reliability-card{position:relative;box-shadow:inset 0 1px 0 rgba(255,255,255,.045),0 4px 16px rgba(0,0,0,.055);transition:border-color .18s ease,box-shadow .18s ease}
+.payout-reliability-card:hover{border-color:rgba(102,195,195,.42);box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 8px 22px rgba(0,0,0,.09)}
+@media(prefers-reduced-motion:reduce){.payout-reliability-card{transition:none}}
