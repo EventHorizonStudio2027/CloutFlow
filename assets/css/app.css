@@ -841,3 +841,8 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 
 /* Final visual pass: gentle warm edge light, no animation or layout shift. */
 .source-trust-strip{background-image:linear-gradient(105deg,rgba(213,168,95,.085) 0%,rgba(148,163,184,.025) 52%,transparent 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 2px 9px rgba(0,0,0,.045)}
+
+/* Backend readiness: two-stage status reads clearly without occupying dashboard space. */
+.source-trust-pill{border-color:rgba(81,190,173,.38);background:rgba(81,190,173,.075);color:#a5e7db;font-size:.67rem}
+.source-trust-strip{border-left-color:rgba(81,190,173,.65)}
+@media(max-width:480px){.source-trust-pill{white-space:normal;line-height:1.25}}
