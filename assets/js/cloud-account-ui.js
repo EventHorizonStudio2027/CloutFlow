@@ -51,6 +51,8 @@ cloudDownload?.addEventListener('click',async()=>{
   if(!user.id)throw Error('Could not identify signed-in account');
   const saved=await window.CloutFlowAuth.readBackup(token,user.id);
   if(!saved||!saved.snapshot)throw Error('No cloud copy exists for this account');
+  const ledger=saved.snapshot;
+  if(!ledger||!['entries','accounts','payouts','adjustments'].every(key=>Array.isArray(ledger[key])))throw Error('Cloud copy has an invalid core-ledger structure. Download blocked.');
   const blob=new Blob([JSON.stringify(saved.snapshot,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob),link=document.createElement('a');
   link.href=url;link.download='cloutflow-cloud-core-ledger-'+new Date().toISOString().slice(0,10)+'.json';
