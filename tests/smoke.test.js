@@ -16,6 +16,8 @@ assert.match(html,/data-cloud-backup/,'Cloud copy requires explicit action');
 assert(accountUi.includes("const cloudBackup=panel.querySelector"),'Cloud backup control initialized');
 assert(accountUi.includes("const cloudDownload=panel.querySelector"),'Cloud download control initialized');
 assert.match(accountUi,/const canonical=value=>/,'JSONB comparator initialized');
+assert(accountUi.includes('Download blocked.'),'Malformed cloud downloads must be rejected');
+assert(accountUi.includes('Cloud readback has an invalid ledger structure'),'Backup readback must be validated');
 const backupSql=fs.readFileSync(path.join(root,'backend/workspace-backup.sql'),'utf8');
 assert.match(backupSql,/enable row level security/,'Cloud backups require RLS');
 const schema=fs.readFileSync(path.join(root,'backend/schema.sql'),'utf8');
