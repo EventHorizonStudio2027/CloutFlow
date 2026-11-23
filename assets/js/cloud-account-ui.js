@@ -4,6 +4,7 @@ const panel=document.getElementById('cloudAccountPanel'),status=document.getElem
 if(!panel||!status||!window.CloutFlowAuth)return;
 let token=null;
 const cloudBackup=panel.querySelector('[data-cloud-backup]');
+const cloudDownload=panel.querySelector('[data-cloud-download]');
 const canonical=value=>JSON.stringify(value,(key,item)=>item&&typeof item==='object'&&!Array.isArray(item)?Object.fromEntries(Object.entries(item).sort(([a],[b])=>a.localeCompare(b))):item);
 panel.addEventListener('submit',async event=>{
  event.preventDefault();const form=event.target;if(!(form instanceof HTMLFormElement))return;
