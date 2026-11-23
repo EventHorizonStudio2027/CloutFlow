@@ -12,6 +12,7 @@ assert.match(html,/id="cloudAccountStatus"/,'Account status must be accessible')
 assert.match(auth,/\/auth\/v1\//,'Use dedicated authentication endpoint');
 assert(!/service_role|sb_secret_/.test(auth),'Never embed privileged API keys in public client');
 assert.match(accountUi,/Financial data is still stored only in this browser/,'Never imply finance synchronization on sign-in');
+assert.match(html,/data-cloud-backup/,'Cloud copy requires explicit action');
 const schema=fs.readFileSync(path.join(root,'backend/schema.sql'),'utf8');
 for(const table of ['cf_accounts','cf_earnings','cf_deposits','cf_allocations']){
  assert(schema.includes('alter table public.'+table+' enable row level security;'),'RLS required on '+table);
