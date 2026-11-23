@@ -12,15 +12,37 @@ panel.addEventListener('submit',async event=>{
  button.disabled=true;status.textContent='Contacting secure account service…';
  try{
   const data=button.dataset.authAction==='signup'?await window.CloutFlowAuth.signUp(email,password):await window.CloutFlowAuth.signIn(email,password);
-  if(data.access_token){token=data.access_token;status.textContent='Signed in for this page session. Financial data is still stored only in this browser.';panel.querySelector('[data-cloud-signout]').hidden=false;}
+  if(data.access_token){token=data.access_token;status.textContent='Signed in for this page session. Financial data is still stored only in this browser.';panel.querySelector('[data-cloud-signout]').hidden=false;cloudBackup.hidden=false;}
   else status.textContent='Account request received. Check your email to confirm your address before signing in.';
   form.elements.namedItem('cloudPassword').value='';
  }catch(e){status.textContent=e.message||'Could not authenticate.'}
  finally{button.disabled=false}
 });
+cloudBackup?.addEventListener('click',async()=>{
+ if(!token)return;
+ const raw=localStorage.getItem('creatorLedgerData_v2');
+ if(!raw){status.textContent='No saved core ledger was found in this browser.';return}
+ let snapshot;
+ try{snapshot=JSON.parse(raw)}catch(_){status.textContent='Local ledger is invalid; export a backup and repair it first.';return}
+ if(!snapshot||!Array.isArray(snapshot.entries)||!Array.isArray(snapshot.accounts)||!Array.isArray(snapshot.payouts)||!Array.isArray(snapshot.adjustments)){
+  status.textContent='Core ledger structure is incomplete. Nothing uploaded.';return;
+ }
+ if(!confirm('Save a first cloud copy of the core ledger (income, accounts, payouts, adjustments)? This is not automatic sync, and the existing cloud copy cannot be overwritten. Other local modules are not included.'))return;
+ cloudBackup.disabled=true;status.textContent='Saving and verifying first cloud copy…';
+ try{
+  const user=await window.CloutFlowAuth.currentUser(token);
+  if(!user.id)throw Error('Could not identify signed-in account');
+  await window.CloutFlowAuth.firstBackup(token,user.id,snapshot);
+  const saved=await window.CloutFlowAuth.readBackup(token,user.id);
+  if(!saved||JSON.stringify(saved.snapshot)!==JSON.stringify(snapshot))throw Error('Cloud copy saved, but exact readback verification failed. Do not retry blindly.');
+  status.textContent='First cloud copy saved and verified. Local records remain unchanged. This is not live sync.';
+  cloudBackup.hidden=true;
+ }catch(e){status.textContent=e.message||'Cloud copy could not be verified'}
+ finally{cloudBackup.disabled=false}
+});
 panel.querySelector('[data-cloud-signout]')?.addEventListener('click',async()=>{
  if(token){try{await window.CloutFlowAuth.signOut(token)}catch(_){/* Local session still cleared */}}
  token=null;status.textContent='Signed out. Your local financial records have not changed.';
- panel.querySelector('[data-cloud-signout]').hidden=true;
+ panel.querySelector('[data-cloud-signout]').hidden=true;cloudBackup.hidden=true;
 });
 })();
