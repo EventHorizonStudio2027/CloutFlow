@@ -874,3 +874,8 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 /* Backup action remains secondary and clearly opt-in. */
 .cloud-account-actions [data-cloud-backup]{border-color:rgba(102,197,183,.55);font-weight:650}
 .cloud-account-actions [data-cloud-backup]:disabled{opacity:.55;cursor:wait}
+
+/* Final aesthetic pass: restrained glass highlight and clear hover feedback. */
+.cloud-account-actions [data-cloud-backup]{background-image:linear-gradient(125deg,rgba(91,202,185,.12),rgba(91,202,185,.015));box-shadow:inset 0 1px 0 rgba(255,255,255,.07);transition:border-color .16s ease,background-color .16s ease}
+.cloud-account-actions [data-cloud-backup]:hover:not(:disabled){border-color:rgba(130,231,214,.9);background-color:rgba(91,202,185,.1)}
+@media(prefers-reduced-motion:reduce){.cloud-account-actions [data-cloud-backup]{transition:none}}
