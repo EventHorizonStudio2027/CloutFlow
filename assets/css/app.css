@@ -879,3 +879,9 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .cloud-account-actions [data-cloud-backup]{background-image:linear-gradient(125deg,rgba(91,202,185,.12),rgba(91,202,185,.015));box-shadow:inset 0 1px 0 rgba(255,255,255,.07);transition:border-color .16s ease,background-color .16s ease}
 .cloud-account-actions [data-cloud-backup]:hover:not(:disabled){border-color:rgba(130,231,214,.9);background-color:rgba(91,202,185,.1)}
 @media(prefers-reduced-motion:reduce){.cloud-account-actions [data-cloud-backup]{transition:none}}
+
+/* Cloud recovery is a quieter secondary action with a clear keyboard target. */
+.cloud-account-actions [data-cloud-download]{border-color:rgba(138,170,203,.38);background-image:linear-gradient(110deg,rgba(102,139,178,.085),transparent);font-weight:600}
+.cloud-account-actions [data-cloud-download]:hover:not(:disabled){border-color:rgba(150,196,235,.75)}
+.cloud-account-actions [data-cloud-download]:focus-visible{outline:2px solid #a6d5f1;outline-offset:2px}
+@media(prefers-reduced-motion:reduce){.cloud-account-actions [data-cloud-download]{transition:none}}
