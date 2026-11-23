@@ -41,3 +41,10 @@ No claim of live synchronization or fully functional connected accounts until th
 - Access tokens remain in page memory and are cleared on sign-out; refresh requires signing in again. This is a deliberately limited initial authentication step, not full session persistence.
 - No financial data is sent to Supabase by this account panel. Existing records remain local and are not linked to the account until migration and authorization testing are complete.
 - Automated static checks cover the public-key boundary and truthful storage disclosure. Real account creation/sign-in and two-user RLS tests still require end-to-end verification.
+
+## First cloud-copy milestone — 2026-11-23
+- Created and deployed `backend/workspace-backup.sql`: per-user JSONB core-ledger snapshots with RLS and ownership policies.
+- Deployed `backend/backup-lockdown.sql` after live privilege inspection exposed inherited authenticated UPDATE access. Verified anonymous SELECT, authenticated UPDATE, and DELETE are all denied.
+- Implemented an explicit opt-in, insert-only first backup with authenticated user lookup, round-trip readback, and JSONB property-order-independent verification.
+- Added a download-only recovery action that never modifies the current browser ledger. Existing backups cannot be overwritten by the browser role.
+- **Scope warning:** core ledger only; not every auxiliary module. No automatic synchronization, merging, or destructive restore. Real authenticated browser tests remain outstanding.
