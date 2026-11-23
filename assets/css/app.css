@@ -870,3 +870,7 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
 .cloud-account-panel summary:hover{background-color:rgba(76,175,166,.06)}
 .cloud-account-panel summary:focus-visible,.cloud-account-form input:focus-visible{outline:2px solid #80d7c8;outline-offset:2px}
 @media(prefers-reduced-motion:reduce){.cloud-account-panel summary{transition:none}}
+
+/* Backup action remains secondary and clearly opt-in. */
+.cloud-account-actions [data-cloud-backup]{border-color:rgba(102,197,183,.55);font-weight:650}
+.cloud-account-actions [data-cloud-backup]:disabled{opacity:.55;cursor:wait}
