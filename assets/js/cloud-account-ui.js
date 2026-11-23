@@ -34,7 +34,7 @@ cloudBackup?.addEventListener('click',async()=>{
   if(!user.id)throw Error('Could not identify signed-in account');
   await window.CloutFlowAuth.firstBackup(token,user.id,snapshot);
   const saved=await window.CloutFlowAuth.readBackup(token,user.id);
-  if(!saved||JSON.stringify(saved.snapshot)!==JSON.stringify(snapshot))throw Error('Cloud copy saved, but exact readback verification failed. Do not retry blindly.');
+  if(!saved||canonical(saved.snapshot)!==canonical(snapshot))throw Error('Cloud copy saved, but exact readback verification failed. Do not retry blindly.');
   status.textContent='First cloud copy saved and verified. Local records remain unchanged. This is not live sync.';
   cloudBackup.hidden=true;
  }catch(e){status.textContent=e.message||'Cloud copy could not be verified'}
