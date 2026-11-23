@@ -14,7 +14,7 @@ panel.addEventListener('submit',async event=>{
  button.disabled=true;status.textContent='Contacting secure account service…';
  try{
   const data=button.dataset.authAction==='signup'?await window.CloutFlowAuth.signUp(email,password):await window.CloutFlowAuth.signIn(email,password);
-  if(data.access_token){token=data.access_token;status.textContent='Signed in for this page session. Financial data is still stored only in this browser.';panel.querySelector('[data-cloud-signout]').hidden=false;cloudBackup.hidden=false;}
+  if(data.access_token){token=data.access_token;status.textContent='Signed in for this page session. Financial data is still stored only in this browser.';panel.querySelector('[data-cloud-signout]').hidden=false;cloudBackup.hidden=false;cloudDownload.hidden=false;}
   else status.textContent='Account request received. Check your email to confirm your address before signing in.';
   form.elements.namedItem('cloudPassword').value='';
  }catch(e){status.textContent=e.message||'Could not authenticate.'}
@@ -42,9 +42,26 @@ cloudBackup?.addEventListener('click',async()=>{
  }catch(e){status.textContent=e.message||'Cloud copy could not be verified'}
  finally{cloudBackup.disabled=false}
 });
+cloudDownload?.addEventListener('click',async()=>{
+ if(!token)return;
+ cloudDownload.disabled=true;status.textContent='Retrieving your cloud copy…';
+ try{
+  const user=await window.CloutFlowAuth.currentUser(token);
+  if(!user.id)throw Error('Could not identify signed-in account');
+  const saved=await window.CloutFlowAuth.readBackup(token,user.id);
+  if(!saved||!saved.snapshot)throw Error('No cloud copy exists for this account');
+  const blob=new Blob([JSON.stringify(saved.snapshot,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob),link=document.createElement('a');
+  link.href=url;link.download='cloutflow-cloud-core-ledger-'+new Date().toISOString().slice(0,10)+'.json';
+  document.body.appendChild(link);link.click();link.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),60000);
+  status.textContent='Cloud core-ledger copy downloaded. Existing local data was not changed.';
+ }catch(e){status.textContent=e.message||'Cloud copy download failed'}
+ finally{cloudDownload.disabled=false}
+});
 panel.querySelector('[data-cloud-signout]')?.addEventListener('click',async()=>{
  if(token){try{await window.CloutFlowAuth.signOut(token)}catch(_){/* Local session still cleared */}}
  token=null;status.textContent='Signed out. Your local financial records have not changed.';
- panel.querySelector('[data-cloud-signout]').hidden=true;cloudBackup.hidden=true;
+ panel.querySelector('[data-cloud-signout]').hidden=true;cloudBackup.hidden=true;cloudDownload.hidden=true;
 });
 })();
