@@ -107,14 +107,28 @@
 .panel-collapsed .card-head{margin-bottom:0}
 @media(max-width:560px){.panel-toggle{min-height:40px}.card-head{flex-wrap:wrap}}
 
-/* Dashboard quick access: horizontal swipe on phones, no page overflow. */
-.quick-access{display:flex;align-items:center;gap:15px;margin:0 0 16px;padding:12px 14px;background:#131e32;border:1px solid #30415f;border-radius:16px;min-width:0}
-.quick-access-heading{display:flex;flex-direction:column;flex:none;min-width:105px}.quick-access-heading span{font-weight:750;font-size:12px;color:#e5efff}.quick-access-heading small{font-size:10px;color:#96a9c7}
-.quick-access-actions{display:flex;gap:8px;overflow-x:auto;min-width:0;scrollbar-width:thin;padding:3px 2px 7px;overscroll-behavior-inline:contain}
-.quick-access-actions button{flex:none;min-height:42px;border-radius:11px;border:1px solid #354a6b;background:#1d2b45;color:#e1ecff;font-size:12px;font-weight:650;padding:9px 13px;white-space:nowrap}
-.quick-access-actions button:hover{background:#2b4266}.quick-access-actions .quick-accent{border-color:#5278a3;background:#253c63;color:#c9edff}
+/* Keep workspace shortcuts reachable as the dashboard scrolls. */
+.workspace-layout{display:grid;grid-template-columns:190px minmax(0,1fr);align-items:start;gap:16px}
+.workspace-content{min-width:0}
+.quick-access{position:sticky;top:12px;z-index:3;padding:10px;background:#131e32;border:1px solid #30415f;border-radius:12px;max-height:calc(100dvh - 24px);overflow:auto;scrollbar-width:thin}
+.quick-access-heading{margin:3px 8px 10px;color:#e5efff;font-size:14px}
+.quick-access-toggle{display:none}
+.quick-access-actions{display:grid;gap:5px;padding:3px}
+.quick-access-actions button,.quick-access-toggle{min-height:44px;border:1px solid #354a6b;border-radius:8px;background:#1d2b45;color:#e1ecff;padding:7px 10px;text-align:left;font-size:13px;font-weight:650;cursor:pointer}
+.quick-access-actions button:hover,.quick-access-toggle:hover{background:#2b4266}
+.quick-access-actions .quick-accent{border-color:#5278a3;background:#253c63;color:#c9edff}
+.quick-access-actions button:not(.quick-accent)+.quick-accent{margin-top:4px}
 section[id]{scroll-margin-top:16px}
-@media(max-width:650px){.quick-access{display:block;padding:12px}.quick-access-heading{flex-direction:row;gap:10px;align-items:baseline;margin-bottom:6px}.quick-access-actions{margin-right:-12px;padding-right:12px}.quick-access-actions button{min-height:44px}}
+@media(max-width:1050px){
+ .workspace-layout{grid-template-columns:minmax(0,1fr);gap:10px}
+ .quick-access{top:6px;padding:4px;max-height:calc(100dvh - 90px)}
+ .quick-access-heading{display:none}
+ .quick-access-toggle{display:flex;align-items:center;justify-content:space-between;width:100%}
+ .quick-access-toggle[aria-expanded="false"]+.quick-access-actions{display:none}
+ .quick-access-toggle[aria-expanded="true"] span{transform:rotate(180deg)}
+ .quick-access-actions{padding-top:6px}
+ .workspace-content section[id]{scroll-margin-top:68px}
+}
 
 /* Payout allocation guidance: clear balances and touch-friendly suggestions. */
 .payout-balance{font-size:13px;line-height:1.5;color:#b4e9d2;margin:10px 0 8px;overflow-wrap:anywhere}.payout-balance.payout-overallocated{color:#ff9aa8;font-weight:700}#autoAllocatePayout{min-height:42px;margin-bottom:7px}#autoAllocatePayout:disabled{opacity:.5;cursor:not-allowed}@media(max-width:600px){#autoAllocatePayout{width:100%;min-height:44px}#payoutAllocations [data-allocation]{min-width:90px;max-width:115px}}
@@ -215,21 +229,17 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 
 .streaming-icon-fallback{width:48px;height:48px;place-items:center;background:#fff;color:#17243b;border-radius:10px;font-size:27px;font-weight:900}.streaming-icon-fallback:not([hidden]){display:grid}
 
-/* Compact dashboard launchers: streaming tiles ~50% footprint; Quick access ~75% height. */
-.quick-access{gap:11px;padding:8px 11px;margin-bottom:10px;border-radius:12px}
-.quick-access-heading{min-width:90px}
-.quick-access-actions{gap:6px;padding-top:2px;padding-bottom:4px}
-.quick-access-actions button{min-height:32px;padding:6px 10px;border-radius:8px;font-size:11px}
+/* Compact streaming launcher. */
 .streaming-platform-strip{margin:8px 0 12px;padding:9px 11px;border-radius:12px}
 .streaming-platform-heading{margin-bottom:7px}
 .streaming-platform-icons{gap:6px;padding:1px 0 5px}
 .streaming-platform-icons a{min-width:46px;gap:4px;padding:6px 5px;border-radius:9px;font-size:10px}
 .streaming-platform-icons img{width:22px;height:22px;padding:3px;border-radius:7px}
 .streaming-lettermark,.streaming-icon-fallback{width:28px;height:28px;border-radius:7px;font-size:17px}
-@media(max-width:600px){.quick-access{padding:9px}.quick-access-actions button{min-height:33px}.streaming-platform-strip{padding:9px}.streaming-platform-icons a{min-width:44px;padding:6px 4px}}
+@media(max-width:600px){.streaming-platform-strip{padding:9px}.streaming-platform-icons a{min-width:44px;padding:6px 4px}}
 
 /* Interface polish: subtle keyboard focus and restrained motion for dashboard shortcuts. */
-.quick-access-actions button:focus-visible,.streaming-platform-icons a:focus-visible{outline:2px solid #9acbff;outline-offset:2px;box-shadow:0 0 0 4px rgba(90,156,231,.16)}
+.quick-access-actions button:focus-visible,.quick-access-toggle:focus-visible,.streaming-platform-icons a:focus-visible{outline:2px solid #9acbff;outline-offset:2px;box-shadow:0 0 0 4px rgba(90,156,231,.16)}
 @media(prefers-reduced-motion:reduce){.streaming-platform-icons a{transition:none}}
 
 /* Density pass: fit more meaningful dashboard content above the fold. */
