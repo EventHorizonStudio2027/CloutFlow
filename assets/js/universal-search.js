@@ -18,7 +18,7 @@ function init(doc){if(!doc||doc.getElementById('globalSearchDialog'))return;
  input.addEventListener('input',render);input.addEventListener('keydown',e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();if(found.length){active=(active+(e.key==='ArrowDown'?1:-1)+found.length)%found.length;highlight();}}else if(e.key==='Enter'){e.preventDefault();choose(active);}});
  host.addEventListener('click',e=>{if(e.target===host)close();});doc.getElementById('globalSearchClose').addEventListener('click',close);
  doc.addEventListener('keydown',e=>{if(e.key==='Escape'&&!host.hidden){e.preventDefault();close();}else if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();host.hidden?open():close();}});
- const trigger=doc.createElement('button');trigger.type='button';trigger.id='globalSearchTrigger';trigger.className='global-search-trigger';trigger.textContent='⌕ Search everything';trigger.title='Search (⌘K / Ctrl+K)';trigger.setAttribute('aria-label','Search all workspaces and visible records');trigger.addEventListener('click',open);
+ const trigger=doc.createElement('button');trigger.type='button';trigger.id='globalSearchTrigger';trigger.className='global-search-trigger';trigger.textContent='⌕ Search';trigger.title='Search (⌘K / Ctrl+K)';trigger.setAttribute('aria-label','Search all workspaces and visible records');trigger.addEventListener('click',open);
  const nav=doc.querySelector('.nav-utility')||doc.querySelector('.top-actions')||doc.querySelector('.top');if(nav)nav.prepend(trigger);else doc.body.prepend(trigger);
  root.CloutFlowGlobalSearch={open,close,match};
  }

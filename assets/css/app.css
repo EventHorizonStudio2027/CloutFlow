@@ -911,6 +911,10 @@ body:has(dialog[open]) .growth-popup{display:none!important;visibility:hidden!im
     gap: 8px;
   }
 
+  .top > .top-actions {
+    grid-template-columns: max-content minmax(0, 1fr);
+  }
+
   .top > .top-actions button,
   .quick-access-actions button {
     min-height: 44px;
