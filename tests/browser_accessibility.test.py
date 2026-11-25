@@ -27,12 +27,14 @@ with sync_playwright() as p:
   page.keyboard.press('Escape')
   page.wait_for_function("!document.querySelector('#modal').classList.contains('show')")
   assert page.evaluate("document.activeElement.id")=='addBtn'
-  page.locator('#addBtn').click()
+  quick_add = page.locator('[data-quick-action="addBtn"]')
+  quick_add.click()
   page.wait_for_function("document.activeElement.closest('#modal')!==null")
   page.keyboard.press('Shift+Tab')
   assert page.evaluate("document.activeElement.closest('#modal')!==null")
   page.locator('#cancel').click()
   page.wait_for_function("!document.querySelector('#modal').classList.contains('show')")
+  assert quick_add.evaluate('(button) => document.activeElement === button')
   assert not errors,errors
   print(f'PASS width={width}: dialog focus, Escape, labels, focus restoration')
   page.close()

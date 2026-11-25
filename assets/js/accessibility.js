@@ -23,11 +23,12 @@
    const previous=active;active=top;
    if(previous&&!previous.classList.contains('show')){
      const origin=lastFocus.get(previous);
+     lastFocus.delete(previous);
      if(origin&&origin.isConnected&&typeof origin.focus==='function')origin.focus({preventScroll:true});
    }
    if(top){
      if(!lastFocus.has(top))lastFocus.set(top,document.activeElement);
-     const first=top.querySelector(focusable);
+     const first=[...top.querySelectorAll(focusable)].find(element=>element.getClientRects().length>0);
      (first||top.querySelector('.modal')).focus({preventScroll:true});
    }
    document.body.classList.toggle('dialog-open',Boolean(top));

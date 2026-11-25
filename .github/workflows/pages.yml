@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
   pages: write
   id-token: write
 
@@ -34,7 +35,7 @@ jobs:
           cp index.html apple-touch-icon.png manifest.webmanifest _site/
           cp -R assets _site/assets
           # Keep installed web apps from reusing the previous header assets.
-          for asset in assets/css/app.css assets/js/universal-search.js assets/js/mobile-navigation.js; do
+          for asset in assets/css/app.css assets/js/universal-search.js assets/js/mobile-navigation.js assets/js/accessibility.js; do
             revision=$(git hash-object "$asset")
             sed -i "s|${asset}\"|${asset}?v=${revision}\"|g" _site/index.html
           done
@@ -48,6 +49,19 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
+      - name: Wait for Pages artifact metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for attempt in {1..12}; do
+            if gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts?name=github-pages" \
+                --jq '.artifacts[] | select(.name == "github-pages" and .expired == false) | .id' | grep -q '[0-9]'; then
+              exit 0
+            fi
+            if [ "$attempt" -lt 12 ]; then sleep 5; fi
+          done
+          echo "::error::The uploaded github-pages artifact did not appear in the Actions API."
+          exit 1
       - name: Deploy site
         id: deployment
         uses: actions/deploy-pages@v4
