@@ -34,7 +34,7 @@ jobs:
           cp index.html apple-touch-icon.png manifest.webmanifest _site/
           cp -R assets _site/assets
           # Keep installed web apps from reusing the previous header assets.
-          for asset in assets/css/app.css assets/js/universal-search.js; do
+          for asset in assets/css/app.css assets/js/universal-search.js assets/js/mobile-navigation.js; do
             revision=$(git hash-object "$asset")
             sed -i "s|${asset}\"|${asset}?v=${revision}\"|g" _site/index.html
           done

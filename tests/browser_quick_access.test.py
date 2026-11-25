@@ -15,6 +15,9 @@ with sync_playwright() as p:
   page.add_style_tag(content=css)
   page.add_script_tag(content=(root/'assets/js/quick-access.js').read_text())
   assert page.locator('.quick-access-actions button').count()==8
+  assert page.locator('.quick-access').evaluate('el => getComputedStyle(el).position') == ('sticky' if width >= 1050 else 'static')
+  assert page.locator('.quick-access-actions').evaluate('el => el.scrollWidth <= el.clientWidth')
+  assert page.locator('.workspace-content #adjustmentsSection').count()==1
   assert page.evaluate('document.documentElement.scrollWidth <= innerWidth + 2')
   page.locator('[data-quick-target="ledgerSection"]').click()
   assert page.evaluate('document.activeElement === document.querySelector("#ledgerSection h3")')
